@@ -1,0 +1,45 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/settings_activity_preference_category_title_application_exclusion_inclusions">
+        <SwitchPreference
+            android:title="Application Filter Type"
+            android:key="Application_Filter_Type"
+            android:switchTextOn="Block"
+            android:switchTextOff="Allow"
+            android:summaryOn="@string/setting_activity_applistfiltertype_on_summary"
+            android:summaryOff="@string/setting_activity_applistfiltertype_off_summary"
+            android:defaultValue="true">
+        </SwitchPreference>
+
+        <com.wanderfar.expander.Settings.AppListMultiSelectListPreference
+            android:key="@string/key_application_list"
+            android:title="Application List"
+            android:defaultValue="@array/empty_array"
+            >
+
+        </com.wanderfar.expander.Settings.AppListMultiSelectListPreference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/settings_activity_floating_UI_pref_category_title">
+        <Preference
+            android:title="@string/settings_activity_draw_over_other_apps_permission_disabled"
+            android:summary="@string/settings_activity_draw_over_other_apps_permission_disabled_summary"
+            android:key="@string/settings_activity_floating_UI_key">
+        </Preference>
+        <com.wanderfar.expander.Settings.SeekBarPreference
+            android:defaultValue="50"
+            android:dialogMessage="@string/settings_dialog_message"
+            android:key="Opacity_Value"
+            android:max="100"
+            android:summary="@string/settings_summary"
+            android:text="@string/settings_unit"
+            android:title="@string/settings_title" />
+
+    </PreferenceCategory>
+
+
+
+</PreferenceScreen>
