@@ -22,19 +22,21 @@ package com.wanderfar.expander.Macro
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SwitchCompat
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.wanderfar.expander.Macro.MacroActivityPresenter
 import com.wanderfar.expander.Macro.MacroActivityPresenterImpl
 import com.wanderfar.expander.Macro.MacroActivityView
 import com.wanderfar.expander.MainActivity.MainActivity
 import com.wanderfar.expander.Models.Macro
-
-
+import com.wanderfar.expander.Models.MacroConstants
 import com.wanderfar.expander.R
 
 
@@ -44,6 +46,9 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
     lateinit var macroPhrase: EditText
     lateinit var macroDescription: EditText
     lateinit var isCaseSensitive: SwitchCompat
+    lateinit var expandWhenContainer : LinearLayout
+    lateinit var expandWhenSetting: TextView
+    var expandWhenValue : Int = MacroConstants.ON_A_SPACE_OR_PERIOD
     var mMacroToOpen: String? = null
     var isNewMacro: Boolean = false
 
@@ -56,8 +61,6 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_macro)
-
-        //Expander.graph.inject(this)
 
         val toolbar = findViewById(R.id.toolbar) as Toolbar?
         setSupportActionBar(toolbar)
@@ -79,8 +82,12 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
 
+        initExpandWhenSettings()
+
         mPresenter.onCreate(mMacroToOpen.toString())
     }
+
+
 
 
     override fun onResume(){
@@ -132,7 +139,8 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
 
         if (id == R.id.action_save){
             mPresenter.saveMacro(macroName.text.toString(), macroPhrase.text.toString(),
-                    macroDescription.text.toString(), isCaseSensitive.isChecked, isNewMacro)
+                    macroDescription.text.toString(),
+                    expandWhenValue ,isCaseSensitive.isChecked, isNewMacro)
         }
 
 
@@ -151,8 +159,11 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
     }
 
     override fun setData(macro: Macro) {
+
+        val items = resources.getStringArray(R.array.expand_when_labels)
         macroName.setText(macro.name)
         macroPhrase.setText(macro.phrase)
+        expandWhenSetting.text = items[macro.expandWhenSetting].toString()
 
         if (macro.description.isNullOrEmpty().not()){
             macroDescription.setText(macro.description)
@@ -181,6 +192,27 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
         val intent = Intent(applicationContext, MainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    private fun initExpandWhenSettings() {
+        expandWhenContainer = findViewById(R.id.caseExpandWhenContainer) as LinearLayout
+        expandWhenSetting = findViewById(R.id.expandWhenSummary) as TextView
+        expandWhenSetting.text = MacroConstants.ON_A_SPACE_OR_PERIOD.toString()
+
+        val items = resources.getStringArray(R.array.expand_when_labels)
+
+        expandWhenContainer.setOnClickListener ({
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("When Should the Shortcut Expand?")
+
+            builder.setItems(items) { dialog, item ->
+                expandWhenSetting.text = items[item].toString()
+                expandWhenValue = item
+            }
+
+            val alert = builder.create()
+            alert.show()
+        })
     }
 
 }

@@ -26,8 +26,8 @@ class Macro (){
     lateinit var description : String
     lateinit var macroPattern : String
     //var usageCount : Int = 0
-    var isCaseSensitive: Boolean = false
-
+    var isCaseSensitive : Boolean = false
+    var expandWhenSetting : Int = MacroConstants.ON_A_SPACE_OR_PERIOD
 
 
 }

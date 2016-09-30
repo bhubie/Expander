@@ -20,13 +20,7 @@
 package com.wanderfar.expander.Macro
 
 
-import com.wanderfar.expander.Models.Macro
-import com.wanderfar.expander.Models.MacroError
-import com.wanderfar.expander.Models.MacroStore
-import com.wanderfar.expander.Models.MacroValidator
-
-
-
+import com.wanderfar.expander.Models.*
 
 
 class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroActivityPresenter<MacroActivityView> {
@@ -60,7 +54,8 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
     }
 
     override fun saveMacro(name: String, phrase: String, description: String,
-                           isCaseSensitive: Boolean, isNewMacro: Boolean){
+                           expandWhenSetting: Int, isCaseSensitive: Boolean,
+                           isNewMacro: Boolean){
 
 
         val mMacro = Macro()
@@ -68,9 +63,10 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
         mMacro.phrase = phrase
         mMacro.description = description
         mMacro.isCaseSensitive = isCaseSensitive
+        mMacro.expandWhenSetting = expandWhenSetting
 
         //TODO create method that will help determine the pattern based off of other settings
-        mMacro.macroPattern = "(" + name + ")" + "(\\s|\\.|\\.\\s)"
+        mMacro.macroPattern = setMacroRegexPattern(expandWhenSetting, name)
         
 
         //Validate we have a name and phrase before saving
@@ -102,6 +98,18 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
                 view?.setData(macro)
             }
 
+    }
+
+    fun setMacroRegexPattern(whenToExpand : Int, name : String) : String {
+        when (whenToExpand) {
+            MacroConstants.ON_A_SPACE_OR_PERIOD -> return "(" + name + ")" + "(\\s|\\.|\\.\\s)"
+            MacroConstants.ON_A_SPACE -> return "(" + name + ")" + "(\\s)"
+            MacroConstants.ON_A_PERIOD -> return "(" + name + ")" + "(\\.)"
+            MacroConstants.IMMEDIATELY -> return name
+            else -> {
+                return name
+            }
+        }
     }
 
 

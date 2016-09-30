@@ -16,29 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-package com.wanderfar.expander.Macro
-
-import com.wanderfar.expander.Base.BaseActivityPresenter
-import com.wanderfar.expander.Base.View
-
-
-interface MacroActivityPresenter<T : View> : BaseActivityPresenter<T> {
+package com.wanderfar.expander.Models
 
 
 
-    fun onCreate(macroToLoad: String)
+object MacroConstants {
 
+    val IMMEDIATELY = 0
+    val ON_A_SPACE = 1
+    val ON_A_PERIOD = 2
+    val ON_A_SPACE_OR_PERIOD = 3
 
-    //fun onResume()
+    //val IMMEDIETELY_PATTERN = "($1)(\\s|\\.|\\.\\s)"
+    //val ON_A_SPACE_PATTERN = "($1)(\\s)"
+    //val ON_A_PERIOD_PATTERN = "($1)(\\.)"
+    //val ON_A_SPACE_OR_PERIOD_PATTERN = "($1)"
 
-    //Destroy the view
-    //fun onDestroy()
-
-    //Saves the  macro based on input
-    fun saveMacro(name: String, phrase: String, description: String, expandWhenSetting: Int,
-                  isCaseSensitive: Boolean, isNewMacro : Boolean)
-
-    //Deletes the Macro
-    fun deleteMacro(name: String)
 }

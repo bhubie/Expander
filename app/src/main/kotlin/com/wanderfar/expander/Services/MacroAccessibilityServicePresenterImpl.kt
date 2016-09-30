@@ -21,7 +21,7 @@
 package com.wanderfar.expander.Services
 
 import com.wanderfar.expander.Models.Macro
-
+import com.wanderfar.expander.Models.MacroConstants
 
 
 class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceView) : MacroAccessibilityServicePresenter {
@@ -50,7 +50,6 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         var aMatchWasFound : Boolean = false
 
         //declare variables that will store the start of the match and the new cursor position
-        var matchStart : Int
         var newCursorPosition : Int = 0
 
         text = textToCheck
@@ -79,11 +78,19 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
             //if we have a match, and the match wasn't undone, modify the text
             if (result != null && hasCurrentMatchBeenUnDone(macro.name,
                     result.range.start, matchedMacro, matchedMacroStartingPosition).not()){
-                text = text.replaceRange(result.range.start, result.range.endInclusive, macro.phrase)
 
-                matchStart = result.range.start
+                //If Macro is set to expand immediately, set the end replacing range to be end range + 1
+                //This fixes bug where it wasn't replacing the whole shortcut when setting the phrase
+                if (macro.expandWhenSetting == MacroConstants.IMMEDIATELY){
+                    text = text.replaceRange(result.range.start, result.range.endInclusive + 1, macro.phrase)
 
-                newCursorPosition = setNewCursorPosition(matchStart, macro.phrase.length) + 1
+                    newCursorPosition = setNewCursorPosition(result.range.start, macro.phrase.length)
+                } else {
+                    text = text.replaceRange(result.range.start, result.range.endInclusive, macro.phrase)
+
+                    newCursorPosition = setNewCursorPosition(result.range.start, macro.phrase.length) + 1
+                }
+
 
                 aMatchWasFound = true
 

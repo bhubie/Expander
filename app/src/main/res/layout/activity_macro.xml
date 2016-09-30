@@ -114,7 +114,6 @@
 
             </RelativeLayout>
 
-
             <android.support.v7.widget.SwitchCompat
                 android:layout_below="@+id/input_description_layout"
                 android:id="@+id/case_sensitive_switch"
@@ -123,6 +122,48 @@
                 android:checked="false"
                 android:gravity="center_vertical"
                 />
+        </LinearLayout>
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/listPreferredItemHeight"
+            android:gravity="center_vertical"
+            android:paddingEnd="?android:attr/scrollbarSize"
+            android:background="?android:attr/selectableItemBackground"
+            android:id="@+id/caseExpandWhenContainer"
+            android:layout_below="@+id/caseSensitiveContainer">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dip"
+                android:layout_marginEnd="6dip"
+                android:layout_marginTop="6dip"
+                android:layout_marginBottom="6dip"
+                android:layout_weight="1">
+
+                <TextView android:id="@+id/expandWhenTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:text="@string/macro_activity_expand_when_title"/>
+
+                <TextView android:id="@+id/expandWhenSummary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/expandWhenTitle"
+                    android:layout_alignStart="@android:id/title"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:maxLines="4"
+                    />
+
+            </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
 

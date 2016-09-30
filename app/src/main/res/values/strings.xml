@@ -51,6 +51,7 @@
     <string name="about_activity_open_source_paper_link">https://github.com/pilgr/Paper</string>
     <string name="about_activity_open_source_about_page_title">Android About Page by Medyo</string>
     <string name="about_activity_open_source_about_page_link">https://github.com/medyo/android-about-page</string>
+    <string name="macro_activity_expand_when_title">Expand Text:</string>
 
     <string-array name="empty_array" />
 
@@ -65,5 +66,12 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
+    </string-array>
+
+    <string-array name="expand_when_labels">
+        <item>Immediately</item>
+        <item>On a Space</item>
+        <item>On a Period</item>
+        <item>On a Space or Period</item>
     </string-array>
 </resources>
