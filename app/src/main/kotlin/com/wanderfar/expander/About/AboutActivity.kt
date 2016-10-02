@@ -33,9 +33,11 @@ class AboutActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val aboutPage = AboutPage(this)
+                .setImage(R.mipmap.ic_launcher)
                 .setDescription(resources.getString(R.string.about_activity_main_description))
                 .addGroup(resources.getString(R.string.about_activity_contact_group_label))
                 .addEmail(resources.getString(R.string.about_activity_email_label))
+                .addGitHub(resources.getString(R.string.about_activity_github_label))
                 .addGroup(resources.getString(R.string.about_activity_version_group_label))
                 .addItem(createVersionElement())
                 .addGroup(resources.getString(R.string.about_activity_open_source_group_label))
@@ -61,6 +63,7 @@ class AboutActivity : AppCompatActivity() {
         val openPaperIntent = Intent(Intent.ACTION_VIEW)
         openPaperIntent.data = Uri.parse(resources.getString(R.string.about_activity_open_source_paper_link))
         libraryElementPaper.intent = openPaperIntent
+        libraryElementPaper.icon = R.drawable.about_icon_github
 
         return libraryElementPaper
     }
@@ -72,6 +75,7 @@ class AboutActivity : AppCompatActivity() {
         val openAboutPageIntent = Intent(Intent.ACTION_VIEW)
         openAboutPageIntent.data = Uri.parse(resources.getString(R.string.about_activity_open_source_about_page_link))
         libraryElementAboutPage.intent = openAboutPageIntent
+        libraryElementAboutPage.icon = R.drawable.about_icon_github
 
         return libraryElementAboutPage
     }

@@ -42,9 +42,10 @@
     <string name="main_activity_accessibility_settings_snackbar_link_label">Open Settings</string>
     <string name="menu_about_title">About</string>
 
-    <string name="about_activity_main_description">Expander is a free and soon to be open source text expansion application. For any issues, feature requests, or if you just want to chat please reach out using the below contact information!</string>
+    <string name="about_activity_main_description">Expander is a free and open source text expansion application. For any issues, feature requests, or if you just want to chat please reach out using the below contact information!</string>
     <string name="about_activity_contact_group_label">Contact Information</string>
     <string name="about_activity_email_label">wanderfarapps@gmail.com</string>
+    <string name="about_activity_github_label">bhubie/Expander</string>
     <string name="about_activity_version_group_label">Version</string>
     <string name="about_activity_open_source_group_label">Open Source Libraries</string>
     <string name="about_activity_open_source_paper_title">Paper by Pilgr</string>
