@@ -64,8 +64,6 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
         mMacro.description = description
         mMacro.isCaseSensitive = isCaseSensitive
         mMacro.expandWhenSetting = expandWhenSetting
-
-        //TODO create method that will help determine the pattern based off of other settings
         mMacro.macroPattern = setMacroRegexPattern(expandWhenSetting, name)
         
 
