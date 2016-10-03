@@ -287,4 +287,23 @@ public class MacroAccessibilityServicePresenterTest {
                 TESTMACRO_CURSOR_POSITION_AFTER_WITH_SPACE);
     }
 
+    @Test
+    public void basicDynamicMacroTest(){
+        //Basic dynamic macro test
+
+        macroList.add(TestHelpers.createMacro("TestDynamicPhone",
+                "!phone", "Ending phrase should have phone make and model", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
+                "TestDynamicPhone.",
+                "TestDynamicPhone.".length());
+
+
+
+        verify(macroAccessibilityServiceView, times(1)).updateText(
+                "Phone Make and Model.",
+                "Phone Make and Model.".length());
+    }
+
 }
