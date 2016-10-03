@@ -20,6 +20,7 @@
 
 package com.wanderfar.expander.Services
 
+import com.wanderfar.expander.DynamicPhrases.DynamicPhraseGenerator
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.Models.MacroConstants
 
@@ -36,6 +37,7 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
     var matchedMacroStartingPosition : Int = 0
     var matchedMacroEndingPosition : Int = 0
     var isInitialized : Boolean = false
+    var charactersInsertedFromDynamicPhrases : Int = 0
 
 
     override fun onAccessibilityEvent(macrosToCheck : MutableList<Macro>, textToCheck : String, cursorPosition: Int) {
@@ -82,13 +84,13 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
                 //If Macro is set to expand immediately, set the end replacing range to be end range + 1
                 //This fixes bug where it wasn't replacing the whole shortcut when setting the phrase
                 if (macro.expandWhenSetting == MacroConstants.IMMEDIATELY){
-                    text = text.replaceRange(result.range.start, result.range.endInclusive + 1, macro.phrase)
+                    text = text.replaceRange(result.range.start, result.range.endInclusive + 1, replaceDynamicPhrases(macro.phrase))
 
-                    newCursorPosition = setNewCursorPosition(result.range.start, macro.phrase.length)
+                    newCursorPosition = charactersInsertedFromDynamicPhrases + setNewCursorPosition(result.range.start, macro.phrase.length)
                 } else {
-                    text = text.replaceRange(result.range.start, result.range.endInclusive, macro.phrase)
+                    text = text.replaceRange(result.range.start, result.range.endInclusive, replaceDynamicPhrases(macro.phrase))
 
-                    newCursorPosition = setNewCursorPosition(result.range.start, macro.phrase.length) + 1
+                    newCursorPosition = charactersInsertedFromDynamicPhrases + setNewCursorPosition(result.range.start, macro.phrase.length) + 1
                 }
 
 
@@ -163,6 +165,47 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         } else {
             return false
         }
+    }
+
+    private fun replaceDynamicPhrases(textToCheck : String) : String {
+
+        //Get the list of dynamic values
+        val dynamicPhrases = DynamicPhraseGenerator.checkTextForDynamicPhrases(textToCheck)
+
+        //if the list is empty, return the original text
+        if (dynamicPhrases.isEmpty()){
+            return textToCheck
+            println("No Dynamic Phrases Found!")
+        }
+        else {
+
+            println("Dynamic Phrase Found!")
+            //if the list isn't empty, replace the text
+
+            var updatedText = textToCheck
+
+
+            for ((phrase) in dynamicPhrases){
+                //Get the value of the phrase
+                var phraseValue = DynamicPhraseGenerator.setDynamicPhraseValue(phrase)
+
+                //Replace it in the text and return it
+                updatedText = updatedText.replace(phrase, phraseValue.toString(), false)
+                println("Updated text in loop is" + updatedText)
+                println(textToCheck.replace(phrase, phraseValue.toString(), false))
+                println(phrase)
+                println(phraseValue.toString())
+
+                charactersInsertedFromDynamicPhrases += (phraseValue.toString().length - phrase.length)
+
+            }
+
+            println("Updated text outside of  loop is" + updatedText)
+            println("Characters inserted = " + charactersInsertedFromDynamicPhrases)
+
+            return updatedText
+        }
+
     }
 
 

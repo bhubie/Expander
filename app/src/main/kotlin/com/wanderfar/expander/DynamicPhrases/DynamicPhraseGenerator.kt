@@ -20,7 +20,7 @@ package com.wanderfar.expander.DynamicPhrases
 
 
 
-class DynamicPhraseGenerator {
+object DynamicPhraseGenerator {
 
     lateinit var mDynamicPhrasesFound : MutableList<DynamicPhraseFoundModel>
 
@@ -34,6 +34,9 @@ class DynamicPhraseGenerator {
 
         //For each phrase option set, see if we have a match for it in the passed in string
         //if we have a match add it to a list
+
+        mDynamicPhrasesFound = mutableListOf()
+
         for ((name, description, phrase) in dynamicPhraseOptions){
 
             val regexMatcher = Regex(phrase)
