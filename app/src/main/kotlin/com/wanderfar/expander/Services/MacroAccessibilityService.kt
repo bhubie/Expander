@@ -34,6 +34,7 @@ import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.provider.Settings
+import android.util.Log
 import android.view.*
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
@@ -120,20 +121,25 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
 
         //get the text from the event
         //sub string it so it removes the brackets
-        val text = event!!.text.toString().substring( 1, event.text.toString().length - 1)
+        var text : String = ""
+        try {
+            text = event!!.text.toString().substring( 1, event.text.toString().length - 1)
+        } catch(e : IndexOutOfBoundsException) {
+            Log.e("", e.toString())
+        }
 
         //get the source
-        source = event.source
+        source = event!!.source
 
 
         //Load the macros we need see if we have matches for
-        Paper.init(this)
 
 
-        mPresenter.onAccessibilityEvent(MacroStore.getMacros(), text, source.textSelectionStart)
-
-        hideFloatingUI()
-
+        if(text.isNullOrEmpty().not()){
+            Paper.init(this)
+            mPresenter.onAccessibilityEvent(MacroStore.getMacros(), text, source.textSelectionStart)
+            hideFloatingUI()
+        }
     }
 
     override fun onUnbind(intent: Intent): Boolean {
