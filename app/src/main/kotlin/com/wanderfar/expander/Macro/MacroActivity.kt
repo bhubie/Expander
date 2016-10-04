@@ -197,9 +197,10 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
     private fun initExpandWhenSettings() {
         expandWhenContainer = findViewById(R.id.caseExpandWhenContainer) as LinearLayout
         expandWhenSetting = findViewById(R.id.expandWhenSummary) as TextView
-        expandWhenSetting.text = MacroConstants.ON_A_SPACE_OR_PERIOD.toString()
+
 
         val items = resources.getStringArray(R.array.expand_when_labels)
+        expandWhenSetting.text = items[MacroConstants.ON_A_SPACE_OR_PERIOD]
 
         expandWhenContainer.setOnClickListener ({
             val builder = AlertDialog.Builder(this)
