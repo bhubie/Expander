@@ -21,6 +21,213 @@
 package com.wanderfar.expander.DynamicPhrases;
 
 
+import com.wanderfar.expander.TestHelpers.TestHelpers;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
+
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({DynamicPhraseGenerator.class})
 public class DynamicPhraseGeneratorTest {
+
+    private final String DAY_OF_WEEK_PHRASE = "!d";
+    private final String DAY_Of_WEEK_SHORT_PHRASE = "!ds";
+
+    private final Locale US_LOCALE = new Locale("en", "US");
+
+    private final String MONDAY = "Monday";
+    private final String MONDAY_SHORT = "Mon";
+    private final String TUESDAY = "Tuesday";
+    private final String TUESDAY_SHORT = "Tue";
+    private final String WEDNESDAY = "Wednesday";
+    private final String WEDNESDAY_SHORT = "Wed";
+    private final String THURSDAY = "Thursday";
+    private final String THURSDAY_SHORT = "Thu";
+    private final String FRIDAY = "Friday";
+    private final String FRIDAY_SHORT = "Fri";
+    private final String SATURDAY = "Saturday";
+    private final String SATURDAY_SHORT = "Sat";
+    private final String SUNDAY = "Sunday";
+    private final String SUNDAY_SHORT = "Sun";
+
+
+    //Long day of week tests
+
+    @Test
+    public void dayOfWeekPhraseTestMonday(){
+        //Tests that if the dynamic phrase for the day of the week is used and the day of the week is Monday that Monday is returned
+        //!d
+
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(MONDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_OF_WEEK_PHRASE, US_LOCALE);
+        assertEquals(MONDAY, result);
+    }
+
+    @Test
+    public void dayOfWeekPhraseTestTuesday(){
+        //Tests that if the dynamic phrase for the day of the week is used and the day of the week is Tuesday that Tuesday is returned
+        //!d
+
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(TUESDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_OF_WEEK_PHRASE, US_LOCALE);
+        assertEquals(TUESDAY, result);
+    }
+
+    @Test
+    public void dayOfWeekPhraseTestWednesday(){
+        //Tests that if the dynamic phrase for the day of the week is used and the day of the week is Wednesday that Wednesday is returned
+        //!d
+
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(WEDNESDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_OF_WEEK_PHRASE, US_LOCALE);
+        assertEquals(WEDNESDAY, result);
+    }
+
+    @Test
+    public void dayOfWeekPhraseTestThursday(){
+        //Tests that if the dynamic phrase for the day of the week is used and the day of the week is Thursday that Thursday is returned
+        //!d
+
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(THURSDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_OF_WEEK_PHRASE, US_LOCALE);
+        assertEquals(THURSDAY, result);
+    }
+
+    @Test
+    public void dayOfWeekPhraseTestFriday(){
+        //Tests that if the dynamic phrase for the day of the week is used and the day of the week is Friday that Friday is returned
+        //!d
+
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(FRIDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_OF_WEEK_PHRASE, US_LOCALE);
+        assertEquals(FRIDAY, result);
+    }
+
+    @Test
+    public void dayOfWeekPhraseTestSaturday(){
+        //Tests that if the dynamic phrase for the day of the week is used and the day of the week is Saturday that Saturday is returned
+        //!d
+
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(SATURDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_OF_WEEK_PHRASE, US_LOCALE);
+        assertEquals(SATURDAY, result);
+    }
+
+    @Test
+    public void dayOfWeekPhraseTestSunday(){
+        //Tests that if the dynamic phrase for the day of the week is used and the day of the week is Sunday that Sunday is returned
+        //!d
+
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(SUNDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_OF_WEEK_PHRASE, US_LOCALE);
+        assertEquals(SUNDAY, result);
+    }
+
+
+    //Short day of week tests
+    @Test
+    public void dayOfWeekShortPhraseTestMonday(){
+        //Tests that if the dynamic phrase for the day of the week short is used, and the day of the week is monday that Mon is returned
+        //!ds
+
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(MONDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
+        assertEquals(MONDAY_SHORT, result);
+    }
+
+    @Test
+    public void dayOfWeekShortPhraseTestTuesday(){
+        //Tests that if the dynamic phrase for the day of the week short is used, and the day of the week is Tuesday that Tue is returned
+        //!ds
+
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(TUESDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
+        assertEquals(TUESDAY_SHORT, result);
+    }
+
+    @Test
+    public void dayOfWeekShortPhraseTestWednesday(){
+        //Tests that if the dynamic phrase for the day of the week short is used, and the day of the week is Wednesday that Wed is returned
+        //!ds
+
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(WEDNESDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
+        assertEquals(WEDNESDAY_SHORT, result);
+    }
+
+    @Test
+    public void dayOfWeekShortPhraseTestThursday(){
+        //Tests that if the dynamic phrase for the day of the week short is used, and the day of the week is Thursday that Thu is returned
+        //!ds
+
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(THURSDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
+        assertEquals(THURSDAY_SHORT, result);
+    }
+
+    @Test
+    public void dayOfWeekShortPhraseTestFriday(){
+        //Tests that if the dynamic phrase for the day of the week short is used, and the day of the week is Friday that Fri is returned
+        //!ds
+
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(FRIDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
+        assertEquals(FRIDAY_SHORT, result);
+    }
+
+    @Test
+    public void dayOfWeekShortPhraseTestSaturday(){
+        //Tests that if the dynamic phrase for the day of the week short is used, and the day of the week is Saturday that Sat is returned
+        //!ds
+
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(SATURDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
+        assertEquals(SATURDAY_SHORT, result);
+    }
+
+    @Test
+    public void dayOfWeekShortPhraseTestSunday(){
+        //Tests that if the dynamic phrase for the day of the week short is used, and the day of the week is Sunday that Sun is returned
+        //!ds
+
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(SUNDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
+        assertEquals(SUNDAY_SHORT, result);
+    }
 }

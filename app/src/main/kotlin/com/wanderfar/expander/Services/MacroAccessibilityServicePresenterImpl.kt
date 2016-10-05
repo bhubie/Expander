@@ -23,6 +23,7 @@ package com.wanderfar.expander.Services
 import com.wanderfar.expander.DynamicPhrases.DynamicPhraseGenerator
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.Models.MacroConstants
+import java.util.*
 
 
 class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceView) : MacroAccessibilityServicePresenter {
@@ -175,11 +176,10 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         //if the list is empty, return the original text
         if (dynamicPhrases.isEmpty()){
             return textToCheck
-            println("No Dynamic Phrases Found!")
+
         }
         else {
 
-            println("Dynamic Phrase Found!")
             //if the list isn't empty, replace the text
 
             var updatedText = textToCheck
@@ -187,7 +187,7 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
             for ((phrase) in dynamicPhrases){
                 //Get the value of the phrase
-                var phraseValue = DynamicPhraseGenerator.setDynamicPhraseValue(phrase)
+                val phraseValue = DynamicPhraseGenerator.setDynamicPhraseValue(phrase, Locale.getDefault())
 
                 //Replace it in the text and return it
                 updatedText = updatedText.replace(phrase, phraseValue.toString(), false)

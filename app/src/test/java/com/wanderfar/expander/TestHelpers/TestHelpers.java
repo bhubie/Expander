@@ -18,8 +18,13 @@
 
 package com.wanderfar.expander.TestHelpers;
 
+import android.preference.SwitchPreference;
+
 import com.wanderfar.expander.Models.Macro;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 public class TestHelpers {
@@ -56,5 +61,36 @@ public class TestHelpers {
         }
 
 
+    }
+
+    public static Date getAPastDayOfTheWeek(String dayToGet) {
+
+        Calendar calendar = new GregorianCalendar();
+
+        switch (dayToGet) {
+            case "Monday" :  calendar.set(2015, Calendar.JUNE, 15);
+                break;
+            case "Tuesday" :  calendar.set(2015, Calendar.JUNE, 16);
+                break;
+            case "Wednesday" :  calendar.set(2015, Calendar.JUNE, 17);
+                break;
+            case "Thursday" :  calendar.set(2015, Calendar.JUNE, 18);
+                break;
+            case "Friday" :  calendar.set(2015, Calendar.JUNE, 19);
+                break;
+            case "Saturday" :  calendar.set(2015, Calendar.JUNE, 20);
+                break;
+            case "Sunday" :  calendar.set(2015, Calendar.JUNE, 21);
+                break;
+        }
+
+        calendar.set(Calendar.HOUR_OF_DAY,17);
+        calendar.set(Calendar.MINUTE,30);
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,0);
+
+        Date date = calendar.getTime();
+
+        return date;
     }
 }
