@@ -18,14 +18,19 @@
 
 package com.wanderfar.expander.DynamicPhrases
 
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 object DynamicPhraseGenerator {
 
     lateinit var mDynamicPhrasesFound : MutableList<DynamicPhraseFoundModel>
 
-    val dynamicPhraseOptions = arrayOf(DynamicPhrase(
-            "PhoneMakeModel", "Returns the make and model of the phone", "!phone"))
+    val dynamicPhraseOptions = arrayOf(
+            DynamicPhrase("PhoneMakeModel", "Returns the make and model of the phone", "!phone"),
+            DynamicPhrase("DayOfWeek", "Returns the day of the week", "!d"),
+            DynamicPhrase("DayOfWeekShort", "Returns the short name of the day of the week", "!ds")
+        )
 
 
     //Check based on passed in string, what dynamic phrases are in the string and return them
@@ -49,14 +54,17 @@ object DynamicPhraseGenerator {
 
         }
 
+
+
         return mDynamicPhrasesFound
     }
 
 
-    fun setDynamicPhraseValue (phrase : String) : String? {
+    @JvmStatic fun setDynamicPhraseValue (phrase : String, locale : Locale ) : String? {
         when (phrase) {
             "!phone" -> return "Phone Make and Model"
-
+            "!d" -> return SimpleDateFormat("EEEE", locale).format(Calendar.getInstance().time)
+            "!ds" -> return SimpleDateFormat("EE", locale).format(Calendar.getInstance().time)
             else -> {
                 return null
             }
