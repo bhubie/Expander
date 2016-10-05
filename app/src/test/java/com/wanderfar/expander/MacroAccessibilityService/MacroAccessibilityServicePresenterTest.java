@@ -320,17 +320,18 @@ public class MacroAccessibilityServicePresenterTest {
         //it will expand and have the day of the week
 
         String MacroName = "DayOfWeekMacro";
-        String MacroPhrase = MacroName + ".";
+        String MacroPhrase = "!d is the current day of the week";
+        String TextBefore = MacroName + ".";
 
         macroList.add(TestHelpers.createMacro(MacroName,
-                "!d", "Ending phrase should have the current day of week", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+                MacroPhrase, "Ending phrase should have the current day of week", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
 
 
-        String textAfterExpansionWithPeriod = DAY_OF_WEEK_LONG + ".";
+        String textAfterExpansionWithPeriod = DAY_OF_WEEK_LONG + " is the current day of the week.";
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
-                MacroPhrase,
-                MacroPhrase.length());
+                TextBefore,
+                TextBefore.length());
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 textAfterExpansionWithPeriod ,
@@ -341,19 +342,18 @@ public class MacroAccessibilityServicePresenterTest {
     public void macroWithDynamicDayOfWeekShortInPhrase(){
         //Tests that if a macro expanded phrase contains the dynamic phrase for day of week short that when the phrase is expanded, that
         //it will expand and have the day of the week short
-
-
+        macroList.clear();
         String MacroName = "DayOfWeekMacroShort";
-        String MacroPhrase = MacroName + ".";
+        String MacroPhrase = "!ds is the current day of the week";
+        String TextBefore = MacroName + ".";
         macroList.add(TestHelpers.createMacro(MacroName,
-                "!ds", "Ending phrase should have the current day of week", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+                MacroPhrase, "Ending phrase should have the current day of week", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
 
-
-        String textAfterExpansionWithPeriod = DAY_OF_WEEK_SHORT + ".";
+        String textAfterExpansionWithPeriod = DAY_OF_WEEK_SHORT + " is the current day of the week.";
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
-                MacroPhrase,
-                MacroPhrase.length());
+                TextBefore,
+                TextBefore.length());
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 textAfterExpansionWithPeriod ,
