@@ -12,8 +12,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -46,6 +49,11 @@ public class MacroAccessibilityServicePresenterTest {
     private final String TESTMACRO_CASE_SENSITIVE_TEXT_AFTER_EXPANSION_WITH_PERIOD_MACRO_LOWERCASE = "This string contains a Test Macro Phrase.";
     private final int TESTMACRO_CASE_SENSITIVE_CURSOR_POSITION_BEFORE_WITH_PERIOD = TESTMACRO_CASE_SENSITIVE_TEXT_BEFORE_WITH_PERIOD_MACRO_LOWERCASE.length();
     private final int TESTMACRO_CASE_SENSITIVE_CURSOR_POSITION_AFTER_WITH_PERIOD = TESTMACRO_CASE_SENSITIVE_TEXT_AFTER_EXPANSION_WITH_PERIOD_MACRO_LOWERCASE.length();
+
+    private final Locale US_LOCALE = new Locale("en", "US");
+    private final String DAY_OF_WEEK_LONG = new SimpleDateFormat("EEEE", US_LOCALE).format(Calendar.getInstance().getTime());
+    private final String DAY_OF_WEEK_SHORT = new SimpleDateFormat("EE", US_LOCALE).format(Calendar.getInstance().getTime());
+
 
     @Before
     public void setupData(){
@@ -304,6 +312,52 @@ public class MacroAccessibilityServicePresenterTest {
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 "Phone Make and Model.",
                 "Phone Make and Model.".length());
+    }
+
+    @Test
+    public void macroWithDynamicDayOfWeekInPhrase(){
+        //Tests that if a macro expanded phrase contains the dynamic phrase for day of week that when the phrase is expanded that
+        //it will expand and have the day of the week
+
+        String MacroName = "DayOfWeekMacro";
+        String MacroPhrase = MacroName + ".";
+
+        macroList.add(TestHelpers.createMacro(MacroName,
+                "!d", "Ending phrase should have the current day of week", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+
+
+        String textAfterExpansionWithPeriod = DAY_OF_WEEK_LONG + ".";
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
+                MacroPhrase,
+                MacroPhrase.length());
+
+        verify(macroAccessibilityServiceView, times(1)).updateText(
+                textAfterExpansionWithPeriod ,
+                textAfterExpansionWithPeriod .length());
+    }
+
+    @Test
+    public void macroWithDynamicDayOfWeekShortInPhrase(){
+        //Tests that if a macro expanded phrase contains the dynamic phrase for day of week short that when the phrase is expanded, that
+        //it will expand and have the day of the week short
+
+
+        String MacroName = "DayOfWeekMacroShort";
+        String MacroPhrase = MacroName + ".";
+        macroList.add(TestHelpers.createMacro(MacroName,
+                "!ds", "Ending phrase should have the current day of week", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+
+
+        String textAfterExpansionWithPeriod = DAY_OF_WEEK_SHORT + ".";
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
+                MacroPhrase,
+                MacroPhrase.length());
+
+        verify(macroAccessibilityServiceView, times(1)).updateText(
+                textAfterExpansionWithPeriod ,
+                textAfterExpansionWithPeriod .length());
     }
 
 }
