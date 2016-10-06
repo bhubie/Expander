@@ -27,9 +27,9 @@ object DynamicPhraseGenerator {
     lateinit var mDynamicPhrasesFound : MutableList<DynamicPhraseFoundModel>
 
     val dynamicPhraseOptions = arrayOf(
-            DynamicPhrase("PhoneMakeModel", "Returns the make and model of the phone", "!phone"),
-            DynamicPhrase("DayOfWeek", "Returns the day of the week", "!d"),
-            DynamicPhrase("DayOfWeekShort", "Returns the short name of the day of the week", "!ds")
+            DynamicPhrase("PhoneMakeModel", "!phone"),
+            DynamicPhrase("Day of Week", "!d"),
+            DynamicPhrase("Day of Week (Short)", "!ds")
         )
 
 
@@ -42,11 +42,11 @@ object DynamicPhraseGenerator {
 
         mDynamicPhrasesFound = mutableListOf()
 
-        for ((name, description, phrase) in dynamicPhraseOptions){
+        for ((name, phrase) in dynamicPhraseOptions){
 
             val regexMatcher = Regex(phrase + "(\\W|$)")
 
-            val results = regexMatcher.findAll(textToCheck).forEach {
+            regexMatcher.findAll(textToCheck).forEach {
                 val item = DynamicPhraseFoundModel(
                         phrase, it.range.start, it.range.endInclusive, phrase.length)
                 mDynamicPhrasesFound.add(item)

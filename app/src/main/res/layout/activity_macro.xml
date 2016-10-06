@@ -57,13 +57,22 @@
                 android:hint="@string/macroactivity_phrase_label" />
         </android.support.design.widget.TextInputLayout>
 
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/dynamic_value_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_macro_dynamic_value_button_text"
+            android:layout_below="@+id/input_phrase_layout"
+            android:layout_centerHorizontal="true"/>
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_description_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/input_phrase_layout"
+            android:layout_below="@+id/dynamic_value_button"
             android:paddingStart="?android:attr/scrollbarSize"
-            android:paddingEnd="?android:attr/scrollbarSize">
+            android:paddingEnd="?android:attr/scrollbarSize"
+            >
 
             <EditText
                 android:id="@+id/input_description"
