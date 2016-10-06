@@ -19,6 +19,5 @@
 package com.wanderfar.expander.DynamicPhrases
 
 data class DynamicPhrase (val name : String,
-                          val description : String,
                           val phrase : String){
 }

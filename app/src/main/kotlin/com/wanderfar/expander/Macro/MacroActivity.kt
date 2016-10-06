@@ -28,6 +28,7 @@ import android.support.v7.widget.SwitchCompat
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -42,12 +43,13 @@ import com.wanderfar.expander.R
 
 class MacroActivity : AppCompatActivity(), MacroActivityView {
 
-    lateinit var macroName: EditText
-    lateinit var macroPhrase: EditText
-    lateinit var macroDescription: EditText
-    lateinit var isCaseSensitive: SwitchCompat
+    lateinit var macroName : EditText
+    lateinit var macroPhrase : EditText
+    lateinit var macroDescription : EditText
+    lateinit var isCaseSensitive : SwitchCompat
     lateinit var expandWhenContainer : LinearLayout
-    lateinit var expandWhenSetting: TextView
+    lateinit var expandWhenSetting : TextView
+    lateinit var addDynamicValueButton : Button
     var expandWhenValue : Int = MacroConstants.ON_A_SPACE_OR_PERIOD
     var mMacroToOpen: String? = null
     var isNewMacro: Boolean = false
@@ -84,10 +86,10 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
 
         initExpandWhenSettings()
 
+        initAddDynamicValueButton()
+
         mPresenter.onCreate(mMacroToOpen.toString())
     }
-
-
 
 
     override fun onResume(){
@@ -213,6 +215,13 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
             val alert = builder.create()
             alert.show()
         })
+    }
+
+    private fun initAddDynamicValueButton() {
+        addDynamicValueButton = findViewById(R.id.dynamic_value_button) as Button
+        addDynamicValueButton.setOnClickListener {
+            println("Button was clicked!")
+        }
     }
 
 }

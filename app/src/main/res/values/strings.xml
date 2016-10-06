@@ -53,6 +53,7 @@
     <string name="about_activity_open_source_about_page_title">Android About Page by Medyo</string>
     <string name="about_activity_open_source_about_page_link">https://github.com/medyo/android-about-page</string>
     <string name="macro_activity_expand_when_title">Expand Text:</string>
+    <string name="activity_macro_dynamic_value_button_text">Add Dynamic Value</string>
 
     <string-array name="empty_array" />
 

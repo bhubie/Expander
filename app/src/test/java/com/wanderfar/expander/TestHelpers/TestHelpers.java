@@ -18,10 +18,8 @@
 
 package com.wanderfar.expander.TestHelpers;
 
-import android.preference.SwitchPreference;
 
 import com.wanderfar.expander.Models.Macro;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -89,8 +87,6 @@ public class TestHelpers {
         calendar.set(Calendar.SECOND,0);
         calendar.set(Calendar.MILLISECOND,0);
 
-        Date date = calendar.getTime();
-
-        return date;
+        return calendar.getTime();
     }
 }
