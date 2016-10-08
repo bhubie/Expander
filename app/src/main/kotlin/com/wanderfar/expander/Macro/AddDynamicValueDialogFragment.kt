@@ -34,6 +34,11 @@ import com.wanderfar.expander.Utilities.RecyclerItemClickListener
 
 class AddDynamicValueDialogFragment : DialogFragment(){
 
+    interface DynamicValueDialogListener {
+        fun onFinishDialog(dynamicValue : String)
+    }
+
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater!!.inflate(R.layout.dialog_fragment_dynamic_value, null)
 
@@ -46,7 +51,8 @@ class AddDynamicValueDialogFragment : DialogFragment(){
 
         recyclerView.addOnItemTouchListener(RecyclerItemClickListener(activity, recyclerView, object : RecyclerItemClickListener.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
-
+                val activity = activity as DynamicValueDialogListener
+                activity.onFinishDialog(adapter.getDynamicValue(position))
                 dismiss()
             }
             override fun onItemLongClick(view: View, position: Int) {

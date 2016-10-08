@@ -37,7 +37,8 @@ import com.wanderfar.expander.Models.MacroConstants
 import com.wanderfar.expander.R
 
 
-class MacroActivity : AppCompatActivity(), MacroActivityView {
+class MacroActivity : AppCompatActivity(), MacroActivityView, AddDynamicValueDialogFragment.DynamicValueDialogListener {
+
 
     lateinit var macroName : EditText
     lateinit var macroPhrase : EditText
@@ -117,8 +118,6 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_macro, menu)
 
-
-
         return true
     }
 
@@ -190,6 +189,17 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
         val intent = Intent(applicationContext, MainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    override fun onFinishDialog(dynamicValue: String) {
+        //Before updating text, check if the last character contains a space.
+        //If it doesn't and the phrase isn't empty append a space with the dynamic value
+        
+        if (macroPhrase.text.length == 0 || macroPhrase.text.last().isWhitespace()){
+            macroPhrase.append(dynamicValue)
+        } else {
+            macroPhrase.append(" " + dynamicValue)
+        }
     }
 
     private fun initExpandWhenSettings() {
