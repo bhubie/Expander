@@ -98,4 +98,8 @@ class DynamicValueAdapter : RecyclerView.Adapter<DynamicValueAdapter.ViewHolder>
         this.position = position
     }
 
+    fun getDynamicValue (position: Int): String{
+        return mDataset!![position].phrase
+    }
+
 }
