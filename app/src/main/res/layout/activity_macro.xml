@@ -50,11 +50,14 @@
             android:paddingStart="?android:attr/scrollbarSize"
             android:paddingEnd="?android:attr/scrollbarSize">
 
-            <EditText
+            <com.wanderfar.expander.Macro.DynamicValueEditText
+                xmlns:custom="http://schemas.android.com/apk/res/com.wanderfar.expander"
                 android:id="@+id/input_phrase"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/macroactivity_phrase_label" />
+                android:hint="@string/macroactivity_phrase_label"
+                custom:displayDrawableForDynamicValue="false"
+                />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton

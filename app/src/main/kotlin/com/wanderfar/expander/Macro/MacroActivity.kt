@@ -41,7 +41,7 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, AddDynamicValueDia
 
 
     lateinit var macroName : EditText
-    lateinit var macroPhrase : EditText
+    lateinit var macroPhrase : DynamicValueEditText
     lateinit var macroDescription : EditText
     lateinit var isCaseSensitive : SwitchCompat
     lateinit var expandWhenContainer : LinearLayout
@@ -65,7 +65,7 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, AddDynamicValueDia
         setSupportActionBar(toolbar)
 
         macroName = findViewById(R.id.input_name) as EditText
-        macroPhrase = findViewById(R.id.input_phrase) as EditText
+        macroPhrase = findViewById(R.id.input_phrase) as DynamicValueEditText
         macroDescription = findViewById(R.id.input_description) as EditText
         isCaseSensitive = findViewById(R.id.case_sensitive_switch) as SwitchCompat
 
@@ -194,7 +194,7 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, AddDynamicValueDia
     override fun onFinishDialog(dynamicValue: String) {
         //Before updating text, check if the last character contains a space.
         //If it doesn't and the phrase isn't empty append a space with the dynamic value
-        
+
         if (macroPhrase.text.length == 0 || macroPhrase.text.last().isWhitespace()){
             macroPhrase.append(dynamicValue)
         } else {

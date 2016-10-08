@@ -60,9 +60,15 @@ class AddDynamicValueDialogFragment : DialogFragment(){
             }
         }))
 
+        val cancelButton = v.findViewById(R.id.cancelButton)
+        cancelButton.setOnClickListener {
+            dismiss()
+        }
 
         return v
     }
+
+
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(activity)
