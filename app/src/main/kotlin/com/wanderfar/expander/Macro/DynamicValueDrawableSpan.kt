@@ -60,7 +60,7 @@ class DynamicValueDrawableSpan(verticalAlignment: Int) : DynamicDrawableSpan(ver
 
             val paint = Paint()
             paint.textSize = (mTextSize * .80).toFloat()
-            mWidth = paint.measureText(mText + "    ").toInt()
+            mWidth = paint.measureText(mText + "  ").toInt()
 
             mTop = (mTextSize - mHeight) / 2
             mDrawable.setBounds(0, mTop, mWidth, mTop + mHeight)
