@@ -18,14 +18,16 @@
 
 package com.wanderfar.expander.Macro
 
-import android.graphics.Color
+import android.content.Context
 import android.text.Spannable
-import android.text.style.ForegroundColorSpan
 import com.wanderfar.expander.DynamicPhrases.DynamicPhraseGenerator
+
 
 object DynamicValueDrawableGenerator {
 
-    fun addDynamicDrawables(text: Spannable){
+    fun addDynamicDrawables(context: Context, text: Spannable,
+                            iconSize: Int, iconAlignment: Int, textSize: Int,
+                            start: Int, lengthBefore: Int, lengthAfter: Int){
 
         val textLength = text.length
 
@@ -35,23 +37,35 @@ object DynamicValueDrawableGenerator {
         if (dynamicPhrases.isNotEmpty()){
 
             // clear old spans
-            //val oldSpans = text.getSpans(0, textLength, DynamicValueDrawableSpan::class.java)
-            val oldSpans = text.getSpans(0, textLength, ForegroundColorSpan::class.java)
+            val oldSpans = text.getSpans(0, textLength, DynamicValueDrawableSpan::class.java)
+            //val oldSpans = text.getSpans(0, textLength, ForegroundColorSpan::class.java)
             for (i in oldSpans.indices) {
+
                 text.removeSpan(oldSpans[i])
+
             }
 
             //Cycle through each dynamic phrase and set the span
 
             for ((phrase, startPosition, endPosition) in dynamicPhrases){
-                text.setSpan(ForegroundColorSpan(Color.BLUE), startPosition, endPosition + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
+                text.setSpan(DynamicValueDrawableSpan(context, 1, iconSize, iconAlignment, textSize, getFriendlyName(phrase) ),
+                        startPosition, endPosition + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
 
         }
 
+    }
 
+    fun getFriendlyName(phrase: String): String{
 
+        when(phrase){
+            "!d" -> return "Day of Week"
+            "!ds" -> return "Day of Week (Short)"
 
+            else -> {
+                return "Unknown"
+            }
+        }
     }
 }

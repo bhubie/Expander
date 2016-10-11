@@ -20,6 +20,8 @@ package com.wanderfar.expander.Macro
 
 import android.content.Context
 import android.support.v7.widget.AppCompatEditText
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
 import com.wanderfar.expander.R
 
@@ -27,11 +29,19 @@ import com.wanderfar.expander.R
 class DynamicValueEditText : AppCompatEditText {
 
     var displayDrawableForDynamicValue : Boolean = true
+    var mIconSize: Int = 0
+    var mIconAlignment: Int = 0
+    var mIconTextSize: Int = 0
+    var mTextLengthBefore: Int = 0
+
+    lateinit var mCurrentSpanStarts: MutableList<Int>
+    lateinit var mCurrentSpanEnds: MutableList<Int>
 
     constructor(context: Context) :  super(context) {
 
-        //mEmojiconSize = textSize as Int
-        //mEmojiconTextSize = textSize as Int
+        mIconSize = textSize.toInt()
+        mIconAlignment = textSize.toInt()
+        mIconTextSize = textSize.toInt()
     }
 
     constructor(context: Context, attrs: AttributeSet): super(context, attrs){
@@ -50,17 +60,68 @@ class DynamicValueEditText : AppCompatEditText {
         displayDrawableForDynamicValue = array.getBoolean(
                 R.styleable.DynamicValueEditText_displayDrawableForDynamicValue, true)
 
+        mIconSize = textSize.toInt()
+        mIconAlignment =  textSize.toInt()
+        mIconTextSize =  textSize.toInt()
+
+        this.addTextChangedListener(object : TextWatcher {
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
+                //get the current length of the text before its changes so we can see if the user was deleting text
+                mTextLengthBefore = text.length
+
+                //get current spans and their locations. This will then help on deletion of span
+                val currentSpans = text.getSpans(0, text.length, DynamicValueDrawableSpan::class.java)
+
+                mCurrentSpanStarts = mutableListOf()
+                mCurrentSpanEnds = mutableListOf()
+
+                for (i in currentSpans.indices) {
+                    mCurrentSpanStarts.add(text.getSpanStart(currentSpans[i]))
+                    mCurrentSpanEnds.add(text.getSpanEnd(currentSpans[i]))
+                }
+
+            }
+
+
+            override fun onTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
+                if(displayDrawableForDynamicValue == true){
+                    updateDynamicTextWithDrawable(start, count, after)
+
+                }
+            }
+
+            override fun afterTextChanged(s: Editable) {
+
+                //Detect if they were deleting text  if we are. delete the whole dynamic phrase we are deleting
+                if( text.length < mTextLengthBefore){
+                    var i = 0
+                    while (i < mCurrentSpanStarts.size){
+
+                        if (selectionEnd > mCurrentSpanStarts[i] && selectionEnd < mCurrentSpanEnds[i]){
+                            val updatedText =  text.removeRange(mCurrentSpanStarts[i], mCurrentSpanEnds[i] - 1)
+
+                            setText(updatedText)
+                            setSelection(text.length)
+                        }
+                        i++
+                    }
+
+                    mCurrentSpanStarts.clear()
+                    mCurrentSpanEnds.clear()
+                }
+            }
+
+        })
+
         array.recycle()
     }
 
-    override fun onTextChanged(text: CharSequence, start: Int, lengthBefore: Int, lengthAfter: Int) {
-        if(displayDrawableForDynamicValue == true){
-            updateDynamicTextWithDrawable()
-        }
-    }
-
-    private fun updateDynamicTextWithDrawable() {
-        DynamicValueDrawableGenerator.addDynamicDrawables(text)
+    private fun updateDynamicTextWithDrawable(start: Int, lengthBefore: Int, lengthAfter: Int) {
+        DynamicValueDrawableGenerator.addDynamicDrawables(context, text,
+                mIconSize, mIconAlignment, mIconTextSize, start, lengthBefore, lengthAfter)
     }
 
     fun setDisplayDynamicDrawable (displayDynamicDrawable : Boolean){
