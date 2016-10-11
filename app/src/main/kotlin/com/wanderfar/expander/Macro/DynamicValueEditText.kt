@@ -20,6 +20,7 @@ package com.wanderfar.expander.Macro
 
 import android.content.Context
 import android.support.v7.widget.AppCompatEditText
+
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -45,7 +46,6 @@ class DynamicValueEditText : AppCompatEditText {
     }
 
     constructor(context: Context, attrs: AttributeSet): super(context, attrs){
-
         init(attrs)
     }
 
@@ -59,6 +59,7 @@ class DynamicValueEditText : AppCompatEditText {
 
         displayDrawableForDynamicValue = array.getBoolean(
                 R.styleable.DynamicValueEditText_displayDrawableForDynamicValue, true)
+
 
         mIconSize = textSize.toInt()
         mIconAlignment =  textSize.toInt()
@@ -119,10 +120,12 @@ class DynamicValueEditText : AppCompatEditText {
         array.recycle()
     }
 
-    private fun updateDynamicTextWithDrawable(start: Int, lengthBefore: Int, lengthAfter: Int) {
+    fun updateDynamicTextWithDrawable(start: Int, lengthBefore: Int, lengthAfter: Int) {
         DynamicValueDrawableGenerator.addDynamicDrawables(context, text,
                 mIconSize, mIconAlignment, mIconTextSize, start, lengthBefore, lengthAfter)
+
     }
+
 
     fun setDisplayDynamicDrawable (displayDynamicDrawable : Boolean){
         this.displayDrawableForDynamicValue = displayDynamicDrawable

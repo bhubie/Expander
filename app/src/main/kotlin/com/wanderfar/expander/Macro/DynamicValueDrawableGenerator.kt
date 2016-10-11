@@ -18,6 +18,7 @@
 
 package com.wanderfar.expander.Macro
 
+
 import android.content.Context
 import android.text.Spannable
 import com.wanderfar.expander.DynamicPhrases.DynamicPhraseGenerator
@@ -29,6 +30,8 @@ object DynamicValueDrawableGenerator {
                             iconSize: Int, iconAlignment: Int, textSize: Int,
                             start: Int, lengthBefore: Int, lengthAfter: Int){
 
+
+
         val textLength = text.length
 
         //see if we have a dynamic value in the passed in text
@@ -37,23 +40,25 @@ object DynamicValueDrawableGenerator {
         if (dynamicPhrases.isNotEmpty()){
 
             // clear old spans
-            val oldSpans = text.getSpans(0, textLength, DynamicValueDrawableSpan::class.java)
-            //val oldSpans = text.getSpans(0, textLength, ForegroundColorSpan::class.java)
-            for (i in oldSpans.indices) {
 
+            val oldSpans = text.getSpans(0, textLength, DynamicValueDrawableSpan::class.java)
+
+            for (i in oldSpans.indices) {
                 text.removeSpan(oldSpans[i])
 
             }
 
             //Cycle through each dynamic phrase and set the span
-
             for ((phrase, startPosition, endPosition) in dynamicPhrases){
 
                 text.setSpan(DynamicValueDrawableSpan(context, 1, iconSize, iconAlignment, textSize, getFriendlyName(phrase) ),
                         startPosition, endPosition + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+
             }
 
         }
+
 
     }
 
