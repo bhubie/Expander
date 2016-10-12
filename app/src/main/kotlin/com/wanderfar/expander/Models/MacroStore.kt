@@ -40,8 +40,6 @@ object MacroStore {
         val macroList = mutableListOf<Macro>()
 
 
-
-
         //Paper.init(Expander.context)
 
         val keys = Paper.book("Macros").allKeys
@@ -72,4 +70,19 @@ object MacroStore {
 
         return macro
     }
+
+    fun hasMacroChanged(macroToCheck: Macro, originalName: String): Boolean{
+        val loadedMacro = Paper.book("Macros").read<Macro>("macro_" + originalName)
+
+        println(loadedMacro.areObjectMemberEqual(macroToCheck))
+        return loadedMacro.areObjectMemberEqual(macroToCheck).not()
+    }
+
+    fun Macro.areObjectMemberEqual(macroToCheck : Macro): Boolean{
+        return this.name.equals(macroToCheck.name) && this.phrase.equals(macroToCheck.phrase)
+                && this.description.equals(macroToCheck.description) && this.isCaseSensitive.equals(macroToCheck.isCaseSensitive)
+                && this.expandWhenSetting.equals(macroToCheck.expandWhenSetting) && this.macroPattern.equals(macroToCheck.macroPattern)
+    }
+
+
 }

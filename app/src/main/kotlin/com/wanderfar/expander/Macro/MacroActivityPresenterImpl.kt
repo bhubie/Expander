@@ -26,6 +26,7 @@ import com.wanderfar.expander.Models.*
 class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroActivityPresenter<MacroActivityView> {
 
 
+
     //var mMacroActivityView  = view
 
     override fun onCreate() {
@@ -88,6 +89,28 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
 
     }
 
+    override fun checkIfMacroIsChanged(originalName: String, newName: String, phrase: String, description: String, expandWhenSetting: Int,
+                                       isCaseSensitive: Boolean, isNewMacro : Boolean) {
+
+        val mMacro = Macro()
+
+        mMacro.name = newName
+        mMacro.phrase = phrase
+        mMacro.description = description
+        mMacro.isCaseSensitive = isCaseSensitive
+        mMacro.expandWhenSetting = expandWhenSetting
+        mMacro.macroPattern = setMacroRegexPattern(expandWhenSetting, newName)
+
+        //If the macro has changed, as the user if they want to save or keep changed
+        //If it hasn't changed call the back button like normal
+        if (MacroStore.hasMacroChanged(mMacro, originalName)){
+            view?.askIfUserWantsToSaveChanges()
+        } else {
+            view?.goBack()
+        }
+
+    }
+
     fun loadMacro(macroToLoad: String){
 
         val macro = MacroStore.getMacro(macroToLoad)
@@ -109,11 +132,5 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
             }
         }
     }
-
-
-
-
-
-
 
 }

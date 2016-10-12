@@ -26,4 +26,9 @@
         <item name="colorControlNormal">#FFFFFF</item>
     </style>
 
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="android:textColorPrimary">@color/colorPrimary</item> -->
+   </style>
+
 </resources>

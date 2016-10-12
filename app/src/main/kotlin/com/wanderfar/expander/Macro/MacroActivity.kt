@@ -19,6 +19,7 @@
 
 package com.wanderfar.expander.Macro
 
+
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -31,6 +32,7 @@ import android.view.MenuItem
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.wanderfar.expander.Macro.MacroActivityPresenter
 import com.wanderfar.expander.Macro.MacroActivityPresenterImpl
 import com.wanderfar.expander.Macro.MacroActivityView
@@ -48,6 +50,7 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
     lateinit var isCaseSensitive: SwitchCompat
     lateinit var expandWhenContainer : LinearLayout
     lateinit var expandWhenSetting: TextView
+    lateinit var originalName: String
     var expandWhenValue : Int = MacroConstants.ON_A_SPACE_OR_PERIOD
     var mMacroToOpen: String? = null
     var isNewMacro: Boolean = false
@@ -129,7 +132,10 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
 
         val id = item!!.itemId
 
-        //noinspection SimplifiableIfStatement
+        if(id == android.R.id.home){
+            onBackPressed()
+            return true
+        }
         if (id == R.id.action_trash) {
             if(isNewMacro.not()){
                 mPresenter.deleteMacro(mMacroToOpen.toString())
@@ -138,9 +144,7 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
         }
 
         if (id == R.id.action_save){
-            mPresenter.saveMacro(macroName.text.toString(), macroPhrase.text.toString(),
-                    macroDescription.text.toString(),
-                    expandWhenValue ,isCaseSensitive.isChecked, isNewMacro)
+            saveMacro()
         }
 
 
@@ -162,6 +166,7 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
 
         val items = resources.getStringArray(R.array.expand_when_labels)
         macroName.setText(macro.name)
+        originalName = macro.name
         macroPhrase.setText(macro.phrase)
         expandWhenSetting.text = items[macro.expandWhenSetting].toString()
 
@@ -214,6 +219,38 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
             val alert = builder.create()
             alert.show()
         })
+    }
+
+    override fun askIfUserWantsToSaveChanges() {
+        AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle)
+            .setTitle("Changes Found")
+            .setMessage("Would you like to save your changes?")
+            .setPositiveButton("Save", { dialog, which -> saveMacro() })
+            .setNegativeButton("Discard", { dialog, which -> goBack() })
+            .create()
+            .show()
+    }
+
+    override fun onBackPressed(){
+
+        if (isNewMacro.not()){
+            mPresenter.checkIfMacroIsChanged(originalName, macroName.text.toString(), macroPhrase.text.toString(),
+                    macroDescription.text.toString(),
+                    expandWhenValue, isCaseSensitive.isChecked, isNewMacro)
+        } else {
+            goBack()
+        }
+
+    }
+
+    override fun goBack() {
+       super.onBackPressed()
+    }
+
+    override fun saveMacro() {
+        mPresenter.saveMacro(macroName.text.toString(), macroPhrase.text.toString(),
+                macroDescription.text.toString(),
+                expandWhenValue ,isCaseSensitive.isChecked, isNewMacro)
     }
 
 }

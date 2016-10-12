@@ -41,4 +41,7 @@ interface MacroActivityPresenter<T : View> : BaseActivityPresenter<T> {
 
     //Deletes the Macro
     fun deleteMacro(name: String)
+
+    fun checkIfMacroIsChanged(originalName: String, newName: String, phrase: String, description: String, expandWhenSetting: Int,
+                              isCaseSensitive: Boolean, isNewMacro : Boolean)
 }
