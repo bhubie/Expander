@@ -27,7 +27,9 @@
             android:name="com.wanderfar.expander.Macro.MacroActivity"
             android:label="@string/title_activity_macro"
             android:parentActivityName="com.wanderfar.expander.MainActivity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wanderfar.expander.MainActivity.MainActivity" />
