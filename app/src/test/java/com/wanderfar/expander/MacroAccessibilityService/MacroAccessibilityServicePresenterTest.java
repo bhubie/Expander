@@ -53,6 +53,7 @@ public class MacroAccessibilityServicePresenterTest {
     private final Locale US_LOCALE = new Locale("en", "US");
     private final String DAY_OF_WEEK_LONG = new SimpleDateFormat("EEEE", US_LOCALE).format(Calendar.getInstance().getTime());
     private final String DAY_OF_WEEK_SHORT = new SimpleDateFormat("EE", US_LOCALE).format(Calendar.getInstance().getTime());
+    private final String DAY_OF_MONTH = new SimpleDateFormat("d", US_LOCALE).format(Calendar.getInstance().getTime());
 
 
     @Before
@@ -358,6 +359,31 @@ public class MacroAccessibilityServicePresenterTest {
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 textAfterExpansionWithPeriod ,
                 textAfterExpansionWithPeriod .length());
+    }
+
+    @Test
+    public void macroWithDynamicDayOfMonthInPhrase(){
+        //Tests that if the macro expanded phrase contains the dynamic phrase for day of month
+        //and the phrase is expanded, we return the day of the month
+        macroList.clear();
+
+        String MacroName = "DayOfMonth";
+        String MacroPhrase = "!dm is the current day of the month";
+        String TextBefore = MacroName + ".";
+        macroList.add(TestHelpers.createMacro(MacroName,
+                MacroPhrase, "Ending phrase should have the current day of the month", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+
+
+        String textAfterExpansionWithPeriod = DAY_OF_MONTH + " is the current day of the month.";
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
+                TextBefore,
+                TextBefore.length());
+
+        verify(macroAccessibilityServiceView, times(1)).updateText(
+                textAfterExpansionWithPeriod ,
+                textAfterExpansionWithPeriod .length());
+
     }
 
 }
