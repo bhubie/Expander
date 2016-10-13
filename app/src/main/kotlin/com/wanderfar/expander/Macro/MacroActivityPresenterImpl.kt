@@ -54,7 +54,7 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
         view?.showSavedMacro()
     }
 
-    override fun saveMacro(name: String, phrase: String, description: String,
+    override fun saveMacro(originalName: String, name: String, phrase: String, description: String,
                            expandWhenSetting: Int, isCaseSensitive: Boolean,
                            isNewMacro: Boolean){
 
@@ -81,7 +81,16 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
 
             //When we have no error, save the macro
             MacroError.NO_ERROR -> {
+
+                //If the macro is not a new one, and the original name doesn't equal the current name
+                //Delete the original name
+                if(isNewMacro.not() && originalName.equals(name).not()){
+                    MacroStore.deleteMacro(originalName)
+                }
+
+                //Save the macro
                 MacroStore.saveMacro(mMacro)
+
                 view?.showSavedMacro()
             }
         }

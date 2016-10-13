@@ -50,7 +50,7 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
     lateinit var isCaseSensitive: SwitchCompat
     lateinit var expandWhenContainer : LinearLayout
     lateinit var expandWhenSetting: TextView
-    lateinit var originalName: String
+    var originalName: String = ""
     var expandWhenValue : Int = MacroConstants.ON_A_SPACE_OR_PERIOD
     var mMacroToOpen: String? = null
     var isNewMacro: Boolean = false
@@ -248,7 +248,8 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
     }
 
     override fun saveMacro() {
-        mPresenter.saveMacro(macroName.text.toString(), macroPhrase.text.toString(),
+
+        mPresenter.saveMacro(originalName, macroName.text.toString(), macroPhrase.text.toString(),
                 macroDescription.text.toString(),
                 expandWhenValue ,isCaseSensitive.isChecked, isNewMacro)
     }
