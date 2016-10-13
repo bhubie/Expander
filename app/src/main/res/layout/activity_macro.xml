@@ -66,7 +66,8 @@
             android:layout_height="wrap_content"
             android:text="@string/activity_macro_dynamic_value_button_text"
             android:layout_below="@+id/input_phrase_layout"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_description_layout"
