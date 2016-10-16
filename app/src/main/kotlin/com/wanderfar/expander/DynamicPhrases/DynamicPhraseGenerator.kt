@@ -32,7 +32,8 @@ object DynamicPhraseGenerator {
             DynamicPhrase("Day of Week (Short)", "!ds"),
             DynamicPhrase("Day of Month", "!dm"),
             DynamicPhrase("Month", "!m"),
-            DynamicPhrase("Month (Short Name)", "!ms")
+            DynamicPhrase("Month (Short Name)", "!ms"),
+            DynamicPhrase("Year", "!y")
         )
 
 
@@ -71,6 +72,7 @@ object DynamicPhraseGenerator {
             "!dm" -> return SimpleDateFormat("d", locale).format(Calendar.getInstance().time)
             "!m" -> return SimpleDateFormat("MMMM", locale).format(Calendar.getInstance().time)
             "!ms" -> return  SimpleDateFormat("MMM", locale).format(Calendar.getInstance().time)
+            "!y" -> return  SimpleDateFormat("yyyy", locale).format(Calendar.getInstance().time)
             else -> {
                 return null
             }

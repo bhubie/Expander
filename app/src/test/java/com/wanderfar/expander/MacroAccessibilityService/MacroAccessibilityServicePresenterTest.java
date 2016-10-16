@@ -56,6 +56,7 @@ public class MacroAccessibilityServicePresenterTest {
     private final String DAY_OF_MONTH = new SimpleDateFormat("d", US_LOCALE).format(Calendar.getInstance().getTime());
     private final String MONTH_LONG = new SimpleDateFormat("MMMM", US_LOCALE).format(Calendar.getInstance().getTime());
     private final String MONTH_SHORT = new SimpleDateFormat("MMM", US_LOCALE).format(Calendar.getInstance().getTime());
+    private final String YEAR = new SimpleDateFormat("yyyy", US_LOCALE).format(Calendar.getInstance().getTime());
 
 
 
@@ -429,6 +430,31 @@ public class MacroAccessibilityServicePresenterTest {
 
 
         String textAfterExpansionWithPeriod = "The current Month short name is " + MONTH_SHORT + ".";
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
+                TextBefore,
+                TextBefore.length());
+
+        verify(macroAccessibilityServiceView, times(1)).updateText(
+                textAfterExpansionWithPeriod ,
+                textAfterExpansionWithPeriod .length());
+    }
+
+    @Test
+    public void macroWithDynamicYearInPhrase() {
+        //Tests that if the macro expanded phrase contains the dynamic phrase for the Year
+        //and the phrase is expanded, we return the current year
+
+        macroList.clear();
+
+        String MacroName = "Year";
+        String MacroPhrase = "The current Year is !y";
+        String TextBefore = MacroName + ".";
+        macroList.add(TestHelpers.createMacro(MacroName,
+                MacroPhrase, null, false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+
+
+        String textAfterExpansionWithPeriod = "The current Year is " + YEAR + ".";
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TextBefore,

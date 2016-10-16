@@ -43,6 +43,7 @@ public class DynamicPhraseGeneratorTest {
     private final String DAY_OF_MONTH_PHRASE = "!dm";
     private final String MONTH_PHRASE = "!m";
     private final String MONTH_SHORT_PHRASE = "!ms";
+    private final String YEAR_PHRASE = "!y";
 
     private final Locale US_LOCALE = new Locale("en", "US");
 
@@ -272,4 +273,18 @@ public class DynamicPhraseGeneratorTest {
         assertEquals("Jun", result);
 
     }
+
+    //Year Tests
+    @Test
+    public void yearPhraseTest(){
+        //Tests that if the dynamic phrase for year is used that we return the current year
+        //The year we are mocking is 2015
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(SUNDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(YEAR_PHRASE, US_LOCALE);
+        assertEquals("2015", result);
+
+    }
+
 }
