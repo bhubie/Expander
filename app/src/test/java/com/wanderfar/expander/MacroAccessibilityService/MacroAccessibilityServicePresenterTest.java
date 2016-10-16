@@ -54,6 +54,7 @@ public class MacroAccessibilityServicePresenterTest {
     private final String DAY_OF_WEEK_LONG = new SimpleDateFormat("EEEE", US_LOCALE).format(Calendar.getInstance().getTime());
     private final String DAY_OF_WEEK_SHORT = new SimpleDateFormat("EE", US_LOCALE).format(Calendar.getInstance().getTime());
     private final String DAY_OF_MONTH = new SimpleDateFormat("d", US_LOCALE).format(Calendar.getInstance().getTime());
+    private final String MONTH_LONG = new SimpleDateFormat("MMMM", US_LOCALE).format(Calendar.getInstance().getTime());
 
 
     @Before
@@ -384,6 +385,31 @@ public class MacroAccessibilityServicePresenterTest {
                 textAfterExpansionWithPeriod ,
                 textAfterExpansionWithPeriod .length());
 
+    }
+
+    @Test
+    public void macroWithDynamicMonthInPhrase() {
+        //Tests that if the macro expanded phrase contains the dynamic phrase for the Month name
+        //and the phrase is expanded, we return the name of the month
+
+        macroList.clear();
+
+        String MacroName = "MonthName";
+        String MacroPhrase = "The current Month is !m";
+        String TextBefore = MacroName + ".";
+        macroList.add(TestHelpers.createMacro(MacroName,
+                MacroPhrase, null, false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+
+
+        String textAfterExpansionWithPeriod = "The current Month is " + MONTH_LONG + ".";
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
+                TextBefore,
+                TextBefore.length());
+
+        verify(macroAccessibilityServiceView, times(1)).updateText(
+                textAfterExpansionWithPeriod ,
+                textAfterExpansionWithPeriod .length());
     }
 
 }

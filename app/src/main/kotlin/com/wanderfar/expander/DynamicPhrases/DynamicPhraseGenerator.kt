@@ -30,7 +30,8 @@ object DynamicPhraseGenerator {
             DynamicPhrase("PhoneMakeModel", "!phone"),
             DynamicPhrase("Day of Week", "!d"),
             DynamicPhrase("Day of Week (Short)", "!ds"),
-            DynamicPhrase("Day of Month", "!dm")
+            DynamicPhrase("Day of Month", "!dm"),
+            DynamicPhrase("Month", "!m")
         )
 
 
@@ -67,6 +68,7 @@ object DynamicPhraseGenerator {
             "!d" -> return SimpleDateFormat("EEEE", locale).format(Calendar.getInstance().time)
             "!ds" -> return SimpleDateFormat("EE", locale).format(Calendar.getInstance().time)
             "!dm" -> return SimpleDateFormat("d", locale).format(Calendar.getInstance().time)
+            "!m" -> return SimpleDateFormat("MMMM", locale).format(Calendar.getInstance().time)
             else -> {
                 return null
             }
