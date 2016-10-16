@@ -42,6 +42,7 @@ public class DynamicPhraseGeneratorTest {
     private final String DAY_Of_WEEK_SHORT_PHRASE = "!ds";
     private final String DAY_OF_MONTH_PHRASE = "!dm";
     private final String MONTH_PHRASE = "!m";
+    private final String MONTH_SHORT_PHRASE = "!ms";
 
     private final Locale US_LOCALE = new Locale("en", "US");
 
@@ -257,6 +258,18 @@ public class DynamicPhraseGeneratorTest {
         when(Calendar.getInstance().getTime()).thenReturn(date);
         String result = DynamicPhraseGenerator.setDynamicPhraseValue(MONTH_PHRASE, US_LOCALE);
         assertEquals("June", result);
+
+    }
+
+    @Test
+    public void monthNameShortPhraseTest(){
+        //Tests that if the dynamic phrase for month short is used that we return the short version of the month
+        //The month we are mocking is June
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(SUNDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(MONTH_SHORT_PHRASE, US_LOCALE);
+        assertEquals("Jun", result);
 
     }
 }
