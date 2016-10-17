@@ -59,6 +59,7 @@ public class MacroAccessibilityServicePresenterTest {
     private final String YEAR = new SimpleDateFormat("yyyy", US_LOCALE).format(Calendar.getInstance().getTime());
     private final String YEAR_SHORT = new SimpleDateFormat("yy", US_LOCALE).format(Calendar.getInstance().getTime());
     private final String TIME_12_HOURS = new SimpleDateFormat("hh:mm aaa", US_LOCALE).format(Calendar.getInstance().getTime());
+    private final String TIME_24_HOURS = new SimpleDateFormat("HH:mm", US_LOCALE).format(Calendar.getInstance().getTime());
 
 
 
@@ -507,6 +508,31 @@ public class MacroAccessibilityServicePresenterTest {
 
 
         String textAfterExpansionWithPeriod = "The current time in 12 hours is " + TIME_12_HOURS + ".";
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
+                TextBefore,
+                TextBefore.length());
+
+        verify(macroAccessibilityServiceView, times(1)).updateText(
+                textAfterExpansionWithPeriod ,
+                textAfterExpansionWithPeriod .length());
+    }
+
+    @Test
+    public void macroWithDynamicTime24HoursInPhrase() {
+        //Tests that if the macro expanded phrase contains the dynamic phrase for the time 12 hours
+        //and the phrase is expanded, we return the current time in 12 hour format
+
+        macroList.clear();
+
+        String MacroName = "Time24Hours";
+        String MacroPhrase = "The current time in 24 hour format is !t24h";
+        String TextBefore = MacroName + ".";
+        macroList.add(TestHelpers.createMacro(MacroName,
+                MacroPhrase, null, false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+
+
+        String textAfterExpansionWithPeriod = "The current time in 24 hour format is " + TIME_24_HOURS + ".";
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TextBefore,
