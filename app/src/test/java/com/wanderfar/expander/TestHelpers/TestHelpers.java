@@ -83,7 +83,7 @@ public class TestHelpers {
         }
 
         calendar.set(Calendar.HOUR_OF_DAY,17);
-        calendar.set(Calendar.MINUTE,30);
+        calendar.set(Calendar.MINUTE,35);
         calendar.set(Calendar.SECOND,0);
         calendar.set(Calendar.MILLISECOND,0);
 

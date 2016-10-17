@@ -45,6 +45,7 @@ public class DynamicPhraseGeneratorTest {
     private final String MONTH_SHORT_PHRASE = "!ms";
     private final String YEAR_PHRASE = "!y";
     private final String YEAR_SHORT_PHRASE = "!ys";
+    private final String TIME_12HR_PHRASE = "!t12h";
 
     private final Locale US_LOCALE = new Locale("en", "US");
 
@@ -297,6 +298,19 @@ public class DynamicPhraseGeneratorTest {
         when(Calendar.getInstance().getTime()).thenReturn(date);
         String result = DynamicPhraseGenerator.setDynamicPhraseValue(YEAR_SHORT_PHRASE, US_LOCALE);
         assertEquals("15", result);
+
+    }
+
+    //Time Tests
+    @Test
+    public void time12HourTest(){
+        //Tests that if the dynamic phrase for time 12 hours is used, we return the current time in 12 hour format
+        //The time we are mocking is 5:35 PM
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(SUNDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(TIME_12HR_PHRASE, US_LOCALE);
+        assertEquals("05:35 PM", result);
 
     }
 
