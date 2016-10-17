@@ -1,5 +1,9 @@
 # Expander
-Android text expansion application
+Free and open source text expansion application written in Kotlin. 
+Application is currently in public Alpha.
+
+[![Download on Google Play](http://i.imgur.com/rHhHvZw.png)](https://play.google.com/apps/testing/com.wanderfar.expander)
+
 
 
 
