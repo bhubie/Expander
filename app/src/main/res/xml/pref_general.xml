@@ -4,7 +4,7 @@
         android:title="@string/setting_activity_preference_category_general_title">
         <SwitchPreference
             android:title="@string/settings_activity_enable_app_permission_title"
-            android:key="isExanderEnabled"
+            android:key="isExpanderEnabled"
             android:defaultValue="true">
 
         </SwitchPreference>
