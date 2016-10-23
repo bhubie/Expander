@@ -132,10 +132,11 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         source = event!!.source
 
 
-        //Load the macros we need see if we have matches for
+        //get necessary permission
+        val isExpanderEnabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("isExpanderEnabled", true)
 
-
-        if(text.isNullOrEmpty().not()){
+        //If the text isn't empty and we have necessary permission, check the text
+        if(text.isNullOrEmpty().not() && isExpanderEnabled){
             Paper.init(this)
             mPresenter.onAccessibilityEvent(MacroStore.getMacros(), text, source.textSelectionStart)
             hideFloatingUI()
