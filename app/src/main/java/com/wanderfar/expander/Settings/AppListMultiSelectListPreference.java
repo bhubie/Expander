@@ -20,10 +20,14 @@
 package com.wanderfar.expander.Settings;
 
 import android.annotation.TargetApi;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.preference.MultiSelectListPreference;
 import android.util.AttributeSet;
 
@@ -68,16 +72,40 @@ public class AppListMultiSelectListPreference extends MultiSelectListPreference 
 
         final PackageManager pm = context.getPackageManager();
         //get a list of installed apps.
-        List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
 
-        for (ApplicationInfo app: packages
-                ) {
-            entries.add(app.loadLabel(pm).toString());
-            entriesValues.add(app.packageName);
-        }
+        Runnable getInstalledApps = new Runnable()
+        {
+            @Override
+            public void run()
+            {
 
-        setEntries(entries.toArray(new CharSequence[]{}));
-        setEntryValues(entriesValues.toArray(new CharSequence[]{}));
+                List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+
+                for (ApplicationInfo app: packages
+                        ) {
+                    entries.add(app.loadLabel(pm).toString());
+                    entriesValues.add(app.packageName);
+
+                    setEntries(entries.toArray(new CharSequence[]{}));
+                    setEntryValues(entriesValues.toArray(new CharSequence[]{}));
+                }
+
+                    /*this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setEntries(entries.toArray(new CharSequence[]{}));
+                            setEntryValues(entriesValues.toArray(new CharSequence[]{}));
+                        }
+                    });*/
+                }
+
+        };
+
+        Thread loadThread = new Thread(getInstalledApps);
+        loadThread.start();
+
+
+
     }
 
 

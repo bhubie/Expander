@@ -24,16 +24,18 @@
     <string name="menu_settings_title">Settings</string>
     <string name="settings_activity_FloatingUI_Opacity_Level_Summary">Tap to adjust the opacity level of the floating UI</string>
     <string name="settings_activity_Opacity_Level_Setting_Title">Floating UI Opacity Level</string>
-
     <string name="settings_dialog_message">Current Opacity is:</string>
     <string name="settings_summary">Current Opacity is $1</string>
     <string name="settings_unit">%</string>
     <string name="settings_title">Floating UI Opacity Level</string>
     <string name="setting_activity_floatingUI_opacity_level_summary_text">Tap to set the Opacity level of the floating UI</string>
     <string name="settings_activity_preference_category_title_application_exclusion_inclusions">Application Exclusion/Inclusion Settings</string>
-    <string name="key_application_list">ApplicationList</string>
     <string name="setting_activity_applistfiltertype_on_summary">All applications are allowed by default. Tap "Excluded Applications" below to manage what apps should be excluded.</string>
     <string name="setting_activity_applistfiltertype_off_summary">All applications are blocked by default. Tap "White Listed Applications" below to manage what apps should be included.</string>
+    <string name="setting_activity_preference_category_general_title">General Settings</string>
+    <string name="settings_activity_enable_app_permission_title">Enable Expander</string>
+    <string name="key_application_list">ApplicationList</string>
+
     <string name="string_extra_macro_name">MACRONAME</string>
     <string name="macro_activity_duplicate_name_error_message">Duplicate name found, please try again</string>
     <string name="macro_activity_no_name_error_message">Please Provide a name before saving</string>
@@ -52,8 +54,9 @@
     <string name="about_activity_open_source_paper_link">https://github.com/pilgr/Paper</string>
     <string name="about_activity_open_source_about_page_title">Android About Page by Medyo</string>
     <string name="about_activity_open_source_about_page_link">https://github.com/medyo/android-about-page</string>
-    <string name="macro_activity_expand_when_title">Expand Text:</string>
     <string name="activity_macro_dynamic_value_button_text">Add Dynamic (Always Changing) Value</string>
+    <string name="macro_activity_expand_when_title">When to expand text:</string>
+
 
     <string-array name="empty_array" />
 

@@ -21,164 +21,171 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
     </android.support.design.widget.AppBarLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <RelativeLayout android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_name_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="?android:attr/scrollbarSize"
-            android:paddingEnd="?android:attr/scrollbarSize"
-            android:layout_marginTop="5dp">
-
-
-            <EditText
-                android:id="@+id/input_name"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_name_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/macroactivity_macro_name_label" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_phrase_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/input_name_layout"
-            android:paddingStart="?android:attr/scrollbarSize"
-            android:paddingEnd="?android:attr/scrollbarSize">
-
-            <com.wanderfar.expander.Macro.DynamicValueEditText
-                xmlns:custom="http://schemas.android.com/apk/res/com.wanderfar.expander"
-                android:id="@+id/input_phrase"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/macroactivity_phrase_label"
-                custom:displayDrawableForDynamicValue="true"
-                />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/dynamic_value_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/activity_macro_dynamic_value_button_text"
-            android:layout_below="@+id/input_phrase_layout"
-            android:layout_centerHorizontal="true"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_description_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/dynamic_value_button"
-            android:paddingStart="?android:attr/scrollbarSize"
-            android:paddingEnd="?android:attr/scrollbarSize"
-            >
-
-            <EditText
-                android:id="@+id/input_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/macroactivity_macro_description_label" />
-
-        </android.support.design.widget.TextInputLayout>
+                android:paddingStart="?android:attr/scrollbarSize"
+                android:paddingEnd="?android:attr/scrollbarSize"
+                android:layout_marginTop="5dp">
 
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?android:attr/listPreferredItemHeight"
-            android:gravity="center_vertical"
-            android:paddingEnd="?android:attr/scrollbarSize"
-            android:background="?android:attr/selectableItemBackground"
-            android:id="@+id/caseSensitiveContainer"
-            android:layout_below="@+id/input_description_layout">
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dip"
-                android:layout_marginEnd="6dip"
-                android:layout_marginTop="6dip"
-                android:layout_marginBottom="6dip"
-                android:layout_weight="1">
-
-                <TextView android:id="@+id/case_sensitive_title"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/input_name"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:ellipsize="marquee"
-                    android:fadingEdge="horizontal"
-                    android:text="@string/case_sensitive"/>
+                    android:hint="@string/macroactivity_macro_name_label" />
+            </android.support.design.widget.TextInputLayout>
 
-                <TextView android:id="@+id/case_sensitive_summary"
-                    android:layout_width="wrap_content"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_phrase_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/input_name_layout"
+                android:paddingStart="?android:attr/scrollbarSize"
+                android:paddingEnd="?android:attr/scrollbarSize">
+
+                <com.wanderfar.expander.Macro.DynamicValueEditText
+                    xmlns:custom="http://schemas.android.com/apk/res/com.wanderfar.expander"
+                    android:id="@+id/input_phrase"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@android:id/title"
-                    android:layout_alignStart="@android:id/title"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:maxLines="4"
+                    android:hint="@string/macroactivity_phrase_label"
+                    custom:displayDrawableForDynamicValue="true"
                     />
+            </android.support.design.widget.TextInputLayout>
 
-            </RelativeLayout>
-
-            <android.support.v7.widget.SwitchCompat
-                android:layout_below="@+id/input_description_layout"
-                android:id="@+id/case_sensitive_switch"
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/dynamic_value_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
+                android:text="@string/activity_macro_dynamic_value_button_text"
+                android:layout_below="@+id/input_phrase_layout"
+                android:layout_centerHorizontal="true"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_description_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dynamic_value_button"
+                android:paddingStart="?android:attr/scrollbarSize"
+                android:paddingEnd="?android:attr/scrollbarSize"
+                >
+
+                <EditText
+                    android:id="@+id/input_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/macroactivity_macro_description_label" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?android:attr/listPreferredItemHeight"
                 android:gravity="center_vertical"
-                />
-        </LinearLayout>
+                android:paddingEnd="?android:attr/scrollbarSize"
+                android:background="?android:attr/selectableItemBackground"
+                android:id="@+id/caseSensitiveContainer"
+                android:layout_below="@+id/input_description_layout">
 
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?android:attr/listPreferredItemHeight"
-            android:gravity="center_vertical"
-            android:paddingEnd="?android:attr/scrollbarSize"
-            android:background="?android:attr/selectableItemBackground"
-            android:id="@+id/caseExpandWhenContainer"
-            android:layout_below="@+id/caseSensitiveContainer">
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dip"
-                android:layout_marginEnd="6dip"
-                android:layout_marginTop="6dip"
-                android:layout_marginBottom="6dip"
-                android:layout_weight="1">
-
-                <TextView android:id="@+id/expandWhenTitle"
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:ellipsize="marquee"
-                    android:fadingEdge="horizontal"
-                    android:text="@string/macro_activity_expand_when_title"/>
+                    android:layout_marginStart="15dip"
+                    android:layout_marginEnd="6dip"
+                    android:layout_marginTop="6dip"
+                    android:layout_marginBottom="6dip"
+                    android:layout_weight="1">
 
-                <TextView android:id="@+id/expandWhenSummary"
+                    <TextView android:id="@+id/case_sensitive_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:ellipsize="marquee"
+                        android:fadingEdge="horizontal"
+                        android:text="@string/case_sensitive"/>
+
+                    <TextView android:id="@+id/case_sensitive_summary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@android:id/title"
+                        android:layout_alignStart="@android:id/title"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:maxLines="4"
+                        />
+
+                </RelativeLayout>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_below="@+id/input_description_layout"
+                    android:id="@+id/case_sensitive_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/expandWhenTitle"
-                    android:layout_alignStart="@android:id/title"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:maxLines="4"
+                    android:checked="false"
+                    android:gravity="center_vertical"
                     />
+            </LinearLayout>
 
-            </RelativeLayout>
-        </LinearLayout>
-    </RelativeLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?android:attr/listPreferredItemHeight"
+                android:gravity="center_vertical"
+                android:paddingEnd="?android:attr/scrollbarSize"
+                android:background="?android:attr/selectableItemBackground"
+                android:id="@+id/caseExpandWhenContainer"
+                android:layout_below="@+id/caseSensitiveContainer">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dip"
+                    android:layout_marginEnd="6dip"
+                    android:layout_marginTop="6dip"
+                    android:layout_marginBottom="6dip"
+                    android:layout_weight="1">
+
+                    <TextView android:id="@+id/expandWhenTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:ellipsize="marquee"
+                        android:fadingEdge="horizontal"
+                        android:text="@string/macro_activity_expand_when_title"/>
+
+                    <TextView android:id="@+id/expandWhenSummary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/expandWhenTitle"
+                        android:layout_alignStart="@android:id/title"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:maxLines="4"
+                        />
+
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+
 
 
 

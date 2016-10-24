@@ -26,6 +26,7 @@ import com.wanderfar.expander.Models.*
 class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroActivityPresenter<MacroActivityView> {
 
 
+
     //var mMacroActivityView  = view
 
     override fun onCreate() {
@@ -53,7 +54,7 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
         view?.showSavedMacro()
     }
 
-    override fun saveMacro(name: String, phrase: String, description: String,
+    override fun saveMacro(originalName: String, name: String, phrase: String, description: String,
                            expandWhenSetting: Int, isCaseSensitive: Boolean,
                            isNewMacro: Boolean){
 
@@ -80,11 +81,42 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
 
             //When we have no error, save the macro
             MacroError.NO_ERROR -> {
+
+                //If the macro is not a new one, and the original name doesn't equal the current name
+                //Delete the original name
+                if(isNewMacro.not() && originalName.equals(name).not()){
+                    MacroStore.deleteMacro(originalName)
+                }
+
+                //Save the macro
                 MacroStore.saveMacro(mMacro)
+
                 view?.showSavedMacro()
             }
         }
 
+
+    }
+
+    override fun checkIfMacroIsChanged(originalName: String, newName: String, phrase: String, description: String, expandWhenSetting: Int,
+                                       isCaseSensitive: Boolean, isNewMacro : Boolean) {
+
+        val mMacro = Macro()
+
+        mMacro.name = newName
+        mMacro.phrase = phrase
+        mMacro.description = description
+        mMacro.isCaseSensitive = isCaseSensitive
+        mMacro.expandWhenSetting = expandWhenSetting
+        mMacro.macroPattern = setMacroRegexPattern(expandWhenSetting, newName)
+
+        //If the macro has changed, as the user if they want to save or keep changed
+        //If it hasn't changed call the back button like normal
+        if (MacroStore.hasMacroChanged(mMacro, originalName)){
+            view?.askIfUserWantsToSaveChanges()
+        } else {
+            view?.goBack()
+        }
 
     }
 
@@ -109,11 +141,5 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
             }
         }
     }
-
-
-
-
-
-
 
 }

@@ -36,9 +36,12 @@ interface MacroActivityPresenter<T : View> : BaseActivityPresenter<T> {
     //fun onDestroy()
 
     //Saves the  macro based on input
-    fun saveMacro(name: String, phrase: String, description: String, expandWhenSetting: Int,
+    fun saveMacro(originalName: String,name: String, phrase: String, description: String, expandWhenSetting: Int,
                   isCaseSensitive: Boolean, isNewMacro : Boolean)
 
     //Deletes the Macro
     fun deleteMacro(name: String)
+
+    fun checkIfMacroIsChanged(originalName: String, newName: String, phrase: String, description: String, expandWhenSetting: Int,
+                              isCaseSensitive: Boolean, isNewMacro : Boolean)
 }

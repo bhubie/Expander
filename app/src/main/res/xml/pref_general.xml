@@ -1,6 +1,15 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
+        android:title="@string/setting_activity_preference_category_general_title">
+        <SwitchPreference
+            android:title="@string/settings_activity_enable_app_permission_title"
+            android:key="isExpanderEnabled"
+            android:defaultValue="true">
+
+        </SwitchPreference>
+    </PreferenceCategory>
+    <PreferenceCategory
         android:title="@string/settings_activity_preference_category_title_application_exclusion_inclusions">
         <SwitchPreference
             android:title="Application Filter Type"

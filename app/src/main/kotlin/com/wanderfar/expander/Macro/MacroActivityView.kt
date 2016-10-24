@@ -49,6 +49,13 @@ interface MacroActivityView : View {
     //shows macro was saved
     fun showSavedMacro()
 
+    //will display a popup if the user has made a change and hits the back button
+    fun askIfUserWantsToSaveChanges()
 
+    //will finish the activity and go back when called
+    fun goBack()
+
+    //method to get current text from fields so macro will be saved
+    fun saveMacro()
 
 }

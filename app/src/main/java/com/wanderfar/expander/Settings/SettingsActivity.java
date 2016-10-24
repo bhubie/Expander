@@ -137,6 +137,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         addPreferencesFromResource(R.xml.pref_general);
 
 
+
         floatingUIPref = findPreference(getResources().getString(R.string.settings_activity_floating_UI_key));
 
 
@@ -147,6 +148,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
         appListSwitch = (SwitchPreference) this.findPreference("Application_Filter_Type");
         appListPref = (AppListMultiSelectListPreference) this.findPreference(getResources().getString(R.string.key_application_list));
+
         //Set the title and summary for the app list based on how the app list filter type
         setAppListTitleAndSummary();
 
