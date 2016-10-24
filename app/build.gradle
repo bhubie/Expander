@@ -10,7 +10,7 @@ android {
         applicationId "com.wanderfar.expander"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 5
+        versionCode 6
         versionName "0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
