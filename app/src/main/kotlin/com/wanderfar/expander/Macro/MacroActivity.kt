@@ -32,13 +32,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.wanderfar.expander.DynamicPhrases.DynamicValueDialogFragment
+import com.wanderfar.expander.DynamicPhrases.DynamicValueEditText
 import com.wanderfar.expander.MainActivity.MainActivity
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.Models.MacroConstants
 import com.wanderfar.expander.R
 
 
-class MacroActivity : AppCompatActivity(), MacroActivityView, AddDynamicValueDialogFragment.DynamicValueDialogListener {
+class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialogFragment.DynamicValueDialogListener {
 
 
     lateinit var macroName : EditText
@@ -272,7 +274,7 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, AddDynamicValueDia
             println("Button was clicked!")
 
             val fm = fragmentManager
-            val dialogFragment = AddDynamicValueDialogFragment()
+            val dialogFragment = DynamicValueDialogFragment()
             dialogFragment.show(fm, null)
         }
     }

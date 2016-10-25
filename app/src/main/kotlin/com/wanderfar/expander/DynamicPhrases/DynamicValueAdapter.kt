@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.wanderfar.expander.Macro
+package com.wanderfar.expander.DynamicPhrases
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -65,7 +65,7 @@ class DynamicValueAdapter : RecyclerView.Adapter<DynamicValueAdapter.ViewHolder>
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): DynamicValueAdapter.ViewHolder {
+                                    viewType: Int): ViewHolder {
         // create a new view
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_dynamic_value, parent, false)
         // set the view's size, margins, paddings and layout parameters

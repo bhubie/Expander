@@ -16,21 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.wanderfar.expander.Macro
+package com.wanderfar.expander.DynamicPhrases
 
 
 import android.content.Context
 import android.text.Spannable
 import com.wanderfar.expander.DynamicPhrases.DynamicPhraseGenerator
+import com.wanderfar.expander.DynamicPhrases.DynamicValueDrawableSpan
 
 
 object DynamicValueDrawableGenerator {
 
     fun addDynamicDrawables(context: Context, text: Spannable,
                             iconSize: Int, iconAlignment: Int, textSize: Int,
-                            start: Int, lengthBefore: Int, lengthAfter: Int){
-
-
+                            xPos: Float, yPos: Float){
 
         val textLength = text.length
 
@@ -51,9 +50,10 @@ object DynamicValueDrawableGenerator {
             //Cycle through each dynamic phrase and set the span
             for ((phrase, startPosition, endPosition) in dynamicPhrases){
 
-                text.setSpan(DynamicValueDrawableSpan(context, 1, iconSize, iconAlignment, textSize, getFriendlyName(phrase) ),
+                text.setSpan(
+                        DynamicValueDrawableSpan(context, 1, iconSize, iconAlignment, textSize, getFriendlyName(phrase),
+                        xPos, yPos),
                         startPosition, endPosition + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-
 
             }
 

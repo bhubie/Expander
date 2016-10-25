@@ -25,6 +25,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.wanderfar.expander.DynamicPhrases.DynamicValueTextView
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.R
 
@@ -46,8 +47,7 @@ class MacroListAdapter
 
         init {
             macroName = v.findViewById(R.id.macroName) as TextView
-            macroPhrase = v.findViewById(R.id.macroPhrase) as TextView
-
+            macroPhrase = v.findViewById(R.id.macroPhrase) as DynamicValueTextView
 
         }
 

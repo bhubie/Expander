@@ -17,7 +17,7 @@
  */
 
 
-package com.wanderfar.expander.Macro
+package com.wanderfar.expander.DynamicPhrases
 
 import android.app.Dialog
 import android.app.DialogFragment
@@ -28,11 +28,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.wanderfar.expander.DynamicPhrases.DynamicPhraseGenerator
+import com.wanderfar.expander.DynamicPhrases.DynamicValueAdapter
 import com.wanderfar.expander.R
 import com.wanderfar.expander.Utilities.RecyclerItemClickListener
 
 
-class AddDynamicValueDialogFragment : DialogFragment(){
+class DynamicValueDialogFragment : DialogFragment(){
 
     interface DynamicValueDialogListener {
         fun onFinishDialog(dynamicValue : String)

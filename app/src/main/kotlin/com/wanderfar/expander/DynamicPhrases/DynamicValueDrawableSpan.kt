@@ -17,13 +17,14 @@
  */
 
 
-package com.wanderfar.expander.Macro
+package com.wanderfar.expander.DynamicPhrases
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.text.style.DynamicDrawableSpan
+import com.wanderfar.expander.DynamicPhrases.TextDrawableCustom
 import java.lang.ref.WeakReference
 
 
@@ -37,25 +38,29 @@ class DynamicValueDrawableSpan(verticalAlignment: Int) : DynamicDrawableSpan(ver
     private var mHeight: Int = 0
     private var mWidth: Int = 0
     private var mTop: Int = 0
+    private var mXPos: Float = 0.0f
+    private var mYpos: Float = 0.0f
     lateinit private var mDrawable: Drawable
     private var mDrawableRef: WeakReference<Drawable>? = null
     lateinit private var mText: String
 
 
-    constructor(context: Context, resourceId: Int, size: Int, alignment: Int, textSize: Int, text: String):  this(alignment) {
+    constructor(context: Context, resourceId: Int, size: Int, alignment: Int, textSize: Int, text: String, xPos: Float, yPos: Float):  this(alignment) {
 
         mContext = context
         mResourceId = resourceId
         mWidth; mHeight; mSize = size
         mTextSize = textSize
         mText = text
+        mXPos = xPos
+        mYpos = yPos
     }
 
 
     override fun getDrawable(): Drawable {
         try {
             //mDrawable = mContext?.resources?.getDrawable(mResourceId) as Drawable
-            mDrawable = TextDrawableCustom(mText, mSize) as Drawable
+            mDrawable = TextDrawableCustom(mText, mSize, mXPos, mYpos) as Drawable
             mHeight = mSize
 
             val paint = Paint()

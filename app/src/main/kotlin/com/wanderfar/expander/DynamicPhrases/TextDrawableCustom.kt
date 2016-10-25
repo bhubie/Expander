@@ -16,17 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.wanderfar.expander.Macro
+package com.wanderfar.expander.DynamicPhrases
 
 import android.graphics.*
 import android.graphics.drawable.Drawable
 
 
-class TextDrawableCustom(private val text: String, textSize: Int) : Drawable() {
+class TextDrawableCustom(private val text: String, textSize: Int, xPos : Float, yPos : Float) : Drawable() {
     private val textPaint: Paint
     private val backgroundPaint: Paint
     private var textWidth: Float = 0.0f
     private var textSize: Float = 0.0f
+    private var xPos: Float = xPos
+    private var yPos: Float = yPos
 
     init {
 
@@ -54,11 +56,12 @@ class TextDrawableCustom(private val text: String, textSize: Int) : Drawable() {
         val r = Rect()
 
         textPaint.getTextBounds(text, 0, text.length, r)
-        val xPos = (canvas.width / 2)
+        //val xPos = (canvas.width / 2)
         val yPos = Math.abs(r.height()) / 2
 
         //canvas.drawRect(5f, 40f - this.textSize, 5f + this.textWidth, 40f, backgroundPaint)
-        canvas.drawText(text, 5.toFloat(), 35.toFloat(), textPaint)
+        //canvas.drawText(text, 5.toFloat(), 35.toFloat(), textPaint)
+        canvas.drawText(text, this.xPos, this.yPos, textPaint)
 
     }
 

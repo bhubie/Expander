@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.wanderfar.expander.Macro
+package com.wanderfar.expander.DynamicPhrases
 
 import android.content.Context
 import android.support.v7.widget.AppCompatEditText
@@ -24,6 +24,8 @@ import android.support.v7.widget.AppCompatEditText
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
+import com.wanderfar.expander.DynamicPhrases.DynamicValueDrawableGenerator
+import com.wanderfar.expander.DynamicPhrases.DynamicValueDrawableSpan
 import com.wanderfar.expander.R
 
 
@@ -89,7 +91,7 @@ class DynamicValueEditText : AppCompatEditText {
             override fun onTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
 
                 if(displayDrawableForDynamicValue == true){
-                    updateDynamicTextWithDrawable(start, count, after)
+                    updateDynamicTextWithDrawable()
 
                 }
             }
@@ -102,9 +104,14 @@ class DynamicValueEditText : AppCompatEditText {
                     while (i < mCurrentSpanStarts.size){
 
                         if (selectionEnd > mCurrentSpanStarts[i] && selectionEnd < mCurrentSpanEnds[i]){
-                            val updatedText =  text.removeRange(mCurrentSpanStarts[i], mCurrentSpanEnds[i] - 1)
 
-                            setText(updatedText)
+                            val updatedText: CharSequence
+                            try {
+                                updatedText = text.removeRange(mCurrentSpanStarts[i], mCurrentSpanEnds[i] - 1)
+                                setText(updatedText)
+                            } catch(e: Exception) {
+                            }
+
                             setSelection(text.length)
                         }
                         i++
@@ -120,9 +127,10 @@ class DynamicValueEditText : AppCompatEditText {
         array.recycle()
     }
 
-    fun updateDynamicTextWithDrawable(start: Int, lengthBefore: Int, lengthAfter: Int) {
+    fun updateDynamicTextWithDrawable() {
         DynamicValueDrawableGenerator.addDynamicDrawables(context, text,
-                mIconSize, mIconAlignment, mIconTextSize, start, lengthBefore, lengthAfter)
+                mIconSize, mIconAlignment, mIconTextSize,
+                5.0f, 35.0f)
 
     }
 
