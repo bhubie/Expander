@@ -21,8 +21,8 @@ package com.wanderfar.expander.DynamicPhrases
 
 import android.content.Context
 import android.text.Spannable
-import com.wanderfar.expander.DynamicPhrases.DynamicPhraseGenerator
-import com.wanderfar.expander.DynamicPhrases.DynamicValueDrawableSpan
+
+
 
 
 object DynamicValueDrawableGenerator {
@@ -65,8 +65,15 @@ object DynamicValueDrawableGenerator {
     fun getFriendlyName(phrase: String): String{
 
         when(phrase){
-            "!d" -> return "Day of Week"
-            "!ds" -> return "Day of Week (Short)"
+            "!d"    -> return "Day of Week"
+            "!ds"   -> return "Day of Week (Short)"
+            "!dm"   -> return "Day of Month"
+            "!ms"   -> return "Month (Short Name)"
+            "!m"    -> return "Month"
+            "!y"    -> return "Year"
+            "!ys"   -> return "Year (Short)"
+            "!t12h" -> return "Time (12 Hours)"
+            "!t24h" -> return "Time (24 Hours)"
 
             else -> {
                 return "Unknown"
