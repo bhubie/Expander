@@ -21,7 +21,6 @@ package com.wanderfar.expander.Macro
 
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -32,10 +31,6 @@ import android.view.MenuItem
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import com.wanderfar.expander.Macro.MacroActivityPresenter
-import com.wanderfar.expander.Macro.MacroActivityPresenterImpl
-import com.wanderfar.expander.Macro.MacroActivityView
 import com.wanderfar.expander.MainActivity.MainActivity
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.Models.MacroConstants

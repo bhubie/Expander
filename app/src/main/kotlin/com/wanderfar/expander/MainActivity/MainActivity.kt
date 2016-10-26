@@ -39,10 +39,6 @@ import android.view.accessibility.AccessibilityManager
 import android.widget.TextView
 import com.wanderfar.expander.Macro.MacroActivity
 import com.wanderfar.expander.About.AboutActivity
-import com.wanderfar.expander.MainActivity.MacroListAdapter
-import com.wanderfar.expander.MainActivity.MainActivityPresenter
-import com.wanderfar.expander.MainActivity.MainActivityPresenterImpl
-import com.wanderfar.expander.MainActivity.MainActivityView
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.R
 import com.wanderfar.expander.Settings.SettingsActivity
@@ -179,7 +175,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
             println("Services are:" + service.packageNames)
             println("Service ID's: " + service.id)
-            if (id.equals(service.id)) {
+            if (id == service.id) {
                 return true
             }
         }

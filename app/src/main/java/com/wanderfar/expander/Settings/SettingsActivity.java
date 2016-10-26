@@ -232,7 +232,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             editor.putBoolean("IsFloatingUIEnabled", true);
         }
 
-        editor.commit();
+        editor.apply();
         setFloatingUITitleAndSummary();
     }
 
@@ -246,7 +246,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
 
     @TargetApi(Build.VERSION_CODES.M)
-    public static boolean isSystemAlertPermissionGranted(Context context) {
+    private static boolean isSystemAlertPermissionGranted(Context context) {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(context);
     }
 

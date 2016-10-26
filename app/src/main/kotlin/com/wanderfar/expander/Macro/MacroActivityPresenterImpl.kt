@@ -84,7 +84,7 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
 
                 //If the macro is not a new one, and the original name doesn't equal the current name
                 //Delete the original name
-                if(isNewMacro.not() && originalName.equals(name).not()){
+                if(isNewMacro.not() && (originalName == name).not()){
                     MacroStore.deleteMacro(originalName)
                 }
 
