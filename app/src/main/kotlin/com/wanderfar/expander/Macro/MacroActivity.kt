@@ -21,13 +21,16 @@ package com.wanderfar.expander.Macro
 
 
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SwitchCompat
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -99,6 +102,10 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
     override fun onResume(){
         super.onResume()
 
+        //check if dynamic values is turned on,  if its off, make the button invisible
+        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean("isDynamicValuesEnabled", false)){
+            addDynamicValueButton.visibility = View.GONE
+        }
         mPresenter.onResume()
     }
 

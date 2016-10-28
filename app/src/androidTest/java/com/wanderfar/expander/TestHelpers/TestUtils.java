@@ -19,17 +19,24 @@
 package com.wanderfar.expander.TestHelpers;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.test.espresso.NoMatchingViewException;
+import android.support.test.espresso.ViewAssertion;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 
+import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
 
 import static android.support.test.espresso.core.deps.guava.base.Preconditions.checkNotNull;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 
 public class TestUtils {
@@ -75,6 +82,65 @@ public class TestUtils {
                 return expectedError.equals(editText.getError());
             }
         };
+    }
+
+    public static ViewAssertion isGone() {
+        return new ViewAssertion() {
+            public void check(View view, NoMatchingViewException noView) {
+                assertThat(view, new VisibilityMatcher(View.GONE));
+            }
+        };
+    }
+
+    public static ViewAssertion isInvisible() {
+        return new ViewAssertion() {
+            public void check(View view, NoMatchingViewException noView) {
+                assertThat(view, new VisibilityMatcher(View.INVISIBLE));
+            }
+        };
+    }
+
+    private static class VisibilityMatcher extends BaseMatcher<View> {
+
+        private int visibility;
+
+        public VisibilityMatcher(int visibility) {
+            this.visibility = visibility;
+        }
+
+        @Override public void describeTo(Description description) {
+            String visibilityName;
+            if (visibility == View.GONE) visibilityName = "GONE";
+            else if (visibility == View.VISIBLE) visibilityName = "VISIBLE";
+            else visibilityName = "INVISIBLE";
+            description.appendText("View visibility must equal " + visibilityName);
+        }
+
+        @Override public boolean matches(Object o) {
+
+            if (o == null) {
+                if (visibility == View.GONE || visibility == View.INVISIBLE) return true;
+                else if (visibility == View.VISIBLE) return false;
+            }
+
+            if (!(o instanceof View))
+                throw new IllegalArgumentException("Object must be instance of View. Object is instance of " + o);
+            return ((View) o).getVisibility() == visibility;
+        }
+    }
+
+    public static void clearSharedPrefs(Context context){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.commit();
+    }
+
+    public static void setBooleanPref(Context context, String prefKey, Boolean value){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(prefKey, value);
+        editor.commit();
     }
 
 }

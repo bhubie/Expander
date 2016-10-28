@@ -133,12 +133,14 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
 
 
         //get necessary permission
-        val isExpanderEnabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("isExpanderEnabled", true)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val isExpanderEnabled = prefs.getBoolean("isExpanderEnabled", true)
 
         //If the text isn't empty and we have necessary permission, check the text
         if(text.isNullOrEmpty().not() && isExpanderEnabled){
             Paper.init(this)
-            mPresenter.onAccessibilityEvent(MacroStore.getMacros(), text, source.textSelectionStart)
+            mPresenter.onAccessibilityEvent(MacroStore.getMacros(), text, source.textSelectionStart,
+                    prefs.getBoolean("isDynamicValuesEnabled", false))
             hideFloatingUI()
         }
     }

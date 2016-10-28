@@ -19,6 +19,7 @@
 package com.wanderfar.expander.Macro;
 
 
+
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -30,12 +31,10 @@ import com.wanderfar.expander.TestHelpers.MacroTestHelpers;
 import com.wanderfar.expander.Models.Macro;
 import com.wanderfar.expander.R;
 
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
@@ -53,8 +52,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.initDB;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.saveMacro;
 import static com.wanderfar.expander.TestHelpers.TestUtils.atPosition;
+import static com.wanderfar.expander.TestHelpers.TestUtils.clearSharedPrefs;
 import static com.wanderfar.expander.TestHelpers.TestUtils.hasErrorText;
+import static com.wanderfar.expander.TestHelpers.TestUtils.isGone;
+import static com.wanderfar.expander.TestHelpers.TestUtils.setBooleanPref;
 import static java.lang.Thread.sleep;
+
 
 
 @RunWith(AndroidJUnit4.class)
@@ -360,5 +363,43 @@ public class MacroActivityTest {
         onView(withId(R.id.noteListRecyclerView))
                 .check(matches(atPosition(0, hasDescendant(withText(testMacro.getName())))));
 
+    }
+
+
+    @Test
+    public void dynamicValuesTurnedOffTest(){
+        //Validates that if dynamic values is turned off in the settings that the add dynamic values button is not present
+
+        //Clear shared Prefs
+        clearSharedPrefs(InstrumentationRegistry.getTargetContext());
+
+        //Set pref
+        setBooleanPref(InstrumentationRegistry.getTargetContext(), "isDynamicValuesEnabled", false);
+
+        //launch the main activity
+        Intent intent = new Intent();
+        mActivityTestRule.launchActivity(intent);
+
+        //Validate button is not present
+        onView(withId(R.id.dynamic_value_button)).check(isGone());
+
+    }
+
+    @Test
+    public void dynamicValuesTurnedOnTest(){
+        //Validates that if dynamic values is turned on in the settings that the add dynamic values button is present
+
+        //Clear shared Prefs
+        clearSharedPrefs(InstrumentationRegistry.getTargetContext());
+
+        //Set pref
+        setBooleanPref(InstrumentationRegistry.getTargetContext(), "isDynamicValuesEnabled", true);
+
+        //launch the main activity
+        Intent intent = new Intent();
+        mActivityTestRule.launchActivity(intent);
+
+        //Validate button is present
+        onView(withId(R.id.dynamic_value_button)).check(matches(isDisplayed()));
     }
 }

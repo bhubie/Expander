@@ -70,7 +70,6 @@ dependencies {
         exclude module: 'recyclerview-v7'
     }
 
-
 }
 repositories {
     mavenCentral()

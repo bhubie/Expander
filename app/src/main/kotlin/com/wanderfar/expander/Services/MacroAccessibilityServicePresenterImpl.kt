@@ -20,6 +20,7 @@
 
 package com.wanderfar.expander.Services
 
+import android.preference.PreferenceManager
 import com.wanderfar.expander.DynamicPhrases.DynamicPhraseGenerator
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.Models.MacroConstants
@@ -41,7 +42,8 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
     var charactersInsertedFromDynamicPhrases : Int = 0
 
 
-    override fun onAccessibilityEvent(macrosToCheck : MutableList<Macro>, textToCheck : String, cursorPosition: Int) {
+    override fun onAccessibilityEvent(macrosToCheck : MutableList<Macro>, textToCheck : String, cursorPosition: Int,
+                                      replaceDynamicPhrases: Boolean) {
 
         if (isInitialized){
             macroAccessibilityServiceView.hideFloatingUI()
@@ -82,18 +84,26 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
             if (result != null && hasCurrentMatchBeenUnDone(macro.name,
                     result.range.start, matchedMacro, matchedMacroStartingPosition).not()){
 
+
                 //If Macro is set to expand immediately, set the end replacing range to be end range + 1
                 //This fixes bug where it wasn't replacing the whole shortcut when setting the phrase
                 if (macro.expandWhenSetting == MacroConstants.IMMEDIATELY){
-                    text = text.replaceRange(result.range.start, result.range.endInclusive + 1, replaceDynamicPhrases(macro.phrase))
+                    if (replaceDynamicPhrases){
+                        text = text.replaceRange(result.range.start, result.range.endInclusive + 1, replaceDynamicPhrases(macro.phrase))
+                    }else {
+                        text = text.replaceRange(result.range.start, result.range.endInclusive + 1, macro.phrase)
+                    }
 
                     newCursorPosition = charactersInsertedFromDynamicPhrases + setNewCursorPosition(result.range.start, macro.phrase.length)
                 } else {
-                    text = text.replaceRange(result.range.start, result.range.endInclusive, replaceDynamicPhrases(macro.phrase))
+                    if (replaceDynamicPhrases){
+                        text = text.replaceRange(result.range.start, result.range.endInclusive, replaceDynamicPhrases(macro.phrase))
+                    } else {
+                        text = text.replaceRange(result.range.start, result.range.endInclusive, macro.phrase)
+                    }
 
                     newCursorPosition = charactersInsertedFromDynamicPhrases + setNewCursorPosition(result.range.start, macro.phrase.length) + 1
                 }
-
 
                 aMatchWasFound = true
 
@@ -101,7 +111,6 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
                 matchedMacro = macro.name
                 matchedMacroStartingPosition = result.range.start
                 matchedMacroEndingPosition = result.range.start + macro.phrase.length
-
 
             }
         }
@@ -181,9 +190,7 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         else {
 
             //if the list isn't empty, replace the text
-
             var updatedText = textToCheck
-
 
             for ((phrase) in dynamicPhrases){
                 //Get the value of the phrase
@@ -191,17 +198,10 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
                 //Replace it in the text and return it
                 updatedText = updatedText.replace(phrase, phraseValue.toString(), false)
-                println("Updated text in loop is" + updatedText)
-                println(textToCheck.replace(phrase, phraseValue.toString(), false))
-                println(phrase)
-                println(phraseValue.toString())
 
                 charactersInsertedFromDynamicPhrases += (phraseValue.toString().length - phrase.length)
 
             }
-
-            println("Updated text outside of  loop is" + updatedText)
-            println("Characters inserted = " + charactersInsertedFromDynamicPhrases)
 
             return updatedText
         }
