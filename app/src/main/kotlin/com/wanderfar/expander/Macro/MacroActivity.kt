@@ -54,6 +54,7 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
 
     lateinit var expandWhenSetting : TextView
     lateinit var addDynamicValueButton : Button
+    lateinit var dynamicValueDialogFragment : DynamicValueDialogFragment
 
 
     var originalName: String = ""
@@ -216,6 +217,13 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
         } else {
             macroPhrase.append(" $dynamicValue ")
         }
+
+        //Dismiss the dialog if it is showing
+        if (dynamicValueDialogFragment.isVisible){
+            dynamicValueDialogFragment.dismiss()
+        }
+
+
     }
 
     override fun askIfUserWantsToSaveChanges() {
@@ -280,9 +288,10 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
         addDynamicValueButton.setOnClickListener {
             println("Button was clicked!")
 
-            val fm = fragmentManager
-            val dialogFragment = DynamicValueDialogFragment()
-            dialogFragment.show(fm, null)
+            val fm = supportFragmentManager
+            dynamicValueDialogFragment = DynamicValueDialogFragment()
+            dynamicValueDialogFragment.show(fm, null)
+
         }
     }
 

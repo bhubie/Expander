@@ -3,6 +3,8 @@ package com.wanderfar.expander.MacroAccessibilityService;
 
 
 
+import com.wanderfar.expander.DynamicPhrases.DynamicPhrase;
+import com.wanderfar.expander.DynamicPhrases.DynamicPhraseGenerator;
 import com.wanderfar.expander.Models.Macro;
 import com.wanderfar.expander.Services.MacroAccessibilityServicePresenterImpl;
 import com.wanderfar.expander.Services.MacroAccessibilityServiceView;
@@ -77,7 +79,7 @@ public class MacroAccessibilityServicePresenterTest {
         macroList.add(TestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList, TESTMACRO_TEXT_BEFORE_WITH_SPACE,
-                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_SPACE);
+                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_SPACE, true);
         verify(macroAccessibilityServiceView, times(1)).updateText(TESTMACRO_TEXT_AFTER_EXPANSION_WITH_SPACE,
                 TESTMACRO_CURSOR_POSITION_AFTER_WITH_SPACE);
     }
@@ -90,7 +92,7 @@ public class MacroAccessibilityServicePresenterTest {
         macroList.add(TestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList, TESTMACRO_TEXT_BEFORE_WITH_PERIOD,
-                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD);
+                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD, true);
         verify(macroAccessibilityServiceView, times(1)).updateText(TESTMACRO_TEXT_AFTER_EXPANSION_WITH_PERIOD,
                 TESTMACRO_CURSOR_POSITION_AFTER_WITH_PERIOD);
     }
@@ -103,7 +105,7 @@ public class MacroAccessibilityServicePresenterTest {
 
         macroList.add(TestHelpers.createMacro("Test", "Test Phrase", null, false, TestHelpers.ON_A_SPACE_OR_PERIOD));
 
-        macroAccessibilityServicePresenter.onAccessibilityEvent(macroList, text, cursorPosition);
+        macroAccessibilityServicePresenter.onAccessibilityEvent(macroList, text, cursorPosition, true);
         verify(macroAccessibilityServiceView, never()).updateText(text, cursorPosition);
 
     }
@@ -116,7 +118,7 @@ public class MacroAccessibilityServicePresenterTest {
                 false, TestHelpers.ON_A_SPACE_OR_PERIOD));
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList, TESTMACRO_TEXT_BEFORE_WITH_PERIOD,
-                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD);
+                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD, true);
         verify(macroAccessibilityServiceView, never()).updateText(TESTMACRO_TEXT_BEFORE_WITH_PERIOD,
                 TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD);
 
@@ -129,7 +131,7 @@ public class MacroAccessibilityServicePresenterTest {
         macroList.add(TestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList, TESTMACRO_TEXT_BEFORE_WITH_PERIOD,
-                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD);
+                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD, true);
         verify(macroAccessibilityServiceView, times(1)).updateText(TESTMACRO_TEXT_AFTER_EXPANSION_WITH_PERIOD,
                 TESTMACRO_CURSOR_POSITION_AFTER_WITH_PERIOD);
 
@@ -150,7 +152,7 @@ public class MacroAccessibilityServicePresenterTest {
 
 
         macroList.add(TestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", true, TestHelpers.ON_A_SPACE_OR_PERIOD));
-        macroAccessibilityServicePresenter.onAccessibilityEvent(macroList, textBefore, cursorPositionBefore);
+        macroAccessibilityServicePresenter.onAccessibilityEvent(macroList, textBefore, cursorPositionBefore, true);
 
         verify(macroAccessibilityServiceView, never()).updateText(textAfter, cursorPositionAfter);
     }
@@ -166,7 +168,7 @@ public class MacroAccessibilityServicePresenterTest {
 
 
         macroList.add(TestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", true, TestHelpers.ON_A_SPACE_OR_PERIOD));
-        macroAccessibilityServicePresenter.onAccessibilityEvent(macroList, textBefore, cursorPositionBefore);
+        macroAccessibilityServicePresenter.onAccessibilityEvent(macroList, textBefore, cursorPositionBefore, true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(textAfter, cursorPositionAfter);
     }
@@ -179,7 +181,7 @@ public class MacroAccessibilityServicePresenterTest {
         macroList.add(TestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TESTMACRO_CASE_SENSITIVE_TEXT_BEFORE_WITH_PERIOD_MACRO_LOWERCASE,
-                TESTMACRO_CASE_SENSITIVE_CURSOR_POSITION_BEFORE_WITH_PERIOD);
+                TESTMACRO_CASE_SENSITIVE_CURSOR_POSITION_BEFORE_WITH_PERIOD, true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 TESTMACRO_CASE_SENSITIVE_TEXT_AFTER_EXPANSION_WITH_PERIOD_MACRO_LOWERCASE,
@@ -193,7 +195,7 @@ public class MacroAccessibilityServicePresenterTest {
         macroList.add(TestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, TestHelpers.ON_A_SPACE));
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TESTMACRO_TEXT_BEFORE_WITH_SPACE,
-                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_SPACE);
+                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_SPACE, true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 TESTMACRO_TEXT_AFTER_EXPANSION_WITH_SPACE,
@@ -208,7 +210,7 @@ public class MacroAccessibilityServicePresenterTest {
         macroList.add(TestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, TestHelpers.IMMEDIATELY));
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TESTMACRO_TEXT_BEFORE_EXPAND_IMMEDIATELY,
-                TESTMACRO_CURSOR_POSITION_BEFORE_EXPAND_IMMEDIATELY);
+                TESTMACRO_CURSOR_POSITION_BEFORE_EXPAND_IMMEDIATELY, true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 TESTMACRO_TEXT_AFTER_EXPANSION_EXPAND_IMMEDIATELY,
@@ -223,7 +225,7 @@ public class MacroAccessibilityServicePresenterTest {
         macroList.add(TestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, TestHelpers.ON_A_PERIOD));
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TESTMACRO_TEXT_BEFORE_WITH_PERIOD,
-                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD);
+                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD, true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 TESTMACRO_TEXT_AFTER_EXPANSION_WITH_PERIOD,
@@ -237,7 +239,7 @@ public class MacroAccessibilityServicePresenterTest {
         macroList.add(TestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TESTMACRO_TEXT_BEFORE_WITH_SPACE,
-                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_SPACE);
+                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_SPACE, true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 TESTMACRO_TEXT_AFTER_EXPANSION_WITH_SPACE,
@@ -252,7 +254,7 @@ public class MacroAccessibilityServicePresenterTest {
         macroList.add(TestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TESTMACRO_TEXT_BEFORE_WITH_PERIOD,
-                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD);
+                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD, true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 TESTMACRO_TEXT_AFTER_EXPANSION_WITH_PERIOD,
@@ -274,7 +276,7 @@ public class MacroAccessibilityServicePresenterTest {
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TESTMACRO_TEXT_BEFORE_WITH_PERIOD,
-                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD);
+                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD, true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 TESTMACRO_TEXT_AFTER_EXPANSION_WITH_PERIOD,
@@ -296,31 +298,13 @@ public class MacroAccessibilityServicePresenterTest {
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TESTMACRO_TEXT_BEFORE_WITH_SPACE,
-                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_SPACE);
+                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_SPACE, true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 TESTMACRO_TEXT_AFTER_EXPANSION_WITH_SPACE,
                 TESTMACRO_CURSOR_POSITION_AFTER_WITH_SPACE);
     }
 
-    @Test
-    public void basicDynamicMacroTest(){
-        //Basic dynamic macro test
-
-        macroList.add(TestHelpers.createMacro("TestDynamicPhone",
-                "!phone", "Ending phrase should have phone make and model", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
-
-
-        macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
-                "TestDynamicPhone.",
-                "TestDynamicPhone.".length());
-
-
-
-        verify(macroAccessibilityServiceView, times(1)).updateText(
-                "Phone Make and Model.",
-                "Phone Make and Model.".length());
-    }
 
     @Test
     public void macroWithDynamicDayOfWeekInPhrase(){
@@ -339,7 +323,7 @@ public class MacroAccessibilityServicePresenterTest {
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TextBefore,
-                TextBefore.length());
+                TextBefore.length(), true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 textAfterExpansionWithPeriod ,
@@ -361,7 +345,7 @@ public class MacroAccessibilityServicePresenterTest {
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TextBefore,
-                TextBefore.length());
+                TextBefore.length(), true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 textAfterExpansionWithPeriod ,
@@ -385,7 +369,7 @@ public class MacroAccessibilityServicePresenterTest {
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TextBefore,
-                TextBefore.length());
+                TextBefore.length(), true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 textAfterExpansionWithPeriod ,
@@ -411,7 +395,7 @@ public class MacroAccessibilityServicePresenterTest {
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TextBefore,
-                TextBefore.length());
+                TextBefore.length(), true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 textAfterExpansionWithPeriod ,
@@ -436,7 +420,7 @@ public class MacroAccessibilityServicePresenterTest {
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TextBefore,
-                TextBefore.length());
+                TextBefore.length(), true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 textAfterExpansionWithPeriod ,
@@ -461,7 +445,7 @@ public class MacroAccessibilityServicePresenterTest {
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TextBefore,
-                TextBefore.length());
+                TextBefore.length(), true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 textAfterExpansionWithPeriod ,
@@ -486,7 +470,7 @@ public class MacroAccessibilityServicePresenterTest {
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TextBefore,
-                TextBefore.length());
+                TextBefore.length(), true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 textAfterExpansionWithPeriod ,
@@ -511,7 +495,7 @@ public class MacroAccessibilityServicePresenterTest {
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TextBefore,
-                TextBefore.length());
+                TextBefore.length(), true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 textAfterExpansionWithPeriod ,
@@ -531,15 +515,73 @@ public class MacroAccessibilityServicePresenterTest {
         macroList.add(TestHelpers.createMacro(MacroName,
                 MacroPhrase, null, false, TestHelpers.ON_A_SPACE_OR_PERIOD));
 
-
         String textAfterExpansionWithPeriod = "The current time in 24 hour format is " + TIME_24_HOURS + ".";
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TextBefore,
-                TextBefore.length());
+                TextBefore.length(), true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(
                 textAfterExpansionWithPeriod ,
                 textAfterExpansionWithPeriod .length());
+    }
+
+    @Test
+    public void macroWithDynamicValueUndoButtonTest(){
+        //Tests that when there is a dynamic value in a macro phrase and the user hits undo
+        //That the phrase is undone successfully
+
+        /*
+        macroList.clear();
+
+        DynamicPhrase[] dynamicValues = DynamicPhraseGenerator.getDynamicPhrases();
+
+        String macroName = "Day of week (Short)";
+        String macroPhrase = "The output is: !ds";
+        System.out.println( "Day of week (Short)" + " " + "!ds");
+        String textBefore = macroName + ".";
+        System.out.println(textBefore);
+        String textAfterExpansion = "The output is: "
+                + DynamicPhraseGenerator.setDynamicPhraseValue("!ds", US_LOCALE)
+                + ".";
+
+        macroList.add(TestHelpers.createMacro(macroName,
+                macroPhrase, null, false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
+                textBefore,
+                textBefore.length(), true);
+
+        verify(macroAccessibilityServiceView, times(1)).updateText(
+                textAfterExpansion,
+                textAfterExpansion.length());
+
+        for (DynamicPhrase phrase: dynamicValues) {
+
+            String macroName = phrase.getName();
+            //String macroPhrase = "The output is: " + phrase.getPhrase();
+            String macroPhrase = "The output is: " + phrase.getPhrase();
+            System.out.println(phrase.getName() + " " + phrase.getPhrase());
+            String textBefore = macroName + ".";
+            System.out.println(textBefore);
+            String textAfterExpansion = "The output is: "
+                    + DynamicPhraseGenerator.setDynamicPhraseValue(phrase.getPhrase(), US_LOCALE)
+                    + ".";
+
+            macroList.add(TestHelpers.createMacro(macroName,
+                    macroPhrase, null, false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+
+            macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
+                    textBefore,
+                    textBefore.length(), true);
+
+            verify(macroAccessibilityServiceView, times(1)).updateText(
+                    textAfterExpansion,
+                    textAfterExpansion.length());
+
+            //macroAccessibilityServicePresenter.undoSetText();
+            //verify(macroAccessibilityServiceView, times(1)).updateText(textBefore,
+            //        textBefore.length());
+        }*/
     }
 }

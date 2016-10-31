@@ -54,8 +54,10 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         //declare variable that will say if a match was found
         var aMatchWasFound : Boolean = false
 
+
         //declare variables that will store the start of the match and the new cursor position
         var newCursorPosition : Int = 0
+        charactersInsertedFromDynamicPhrases = 0
 
         text = textToCheck
 

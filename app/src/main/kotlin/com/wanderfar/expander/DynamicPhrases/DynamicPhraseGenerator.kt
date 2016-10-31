@@ -27,7 +27,6 @@ object DynamicPhraseGenerator {
     lateinit var mDynamicPhrasesFound : MutableList<DynamicPhraseFoundModel>
 
     val dynamicPhraseOptions = arrayOf(
-            DynamicPhrase("PhoneMakeModel", "!phone"),
             DynamicPhrase("Day of Week", "!d"),
             DynamicPhrase("Day of Week (Short)", "!ds"),
             DynamicPhrase("Day of Month", "!dm"),
@@ -38,6 +37,10 @@ object DynamicPhraseGenerator {
             DynamicPhrase("Time (12 Hours)", "!t12h"),
             DynamicPhrase("Time (24 Hours)", "!t24h")
         )
+
+    @JvmStatic fun getDynamicPhrases() : Array<DynamicPhrase> {
+        return dynamicPhraseOptions
+    }
 
 
     //Check based on passed in string, what dynamic phrases are in the string and return them
@@ -69,7 +72,6 @@ object DynamicPhraseGenerator {
 
     @JvmStatic fun setDynamicPhraseValue (phrase : String, locale : Locale ) : String? {
         when (phrase) {
-            "!phone" -> return "Phone Make and Model"
             "!d" -> return SimpleDateFormat("EEEE", locale).format(Calendar.getInstance().time)
             "!ds" -> return SimpleDateFormat("EE", locale).format(Calendar.getInstance().time)
             "!dm" -> return SimpleDateFormat("d", locale).format(Calendar.getInstance().time)
