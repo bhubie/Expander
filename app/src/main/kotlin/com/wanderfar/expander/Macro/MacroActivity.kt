@@ -213,9 +213,9 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
         //If it doesn't and the phrase isn't empty append a space with the dynamic value
 
         if (macroPhrase.text.length == 0 || macroPhrase.text.last().isWhitespace()){
-            macroPhrase.append(dynamicValue + " ")
+            macroPhrase.append(dynamicValue)
         } else {
-            macroPhrase.append(" $dynamicValue ")
+            macroPhrase.append(" $dynamicValue")
         }
 
         //Dismiss the dialog if it is showing
