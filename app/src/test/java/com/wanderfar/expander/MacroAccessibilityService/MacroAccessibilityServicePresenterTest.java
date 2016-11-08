@@ -3,8 +3,7 @@ package com.wanderfar.expander.MacroAccessibilityService;
 
 
 
-import com.wanderfar.expander.DynamicPhrases.DynamicPhrase;
-import com.wanderfar.expander.DynamicPhrases.DynamicPhraseGenerator;
+
 import com.wanderfar.expander.Models.Macro;
 import com.wanderfar.expander.Services.MacroAccessibilityServicePresenterImpl;
 import com.wanderfar.expander.Services.MacroAccessibilityServiceView;
@@ -222,7 +221,15 @@ public class MacroAccessibilityServicePresenterTest {
     public void macroSetToExpandOnAPeriod(){
         //Tests that if the given macro is set to Expand on a, that it does
 
-        macroList.add(TestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, TestHelpers.ON_A_PERIOD));
+        macroList.clear();
+
+
+        macroList.add(TestHelpers.createMacro("TESTMACRO",
+                "Test Macro Phrase",
+                "TestMacro Description",
+                false, TestHelpers.ON_A_PERIOD));
+
+
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TESTMACRO_TEXT_BEFORE_WITH_PERIOD,
                 TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD, true);
@@ -236,7 +243,11 @@ public class MacroAccessibilityServicePresenterTest {
     public void macroSetToExpandOnASpaceOrPeriodTestWithSpace(){
         //Tests that if the given macro is set to Expand on a period or space, and the user hits space that it expands
 
-        macroList.add(TestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(TestHelpers.createMacro("TESTMACRO",
+                "Test Macro Phrase",
+                "TestMacro Description",
+                false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TESTMACRO_TEXT_BEFORE_WITH_SPACE,
                 TESTMACRO_CURSOR_POSITION_BEFORE_WITH_SPACE, true);
@@ -251,7 +262,10 @@ public class MacroAccessibilityServicePresenterTest {
     public void macroSetToExpandOnASpaceOrPeriodTestWithPeriod(){
         //Tests that if the given macro is set to Expand on a period or space, and the user hits a period that it expands
 
-        macroList.add(TestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(TestHelpers.createMacro("TESTMACRO",
+                "Test Macro Phrase",
+                "TestMacro Description",
+                false, TestHelpers.ON_A_SPACE_OR_PERIOD));
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TESTMACRO_TEXT_BEFORE_WITH_PERIOD,
                 TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD, true);
@@ -267,10 +281,10 @@ public class MacroAccessibilityServicePresenterTest {
         //Tests that if the given macro does not have an expand when setting that the macro expands on a space or period
 
         Macro macro = new Macro();
-        macro.name = "testmacro";
-        macro.phrase = "Test Macro Phrase";
+        macro.setName("testmacro");
+        macro.setPhrase("Test Macro Phrase");
         macro.setCaseSensitive(false);
-        macro.setMacroPattern("(" + macro.name + ")" + "(\\s|\\.|\\.\\s)");
+        macro.setMacroPattern("(" + macro.getName() + ")" + "(\\s|\\.|\\.\\s)");
 
         macroList.add(macro);
 
@@ -289,10 +303,10 @@ public class MacroAccessibilityServicePresenterTest {
         //Tests that if the given macro does not have an expand when setting that the macro expands on a space or period
 
         Macro macro = new Macro();
-        macro.name = "testmacro";
-        macro.phrase = "Test Macro Phrase";
+        macro.setName("testmacro");
+        macro.setPhrase("Test Macro Phrase");
         macro.setCaseSensitive(false);
-        macro.setMacroPattern("(" + macro.name + ")" + "(\\s|\\.|\\.\\s)");
+        macro.setMacroPattern("(" + macro.getName() + ")" + "(\\s|\\.|\\.\\s)");
 
         macroList.add(macro);
 

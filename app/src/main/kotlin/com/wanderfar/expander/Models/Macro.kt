@@ -23,15 +23,13 @@ package com.wanderfar.expander.Models
 class Macro (){
 
     //If we are adding an item to the macro, be sure to update the extension function in Macro store to check for equality
-    lateinit var name : String
-    lateinit var phrase : String
-    lateinit var description : String
-    lateinit var macroPattern : String
+    var name : String = ""
+    var phrase : String = ""
+    var description : String? = null
+    var macroPattern : String = ""
     //var usageCount : Int = 0
     var isCaseSensitive : Boolean = false
     var expandWhenSetting : Int = MacroConstants.ON_A_SPACE_OR_PERIOD
-
-
 
 }
 

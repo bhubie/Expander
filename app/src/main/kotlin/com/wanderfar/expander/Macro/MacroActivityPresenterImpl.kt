@@ -60,13 +60,21 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
 
 
         val mMacro = Macro()
-        mMacro.name = name
-        mMacro.phrase = phrase
-        mMacro.description = description
-        mMacro.isCaseSensitive = isCaseSensitive
-        mMacro.expandWhenSetting = expandWhenSetting
-        mMacro.macroPattern = setMacroRegexPattern(expandWhenSetting, name)
-        
+        mMacro.apply {
+            this.name = name
+            this.phrase = phrase
+            this.description = description
+            this.isCaseSensitive = isCaseSensitive
+            this.expandWhenSetting = expandWhenSetting
+            this.macroPattern = setMacroRegexPattern(expandWhenSetting, name)
+        }
+//        mMacro.name = name
+//        mMacro.phrase = phrase
+//        mMacro.description = description
+//        mMacro.isCaseSensitive = isCaseSensitive
+//        mMacro.expandWhenSetting = expandWhenSetting
+//        mMacro.macroPattern = setMacroRegexPattern(expandWhenSetting, name)
+//
 
         //Validate we have a name and phrase before saving
         when(MacroValidator.validateMacro(mMacro, isNewMacro)){
@@ -103,12 +111,23 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
 
         val mMacro = Macro()
 
-        mMacro.name = newName
-        mMacro.phrase = phrase
-        mMacro.description = description
-        mMacro.isCaseSensitive = isCaseSensitive
-        mMacro.expandWhenSetting = expandWhenSetting
-        mMacro.macroPattern = setMacroRegexPattern(expandWhenSetting, newName)
+        mMacro.apply {
+
+            this.name = newName
+            this.phrase = phrase
+            this.description = description
+            this.isCaseSensitive = isCaseSensitive
+            this.expandWhenSetting = expandWhenSetting
+            this.macroPattern = setMacroRegexPattern(expandWhenSetting, newName)
+
+        }
+
+        //mMacro.name = newName
+        //mMacro.phrase = phrase
+        //mMacro.description = description
+        //mMacro.isCaseSensitive = isCaseSensitive
+        //mMacro.expandWhenSetting = expandWhenSetting
+        //mMacro.macroPattern = setMacroRegexPattern(expandWhenSetting, newName)
 
         //If the macro has changed, as the user if they want to save or keep changed
         //If it hasn't changed call the back button like normal

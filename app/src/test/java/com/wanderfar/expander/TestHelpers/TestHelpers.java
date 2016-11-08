@@ -36,13 +36,13 @@ public class TestHelpers {
                                     String macroDescription, Boolean isCaseSensative, int ExpandWhenSetting){
         Macro macro = new Macro();
 
-        macro.name = macroName;
-        macro.phrase = macroPhrase;
-        macro.description = macroDescription;
+        macro.setName(macroName);
+        macro.setPhrase(macroPhrase);
+        macro.setDescription(macroDescription);
         macro.setExpandWhenSetting(ExpandWhenSetting);
         macro.setCaseSensitive(isCaseSensative);
+        macro.setMacroPattern(setMacroRegexPattern(ExpandWhenSetting, macroName));
 
-        macro.macroPattern = setMacroRegexPattern(ExpandWhenSetting, macroName);
         return macro;
     }
 
