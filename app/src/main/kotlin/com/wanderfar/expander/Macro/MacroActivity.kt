@@ -25,7 +25,6 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -57,7 +56,6 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_macro)
 
-        val toolbar = findViewById(R.id.toolbar) as Toolbar?
         setSupportActionBar(toolbar)
 
         mMacroToOpen = intent.getStringExtra(resources.getString(R.string.string_extra_macro_name))
