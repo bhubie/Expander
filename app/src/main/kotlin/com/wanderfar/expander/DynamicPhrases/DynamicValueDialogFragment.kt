@@ -22,11 +22,11 @@ package com.wanderfar.expander.DynamicPhrases
 import android.app.Dialog
 import android.app.DialogFragment
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.app.FragmentTabHost
+import android.support.design.widget.TabLayout
+import android.support.v4.app.*
+import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -49,36 +49,28 @@ class DynamicValueDialogFragment : android.support.v4.app.DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater!!.inflate(R.layout.dialog_fragment_dynamic_value, null)
 
-
-        //Setup the tab hose
-        val mTabHost = v?.findViewById(R.id.tabs) as FragmentTabHost
-        mTabHost.setup(activity, childFragmentManager)
-
-        mTabHost.addTab(mTabHost.newTabSpec("dynamicValueOptions").setIndicator("Dynamic Value Options"), Fragment::class.java, null)
-        mTabHost.addTab(mTabHost.newTabSpec("dynamicValueExamples").setIndicator("Dynamic Value Examples"), Fragment::class.java, null)
+        val tabLayout = v?.findViewById(R.id.tabs) as TabLayout
+        tabLayout.addTab(tabLayout.newTab().setText("Dynamic Value Options"))
+        tabLayout.addTab(tabLayout.newTab().setText("Dynamic Value Examples"))
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         val viewPager = v.findViewById(R.id.viewpager) as ViewPager
-        viewPager.adapter =
-                DynamicValueDialogPagerAdapter(childFragmentManager, activity)
-
-        mTabHost.setOnTabChangedListener {
-            val i = mTabHost.currentTab
-            viewPager.currentItem = i
-        }
-
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(i: Int, v: Float, i2: Int) {
+        viewPager.adapter =  DynamicValueDialogPagerAdapter(childFragmentManager, tabLayout.tabCount)
+        viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+        tabLayout.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                viewPager.currentItem = tab.position
             }
 
-            override fun onPageSelected(i: Int) {
-                mTabHost.currentTab = i
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+
             }
 
-            override fun onPageScrollStateChanged(i: Int) {
+            override fun onTabReselected(tab: TabLayout.Tab) {
 
             }
         })
+
 
         val cancelButton = v.findViewById(R.id.cancelButton)
         cancelButton.setOnClickListener {
@@ -96,12 +88,11 @@ class DynamicValueDialogFragment : android.support.v4.app.DialogFragment() {
     }
 }
 
-class DynamicValueDialogPagerAdapter : FragmentPagerAdapter {
-    val TAB_COUNT = 2
-    lateinit private var context: Context
+class DynamicValueDialogPagerAdapter : FragmentStatePagerAdapter {
+    var mNumOfTabs : Int = 0
 
-    constructor(fm: FragmentManager, context: Context) :  super(fm) {
-        this.context = context
+    constructor(fm: FragmentManager,NumOfTabs: Int) :  super(fm) {
+        this.mNumOfTabs = NumOfTabs
     }
 
     override fun getItem(position: Int): Fragment {
@@ -116,7 +107,7 @@ class DynamicValueDialogPagerAdapter : FragmentPagerAdapter {
     }
 
     override fun getCount(): Int {
-        return TAB_COUNT
+        return this.mNumOfTabs
     }
 }
 
