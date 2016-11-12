@@ -32,7 +32,7 @@ public class MacroGeneratorHelper {
 
 
     // Run a test below to help generate macros for manual App testing
-    
+
     @Test
     public void createDynamicValueMacros(){
         //Creates dynamic value macros for testing
