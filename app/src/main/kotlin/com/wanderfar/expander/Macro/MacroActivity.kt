@@ -73,7 +73,7 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
 
         initAddDynamicValueButton()
 
-        mPresenter.onCreate(mMacroToOpen.toString())
+        mPresenter.onCreate((mMacroToOpen.toString()))
     }
 
 
@@ -187,7 +187,7 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
         //Before updating text, check if the last character contains a space.
         //If it doesn't and the phrase isn't empty append a space with the dynamic value
 
-        if (input_phrase.text.length == 0 || input_phrase.text.last().isWhitespace()){
+        if (input_phrase.text.isEmpty() || input_phrase.text.last().isWhitespace()){
             input_phrase.append(dynamicValue)
         } else {
             input_phrase.append(" $dynamicValue")
@@ -203,10 +203,10 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
 
     override fun askIfUserWantsToSaveChanges() {
         AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle)
-            .setTitle("Changes Found")
-            .setMessage("Would you like to save your changes?")
-            .setPositiveButton("Save", { dialog, which -> saveMacro() })
-            .setNegativeButton("Discard", { dialog, which -> goBack() })
+            .setTitle(getString(R.string.macro_activity_changes_found_title))
+            .setMessage(getString(R.string.macro_activity_changes_found_message_body))
+            .setPositiveButton(getString(R.string.macro_activity_changes_found_positive_button), { dialog, which -> saveMacro() })
+            .setNegativeButton(getString(R.string.macro_activity_changes_found_negative_button), { dialog, which -> goBack() })
             .create()
             .show()
     }
@@ -242,7 +242,7 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
 
         caseExpandWhenContainer.setOnClickListener ({
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("When Should the Shortcut Expand?")
+            builder.setTitle(getString(R.string.macro_activity_expand_when_dialog_title))
 
             builder.setItems(items) { dialog, item ->
                 expandWhenSummary.text = items[item].toString()
@@ -257,8 +257,6 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
 
     private fun initAddDynamicValueButton() {
         dynamic_value_button.setOnClickListener {
-            println("Button was clicked!")
-
             val fm = supportFragmentManager
             dynamicValueDialogFragment = DynamicValueDialogFragment()
             dynamicValueDialogFragment.show(fm, null)

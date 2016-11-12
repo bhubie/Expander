@@ -2,14 +2,10 @@
     <string name="app_name">Expander</string>
     <string name="title_activity_main2">Expander</string>
     <string name="title_activity_macro"> </string>
-    <string name="macroactivity_macro_name_label">Name</string>
-    <string name="macroactivity_phrase_label">Phrase</string>
-    <string name="macroactivity_macro_description_label">Description (Optional)</string>
+
     <string name="accessibility_service_description">Accessibility Service Permission used to expand your defined macros phrases. In order for Expander to work, this permission will need to be enabled.</string>
     <string name="case_sensitive">Case sensitive</string>
     <string name="title_activity_settings">Settings</string>
-
-
 
     <string-array name="multi_select_list_preference_default_value" />
 
@@ -38,9 +34,7 @@
     <string name="key_application_list">ApplicationList</string>
 
     <string name="string_extra_macro_name">MACRONAME</string>
-    <string name="macro_activity_duplicate_name_error_message">Duplicate name found, please try again</string>
-    <string name="macro_activity_no_name_error_message">Please Provide a name before saving</string>
-    <string name="macro_activity_no_phrase_error_message">Please provide a phrase before saving</string>
+
     <string name="accessibility_enabled">com.wanderfar.expander/.Services.MacroAccessibilityService</string>
     <string name="main_activity_accessibility_settings_snackbar_link_label">Open Settings</string>
     <string name="menu_about_title">About</string>
@@ -55,8 +49,20 @@
     <string name="about_activity_open_source_paper_link">https://github.com/pilgr/Paper</string>
     <string name="about_activity_open_source_about_page_title">Android About Page by Medyo</string>
     <string name="about_activity_open_source_about_page_link">https://github.com/medyo/android-about-page</string>
+
     <string name="activity_macro_dynamic_value_button_text">Add Dynamic (Always Changing) Value</string>
     <string name="macro_activity_expand_when_title">When to expand text:</string>
+    <string name="macro_activity_changes_found_title">Changes Found</string>
+    <string name="macro_activity_changes_found_message_body">Would you like to save your changes?</string>
+    <string name="macro_activity_changes_found_positive_button">Save</string>
+    <string name="macro_activity_changes_found_negative_button">Discard</string>
+    <string name="macro_activity_expand_when_dialog_title">When Should the Shortcut Expand?</string>
+    <string name="macro_activity_duplicate_name_error_message">Duplicate name found, please try again</string>
+    <string name="macro_activity_no_name_error_message">Please Provide a name before saving</string>
+    <string name="macro_activity_no_phrase_error_message">Please provide a phrase before saving</string>
+    <string name="macroactivity_macro_name_label">Name</string>
+    <string name="macroactivity_phrase_label">Phrase</string>
+    <string name="macroactivity_macro_description_label">Description (Optional)</string>
 
 
     <string-array name="empty_array" />
