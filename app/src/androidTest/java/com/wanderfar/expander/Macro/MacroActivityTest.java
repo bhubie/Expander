@@ -86,6 +86,8 @@ public class MacroActivityTest {
         saveMacro(testMacro);
     }
 
+
+
     //Start activity tests
 
     @Test

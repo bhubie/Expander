@@ -20,6 +20,9 @@ package com.wanderfar.expander.TestHelpers;
 
 
 import android.content.Context;
+
+import com.wanderfar.expander.DynamicPhrases.DynamicPhrase;
+import com.wanderfar.expander.DynamicPhrases.DynamicPhraseGenerator;
 import com.wanderfar.expander.Models.Macro;
 import io.paperdb.Paper;
 
@@ -77,6 +80,24 @@ public class MacroTestHelpers {
     public static Macro getMacro(String macroToLoad){
 
        return Paper.book("Macros").read(macroToLoad, new Macro());
+    }
+
+    public static void createAndSaveDynamicvAlueMacros(){
+        DynamicPhrase[] dynamicValues = DynamicPhraseGenerator.getDynamicPhrases();
+
+        for (DynamicPhrase phrase:
+             dynamicValues) {
+
+            Macro macroToSave = createMacro(
+                   phrase.getName() //Macro Name
+                   ,"The phrase is: " + phrase.getPhrase() //Macro phase
+                   ,null //Macro Description
+                   ,false //is Case sensitive
+                   ,ON_A_SPACE_OR_PERIOD //Expand when setting
+            );
+
+            saveMacro(macroToSave);
+        }
     }
 
 }
