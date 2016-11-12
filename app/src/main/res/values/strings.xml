@@ -63,6 +63,7 @@
     <string name="macro_activity_macro_name_label">Shortcut Name</string>
     <string name="macro_activity_phrase_label">Shortcut Phrase</string>
     <string name="macro_activity_macro_description_label">Shortcut Description (Optional)</string>
+    <string name="main_activity_no_macro_found_text">No Shortcuts found. Tap the + button to start creating them!</string>
 
 
     <string-array name="empty_array" />

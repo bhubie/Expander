@@ -45,6 +45,7 @@ import kotlinx.android.synthetic.main.activity_main2.*
 
 class MainActivity : AppCompatActivity(), MainActivityView {
 
+
     lateinit var mAdapter : MacroListAdapter
 
     //Create the presenter
@@ -74,8 +75,6 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
         mPresenter.onCreate()
     }
-
-
 
 
     override fun onResume(){
@@ -118,15 +117,15 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
     }
 
+    override fun showNoMacroFoundMessage() {
+        noMacroFound.visibility = View.VISIBLE
+    }
 
     private fun checkIfAccessibilityPermissionIsEnabled() {
 
 
         if (isAccessibilityEnabled("com.wanderfar.expander/.Services.MacroAccessibilityService")){
-
-        //(isAccessibilityEnabled(resources.getString(R.string.accessibility_enabled))){
             println("Permission Enabled!")
-
             println("Package name is: " + applicationContext.packageName)
         }
         else {

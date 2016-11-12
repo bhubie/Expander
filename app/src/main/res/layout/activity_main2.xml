@@ -40,9 +40,16 @@
                     android:layout_height="match_parent">
                 </android.support.v7.widget.RecyclerView>
 
-
         </android.support.v4.widget.SwipeRefreshLayout>
 
+        <TextView
+            android:id="@+id/noMacroFound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/main_activity_no_macro_found_text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:padding="15dp"/>
 
     </RelativeLayout>
 

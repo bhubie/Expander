@@ -1,6 +1,8 @@
 package com.wanderfar.expander;
 
+import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.ViewAssertion;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
@@ -23,6 +25,10 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 
+import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.buildGenericTestMacro;
+import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.initDB;
+import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.saveMacro;
+import static com.wanderfar.expander.TestHelpers.TestUtils.isGone;
 import static org.hamcrest.core.AllOf.allOf;
 
 
@@ -57,6 +63,38 @@ public class MainActivityTest {
         // Start from the home screen
         mDevice.pressHome();
 
+        //Initialize the DB and clear it
+        initDB(InstrumentationRegistry.getTargetContext());
+
+    }
+
+    @Test
+    public void testNoMacroFoundMessageIsDisplayed(){
+        //Test that if no macros were loaded that no macros found message is visible
+
+        //Launch the main activity
+        Intent intent = new Intent();
+        mActivityRule.launchActivity(intent);
+
+        //Validate that the no Macro Message is visible
+
+        onView(withId(R.id.noMacroFound)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testNoMacroFoundMessageIsNotDisplayed(){
+        //Test that if a macro is loaded that the no macro found message is not displayed
+
+        //create a generic test macro and save it
+        //Save the Macro
+        saveMacro(buildGenericTestMacro());
+        
+        //Launch the main activity
+        Intent intent = new Intent();
+        mActivityRule.launchActivity(intent);
+
+        //Validate that the no Macro Message is not visible
+        onView(withId(R.id.noMacroFound)).check(isGone());
     }
 
 
@@ -184,8 +222,6 @@ public class MainActivityTest {
                 new UiSelector().text(mApplicationName));
 
         expanderApp.click();
-
-
 
         UiScrollable texterScreen = new UiScrollable(LauncherHelper.LAUNCHER_CONTAINER);
         texterScreen.setAsVerticalList();
