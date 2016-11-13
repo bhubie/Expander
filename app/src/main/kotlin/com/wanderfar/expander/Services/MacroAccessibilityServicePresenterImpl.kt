@@ -172,11 +172,7 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         //Check if the current match we are on matches the previous match and that the starting positions match as well
         //If they do, that means the user "un-did" the match so we shouldn't re-do it
 
-        if (currentMatch.equals(previousMatch) && currentMatchStart.equals(previousMatchStart)){
-            return true
-        } else {
-            return false
-        }
+        return currentMatch == previousMatch && currentMatchStart.equals(previousMatchStart)
     }
 
     private fun replaceDynamicPhrases(textToCheck : String) : String {

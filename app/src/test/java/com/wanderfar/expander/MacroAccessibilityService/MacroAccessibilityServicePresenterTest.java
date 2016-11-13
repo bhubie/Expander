@@ -4,6 +4,8 @@ package com.wanderfar.expander.MacroAccessibilityService;
 
 
 
+import com.wanderfar.expander.DynamicPhrases.DynamicPhrase;
+import com.wanderfar.expander.DynamicPhrases.DynamicPhraseGenerator;
 import com.wanderfar.expander.Models.Macro;
 import com.wanderfar.expander.Services.MacroAccessibilityServicePresenterImpl;
 import com.wanderfar.expander.Services.MacroAccessibilityServiceView;
@@ -545,35 +547,20 @@ public class MacroAccessibilityServicePresenterTest {
         //Tests that when there is a dynamic value in a macro phrase and the user hits undo
         //That the phrase is undone successfully
 
-        /*
+
         macroList.clear();
 
         DynamicPhrase[] dynamicValues = DynamicPhraseGenerator.getDynamicPhrases();
 
-        String macroName = "Day of week (Short)";
-        String macroPhrase = "The output is: !ds";
-        System.out.println( "Day of week (Short)" + " " + "!ds");
-        String textBefore = macroName + ".";
-        System.out.println(textBefore);
-        String textAfterExpansion = "The output is: "
-                + DynamicPhraseGenerator.setDynamicPhraseValue("!ds", US_LOCALE)
-                + ".";
-
-        macroList.add(TestHelpers.createMacro(macroName,
-                macroPhrase, null, false, TestHelpers.ON_A_SPACE_OR_PERIOD));
-
-        macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
-                textBefore,
-                textBefore.length(), true);
-
-        verify(macroAccessibilityServiceView, times(1)).updateText(
-                textAfterExpansion,
-                textAfterExpansion.length());
-
         for (DynamicPhrase phrase: dynamicValues) {
 
+            macroAccessibilityServiceView = mock(MacroAccessibilityServiceView.class);
+            macroAccessibilityServicePresenter = new MacroAccessibilityServicePresenterImpl(macroAccessibilityServiceView);
+
+
+            macroList.clear();
+
             String macroName = phrase.getName();
-            //String macroPhrase = "The output is: " + phrase.getPhrase();
             String macroPhrase = "The output is: " + phrase.getPhrase();
             System.out.println(phrase.getName() + " " + phrase.getPhrase());
             String textBefore = macroName + ".";
@@ -589,13 +576,13 @@ public class MacroAccessibilityServicePresenterTest {
                     textBefore,
                     textBefore.length(), true);
 
-            verify(macroAccessibilityServiceView, times(1)).updateText(
+           verify(macroAccessibilityServiceView, times(1)).updateText(
                     textAfterExpansion,
                     textAfterExpansion.length());
 
             //macroAccessibilityServicePresenter.undoSetText();
             //verify(macroAccessibilityServiceView, times(1)).updateText(textBefore,
             //        textBefore.length());
-        }*/
+        }
     }
 }

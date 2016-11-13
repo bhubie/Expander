@@ -48,17 +48,17 @@ public class TestHelpers {
 
     private static String setMacroRegexPattern(int whenToExpand, String name){
 
+        String newName = name.replace("(", "\\(").replace(")", "\\)");
+
         switch(whenToExpand){
 
-            case ON_A_SPACE_OR_PERIOD : return "(" + name + ")" + "(\\s|\\.|\\.\\s)";
-            case ON_A_SPACE : return "(" + name + ")" + "(\\s)";
-            case ON_A_PERIOD : return "(" + name + ")" + "(\\.)";
-            case IMMEDIATELY : return name;
-            default: return name;
+            case ON_A_SPACE_OR_PERIOD : return "(" + newName + ")" + "(\\s|\\.|\\.\\s)";
+            case ON_A_SPACE : return "(" + newName + ")" + "(\\s)";
+            case ON_A_PERIOD : return "(" + newName + ")" + "(\\.)";
+            case IMMEDIATELY : return newName;
+            default: return newName;
 
         }
-
-
     }
 
     public static Date getAPastDayOfTheWeek(String dayToGet) {
