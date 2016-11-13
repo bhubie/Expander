@@ -315,8 +315,6 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         //If not we return null
 
         if(isAppsAllowed){
-
-
             return getInstalledApplications(prefs.getStringSet(resources.getString(com.wanderfar.expander.R.string.key_application_list)
                     , mutableSetOf("")))
 

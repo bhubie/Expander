@@ -29,9 +29,6 @@ import java.util.*
 
 class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceView) : MacroAccessibilityServicePresenter {
 
-
-
-
     var macroAccessibilityServiceView = view
 
     lateinit var text : String
@@ -134,9 +131,11 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
     }
 
     override fun undoSetText() {
-        text = text.replaceRange(matchedMacroStartingPosition, matchedMacroEndingPosition, matchedMacro)
+        text = text.replaceRange(matchedMacroStartingPosition,
+                matchedMacroEndingPosition + charactersInsertedFromDynamicPhrases,
+                matchedMacro)
 
-        macroAccessibilityServiceView.updateText(text, setNewCursorPosition(matchedMacroStartingPosition, matchedMacro.length))
+        macroAccessibilityServiceView.updateText(text, setNewCursorPosition(matchedMacroStartingPosition, matchedMacro.length + 1))
     }
 
     private fun  setTextSearchStart(macroLength: Int, cursorPosition: Int): Int {

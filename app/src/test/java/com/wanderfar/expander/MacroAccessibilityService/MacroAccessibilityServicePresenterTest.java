@@ -138,7 +138,7 @@ public class MacroAccessibilityServicePresenterTest {
 
         macroAccessibilityServicePresenter.undoSetText();
         verify(macroAccessibilityServiceView, times(1)).updateText(TESTMACRO_TEXT_BEFORE_WITH_PERIOD,
-                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD - 1);
+                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD);
 
     }
 
@@ -546,8 +546,8 @@ public class MacroAccessibilityServicePresenterTest {
     public void macroWithDynamicValueUndoButtonTest(){
         //Tests that when there is a dynamic value in a macro phrase and the user hits undo
         //That the phrase is undone successfully
-
-
+        //Test will make sure it works for every dynamic value
+        
         macroList.clear();
 
         DynamicPhrase[] dynamicValues = DynamicPhraseGenerator.getDynamicPhrases();
@@ -556,8 +556,6 @@ public class MacroAccessibilityServicePresenterTest {
 
             macroAccessibilityServiceView = mock(MacroAccessibilityServiceView.class);
             macroAccessibilityServicePresenter = new MacroAccessibilityServicePresenterImpl(macroAccessibilityServiceView);
-
-
             macroList.clear();
 
             String macroName = phrase.getName();
@@ -580,9 +578,9 @@ public class MacroAccessibilityServicePresenterTest {
                     textAfterExpansion,
                     textAfterExpansion.length());
 
-            //macroAccessibilityServicePresenter.undoSetText();
-            //verify(macroAccessibilityServiceView, times(1)).updateText(textBefore,
-            //        textBefore.length());
+            macroAccessibilityServicePresenter.undoSetText();
+            verify(macroAccessibilityServiceView, times(1)).updateText(textBefore,
+                    textBefore.length());
         }
     }
 }
