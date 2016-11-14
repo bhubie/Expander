@@ -4,8 +4,8 @@ package com.wanderfar.expander.MacroAccessibilityService;
 
 
 
-import com.wanderfar.expander.DynamicPhrases.DynamicPhrase;
-import com.wanderfar.expander.DynamicPhrases.DynamicPhraseGenerator;
+import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhrase;
+import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator;
 import com.wanderfar.expander.Models.Macro;
 import com.wanderfar.expander.Services.MacroAccessibilityServicePresenterImpl;
 import com.wanderfar.expander.Services.MacroAccessibilityServiceView;
@@ -547,7 +547,7 @@ public class MacroAccessibilityServicePresenterTest {
         //Tests that when there is a dynamic value in a macro phrase and the user hits undo
         //That the phrase is undone successfully
         //Test will make sure it works for every dynamic value
-        
+
         macroList.clear();
 
         DynamicPhrase[] dynamicValues = DynamicPhraseGenerator.getDynamicPhrases();

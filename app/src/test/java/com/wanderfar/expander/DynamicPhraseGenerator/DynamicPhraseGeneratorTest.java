@@ -18,7 +18,7 @@
 
 
 
-package com.wanderfar.expander.DynamicPhrases;
+package com.wanderfar.expander.DynamicPhraseGenerator;
 
 
 import com.wanderfar.expander.TestHelpers.TestHelpers;

@@ -21,8 +21,8 @@ package com.wanderfar.expander.TestHelpers;
 
 import android.content.Context;
 
-import com.wanderfar.expander.DynamicPhrases.DynamicPhrase;
-import com.wanderfar.expander.DynamicPhrases.DynamicPhraseGenerator;
+import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhrase;
+import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator;
 import com.wanderfar.expander.Models.Macro;
 import io.paperdb.Paper;
 

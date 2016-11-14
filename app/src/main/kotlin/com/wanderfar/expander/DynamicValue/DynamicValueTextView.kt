@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.wanderfar.expander.DynamicPhrases
+package com.wanderfar.expander.DynamicValue
 
 import android.content.Context
 import android.support.v7.widget.AppCompatTextView
@@ -25,7 +25,7 @@ import android.text.SpannableStringBuilder
 import android.text.TextUtils
 
 import android.util.AttributeSet
-import com.wanderfar.expander.DynamicPhrases.DynamicValueDrawableGenerator
+import com.wanderfar.expander.DynamicValue.DynamicValueDrawableGenerator
 import com.wanderfar.expander.R
 
 

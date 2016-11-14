@@ -21,7 +21,7 @@
 package com.wanderfar.expander.Services
 
 import android.preference.PreferenceManager
-import com.wanderfar.expander.DynamicPhrases.DynamicPhraseGenerator
+import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.Models.MacroConstants
 import java.util.*

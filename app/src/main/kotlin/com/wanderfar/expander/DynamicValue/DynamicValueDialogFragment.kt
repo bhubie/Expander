@@ -17,7 +17,7 @@
  */
 
 
-package com.wanderfar.expander.DynamicPhrases
+package com.wanderfar.expander.DynamicValue
 
 import android.app.Dialog
 import android.app.DialogFragment
@@ -33,6 +33,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator
+import com.wanderfar.expander.DynamicValue.DynamicValueExampleAdapter
+import com.wanderfar.expander.DynamicValue.DynamicValueAdapter
 import com.wanderfar.expander.R
 import com.wanderfar.expander.Utilities.RecyclerItemClickListener
 
@@ -91,7 +94,7 @@ class DynamicValueDialogFragment : android.support.v4.app.DialogFragment() {
 class DynamicValueDialogPagerAdapter : FragmentStatePagerAdapter {
     var mNumOfTabs : Int = 0
 
-    constructor(fm: FragmentManager,NumOfTabs: Int) :  super(fm) {
+    constructor(fm: FragmentManager, NumOfTabs: Int) :  super(fm) {
         this.mNumOfTabs = NumOfTabs
     }
 

@@ -17,14 +17,14 @@
  */
 
 
-package com.wanderfar.expander.DynamicPhrases
+package com.wanderfar.expander.DynamicValue
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.text.style.DynamicDrawableSpan
-import com.wanderfar.expander.DynamicPhrases.TextDrawableCustom
+import com.wanderfar.expander.DynamicValue.TextDrawableCustom
 import java.lang.ref.WeakReference
 
 

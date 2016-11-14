@@ -24,7 +24,7 @@
         android:id="@+id/macroName"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"/>
-    <com.wanderfar.expander.DynamicPhrases.DynamicValueTextView
+    <com.wanderfar.expander.DynamicValue.DynamicValueTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.wanderfar.expander"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

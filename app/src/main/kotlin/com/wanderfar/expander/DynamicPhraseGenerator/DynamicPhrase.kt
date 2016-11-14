@@ -16,17 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+package com.wanderfar.expander.DynamicPhraseGenerator
 
-package com.wanderfar.expander.Repository
-
-import android.content.Context
-
-
-class StorageLocationRepository {
-
-
-    fun getStorageLocation(context: Context) : String {
-
-        return context.filesDir.absolutePath
-    }
+data class DynamicPhrase (val name : String,
+                          val phrase : String){
 }

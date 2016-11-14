@@ -25,7 +25,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.wanderfar.expander.DynamicPhrases.DynamicValueTextView
+import com.wanderfar.expander.DynamicValue.DynamicValueTextView
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.R
 

@@ -16,13 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.wanderfar.expander.DynamicPhrases
+package com.wanderfar.expander.DynamicValue
 
 
 import android.content.Context
 import android.text.Spannable
-
-
+import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator
+import com.wanderfar.expander.DynamicValue.DynamicValueDrawableSpan
 
 
 object DynamicValueDrawableGenerator {

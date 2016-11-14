@@ -16,8 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.wanderfar.expander.DynamicPhrases
 
-data class DynamicPhrase (val name : String,
-                          val phrase : String){
+package com.wanderfar.expander.DynamicPhraseGenerator
+
+
+data class DynamicPhraseFoundModel(val phrase : String,
+                                   val startPosition : Int,
+                                   val endPosition: Int,
+                                   val phraseLength : Int) {
 }

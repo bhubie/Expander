@@ -28,7 +28,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.wanderfar.expander.DynamicPhrases.DynamicValueDialogFragment
+import com.wanderfar.expander.DynamicValue.DynamicValueDialogFragment
 import com.wanderfar.expander.MainActivity.MainActivity
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.Models.MacroConstants

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.wanderfar.expander.DynamicPhrases
+package com.wanderfar.expander.DynamicPhraseGenerator
 
 import java.text.SimpleDateFormat
 import java.util.*
@@ -70,7 +70,7 @@ object DynamicPhraseGenerator {
     }
 
 
-    @JvmStatic fun setDynamicPhraseValue (phrase : String, locale : Locale ) : String? {
+    @JvmStatic fun setDynamicPhraseValue (phrase : String, locale : Locale) : String? {
         when (phrase) {
             "!d" -> return SimpleDateFormat("EEEE", locale).format(Calendar.getInstance().time)
             "!ds" -> return SimpleDateFormat("EE", locale).format(Calendar.getInstance().time)

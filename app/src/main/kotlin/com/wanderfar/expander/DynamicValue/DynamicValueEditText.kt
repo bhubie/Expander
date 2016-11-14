@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.wanderfar.expander.DynamicPhrases
+package com.wanderfar.expander.DynamicValue
 
 import android.content.Context
 import android.support.v7.widget.AppCompatEditText
@@ -24,8 +24,8 @@ import android.support.v7.widget.AppCompatEditText
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import com.wanderfar.expander.DynamicPhrases.DynamicValueDrawableGenerator
-import com.wanderfar.expander.DynamicPhrases.DynamicValueDrawableSpan
+import com.wanderfar.expander.DynamicValue.DynamicValueDrawableGenerator
+import com.wanderfar.expander.DynamicValue.DynamicValueDrawableSpan
 import com.wanderfar.expander.R
 
 
