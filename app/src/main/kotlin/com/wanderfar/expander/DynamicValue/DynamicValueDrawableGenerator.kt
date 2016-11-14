@@ -22,7 +22,6 @@ package com.wanderfar.expander.DynamicValue
 import android.content.Context
 import android.text.Spannable
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator
-import com.wanderfar.expander.DynamicValue.DynamicValueDrawableSpan
 
 
 object DynamicValueDrawableGenerator {

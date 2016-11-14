@@ -54,7 +54,7 @@ object DynamicPhraseGenerator {
 
         for ((name, phrase) in dynamicPhraseOptions){
 
-            val regexMatcher = Regex(phrase + "(\\W|$)")
+            val regexMatcher = Regex("$phrase(\\W|$)")
 
             regexMatcher.findAll(textToCheck).forEach {
                 val item = DynamicPhraseFoundModel(

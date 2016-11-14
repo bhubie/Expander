@@ -20,13 +20,11 @@
 package com.wanderfar.expander.DynamicValue
 
 import android.app.Dialog
-import android.app.DialogFragment
-import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.TabLayout
-import android.support.v4.app.*
-import android.support.v4.view.PagerAdapter
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -34,8 +32,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator
-import com.wanderfar.expander.DynamicValue.DynamicValueExampleAdapter
-import com.wanderfar.expander.DynamicValue.DynamicValueAdapter
 import com.wanderfar.expander.R
 import com.wanderfar.expander.Utilities.RecyclerItemClickListener
 
@@ -91,12 +87,8 @@ class DynamicValueDialogFragment : android.support.v4.app.DialogFragment() {
     }
 }
 
-class DynamicValueDialogPagerAdapter : FragmentStatePagerAdapter {
-    var mNumOfTabs : Int = 0
-
-    constructor(fm: FragmentManager, NumOfTabs: Int) :  super(fm) {
-        this.mNumOfTabs = NumOfTabs
-    }
+class DynamicValueDialogPagerAdapter(fm: FragmentManager, NumOfTabs: Int) : FragmentStatePagerAdapter(fm) {
+    var mNumOfTabs : Int = NumOfTabs
 
     override fun getItem(position: Int): Fragment {
         when(position){

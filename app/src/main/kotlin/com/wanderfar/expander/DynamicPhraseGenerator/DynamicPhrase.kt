@@ -19,5 +19,4 @@
 package com.wanderfar.expander.DynamicPhraseGenerator
 
 data class DynamicPhrase (val name : String,
-                          val phrase : String){
-}
+                          val phrase : String)

@@ -50,14 +50,6 @@ class DynamicValueAdapter : RecyclerView.Adapter<DynamicValueAdapter.ViewHolder>
 
     }
 
-
-
-
-    fun remove(position: Int) {
-        mDataset!!.removeAt(position)
-        notifyItemRemoved(position)
-    }
-
     // Provide a suitable constructor (depends on the kind of dataset)
     fun DynamicValueAdapter(context: Context)  {
 

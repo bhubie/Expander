@@ -133,14 +133,14 @@ public class TestUtils {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         editor.clear();
-        editor.commit();
+        editor.apply();
     }
 
     public static void setBooleanPref(Context context, String prefKey, Boolean value){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(prefKey, value);
-        editor.commit();
+        editor.apply();
     }
 
 }

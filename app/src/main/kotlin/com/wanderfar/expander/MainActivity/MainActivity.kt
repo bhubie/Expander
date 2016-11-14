@@ -165,7 +165,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
             println("Services are:" + service.packageNames)
             println("Service ID's: " + service.id)
-            if (id.equals(service.id)) {
+            if (id == service.id) {
                 return true
             }
         }

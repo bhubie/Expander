@@ -64,12 +64,6 @@ public class SeekBarPreference extends DialogPreference implements SeekBar.OnSee
         super(context,attrs);
         mContext = context;
 
-        // Get string value for dialogMessage :
-        int mDialogMessageId = attrs.getAttributeResourceValue(androidns, "dialogMessage", 0);
-        String dialogMessage;
-        if(mDialogMessageId == 0) dialogMessage = attrs.getAttributeValue(androidns, "dialogMessage");
-        else dialogMessage = mContext.getString(mDialogMessageId);
-
         // Get string value for suffix (text attribute in xml file) :
         int mSuffixId = attrs.getAttributeResourceValue(androidns, "text", 0);
         if(mSuffixId == 0) mSuffix = attrs.getAttributeValue(androidns, "text");
@@ -164,8 +158,7 @@ public class SeekBarPreference extends DialogPreference implements SeekBar.OnSee
     @Override
     public void onProgressChanged(SeekBar seek, int value, boolean fromTouch)
     {
-        String t = String.valueOf(value);
-        //mValueText.setText(mSuffix == null ? t : t.concat(" " + mSuffix));
+
         float floatValue = (float) value / FLOAT_CONVERSION;
         mFloatingActionButton.setAlpha(floatValue);
     }
@@ -206,7 +199,7 @@ public class SeekBarPreference extends DialogPreference implements SeekBar.OnSee
 
             mValue = mSeekBar.getProgress();
             persistInt(mSeekBar.getProgress());
-            callChangeListener(Integer.valueOf(mSeekBar.getProgress()));
+            callChangeListener(mSeekBar.getProgress());
         }
 
         (getDialog()).dismiss();

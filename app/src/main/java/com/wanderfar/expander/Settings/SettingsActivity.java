@@ -232,7 +232,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             editor.putBoolean("IsFloatingUIEnabled", true);
         }
 
-        editor.commit();
+        editor.apply();
         setFloatingUITitleAndSummary();
     }
 
@@ -279,9 +279,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            if (!super.onMenuItemSelected(featureId, item)) {
-                //  NavUtils.navigateUpFromSameTask(this);
-            }
+
             return true;
         }
         return super.onMenuItemSelected(featureId, item);

@@ -2,9 +2,7 @@ package com.wanderfar.expander.MacroPresenter;
 
 import com.wanderfar.expander.Application.Expander;
 
-/**
- * Created by bretthuber on 8/16/16.
- */
+
 public class MacroActivityPresenterImplTest {
 
     private Expander mExpander;

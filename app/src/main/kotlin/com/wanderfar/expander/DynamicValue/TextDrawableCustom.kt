@@ -22,13 +22,11 @@ import android.graphics.*
 import android.graphics.drawable.Drawable
 
 
-class TextDrawableCustom(private val text: String, textSize: Int, xPos : Float, yPos : Float) : Drawable() {
+class TextDrawableCustom(private val text: String, textSize: Int, private var xPos : Float, private var yPos : Float) : Drawable() {
     private val textPaint: Paint
     private val backgroundPaint: Paint
     private var textWidth: Float = 0.0f
     private var textSize: Float = 0.0f
-    private var xPos: Float = xPos
-    private var yPos: Float = yPos
 
     init {
 

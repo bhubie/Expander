@@ -20,7 +20,6 @@
 
 package com.wanderfar.expander.Services
 
-import android.preference.PreferenceManager
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.Models.MacroConstants
@@ -171,7 +170,7 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         //Check if the current match we are on matches the previous match and that the starting positions match as well
         //If they do, that means the user "un-did" the match so we shouldn't re-do it
 
-        return currentMatch == previousMatch && currentMatchStart.equals(previousMatchStart)
+        return currentMatch == previousMatch && currentMatchStart == previousMatchStart
     }
 
     private fun replaceDynamicPhrases(textToCheck : String) : String {

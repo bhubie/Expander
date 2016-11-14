@@ -20,14 +20,10 @@ package com.wanderfar.expander.DynamicValue
 
 import android.content.Context
 import android.support.v7.widget.AppCompatTextView
-
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
-
 import android.util.AttributeSet
-import com.wanderfar.expander.DynamicValue.DynamicValueDrawableGenerator
 import com.wanderfar.expander.R
-
 
 
 class DynamicValueTextView : AppCompatTextView {
@@ -36,7 +32,6 @@ class DynamicValueTextView : AppCompatTextView {
     var mIconSize: Int = 0
     var mIconAlignment: Int = 0
     var mIconTextSize: Int = 0
-    var mTextLengthBefore: Int = 0
 
     constructor(context: Context) :  super(context) {
 
@@ -65,7 +60,7 @@ class DynamicValueTextView : AppCompatTextView {
         mIconAlignment =  textSize.toInt()
         mIconTextSize =  textSize.toInt()
 
-        setText(text)
+        text = text
 
         array.recycle()
     }

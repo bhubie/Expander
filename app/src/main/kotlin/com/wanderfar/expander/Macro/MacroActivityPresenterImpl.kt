@@ -141,9 +141,9 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
         val regexFriendlyString = name.replace("(", "\\(").replace(")", "\\)")
 
         when (whenToExpand) {
-            MacroConstants.ON_A_SPACE_OR_PERIOD -> return "(" + regexFriendlyString + ")" + "(\\s|\\.|\\.\\s)"
-            MacroConstants.ON_A_SPACE -> return "(" + regexFriendlyString + ")" + "(\\s)"
-            MacroConstants.ON_A_PERIOD -> return "(" + regexFriendlyString + ")" + "(\\.)"
+            MacroConstants.ON_A_SPACE_OR_PERIOD -> return "($regexFriendlyString)(\\s|\\.|\\.\\s)"
+            MacroConstants.ON_A_SPACE -> return "($regexFriendlyString)(\\s)"
+            MacroConstants.ON_A_PERIOD -> return "($regexFriendlyString)(\\.)"
             MacroConstants.IMMEDIATELY -> return regexFriendlyString
             else -> {
                 return regexFriendlyString

@@ -23,5 +23,4 @@ package com.wanderfar.expander.DynamicPhraseGenerator
 data class DynamicPhraseFoundModel(val phrase : String,
                                    val startPosition : Int,
                                    val endPosition: Int,
-                                   val phraseLength : Int) {
-}
+                                   val phraseLength : Int)

@@ -59,12 +59,7 @@ class MacroListAdapter
         notifyItemInserted(position)
     }
 
-
-    fun remove(position: Int) {
-        mDataset!!.removeAt(position)
-        notifyItemRemoved(position)
-    }
-
+    
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): MacroListAdapter.ViewHolder {

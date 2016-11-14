@@ -24,7 +24,6 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.text.style.DynamicDrawableSpan
-import com.wanderfar.expander.DynamicValue.TextDrawableCustom
 import java.lang.ref.WeakReference
 
 

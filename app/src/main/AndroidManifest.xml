@@ -42,7 +42,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wanderfar.expander.MainActivity.MainActivity" />
         </activity>
-        <activity android:name="com.wanderfar.expander.About.AboutActivity"></activity>
+        <activity android:name="com.wanderfar.expander.About.AboutActivity" />
 
         <service
             android:name="com.wanderfar.expander.Services.MacroAccessibilityService"

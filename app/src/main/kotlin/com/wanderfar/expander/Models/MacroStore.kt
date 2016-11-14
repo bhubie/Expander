@@ -79,9 +79,9 @@ object MacroStore {
     }
 
     fun Macro.areObjectMemberEqual(macroToCheck : Macro): Boolean{
-        return this.name.equals(macroToCheck.name) && this.phrase.equals(macroToCheck.phrase)
-                && this.description.equals(macroToCheck.description) && this.isCaseSensitive.equals(macroToCheck.isCaseSensitive)
-                && this.expandWhenSetting.equals(macroToCheck.expandWhenSetting) && this.macroPattern.equals(macroToCheck.macroPattern)
+        return this.name == macroToCheck.name && this.phrase == macroToCheck.phrase
+                && this.description.equals(macroToCheck.description) && this.isCaseSensitive == macroToCheck.isCaseSensitive
+                && this.expandWhenSetting == macroToCheck.expandWhenSetting && this.macroPattern == macroToCheck.macroPattern
     }
 
 
