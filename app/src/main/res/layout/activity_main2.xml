@@ -48,8 +48,11 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:text="@string/main_activity_no_macro_found_text"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:padding="15dp"/>
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAlignment="center"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="30dp"/>
 
     </RelativeLayout>
 
