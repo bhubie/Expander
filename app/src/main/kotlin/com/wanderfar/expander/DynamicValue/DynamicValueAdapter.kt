@@ -29,12 +29,22 @@ import com.wanderfar.expander.R
 
 
 
-class DynamicValueAdapter : RecyclerView.Adapter<DynamicValueAdapter.ViewHolder>() {
+class DynamicValueAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var mDataset: MutableList<DynamicPhrase>? = null
     private var position: Int = 0
+    private val TYPE_HEADER: Int = 0
+    private val TYPE_ITEM: Int = 1
 
 
+    override fun getItemViewType(position: Int): Int {
+        //if (check condition here with your listData)) // if it is headerView return header type
+        if (mDataset?.get(position)?.name == "Date/Time" || mDataset?.get(position)?.name == "Misc"){
+            return TYPE_HEADER
+        } else {
+            return TYPE_ITEM
+        }
+    }
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -42,9 +52,18 @@ class DynamicValueAdapter : RecyclerView.Adapter<DynamicValueAdapter.ViewHolder>
         // each data item is just a string in this case
         var title: TextView
 
-
         init {
             title = v.findViewById(R.id.dynamic_value_title) as TextView
+
+        }
+    }
+
+    inner class HeaderViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+        // each data item is just a string in this case
+        var headerTitle: TextView
+
+        init {
+            headerTitle = v.findViewById(R.id.dynamic_value_header) as TextView
 
         }
 
@@ -57,18 +76,31 @@ class DynamicValueAdapter : RecyclerView.Adapter<DynamicValueAdapter.ViewHolder>
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): ViewHolder {
+                                    viewType: Int): RecyclerView.ViewHolder {
         // create a new view
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_dynamic_value, parent, false)
-        // set the view's size, margins, paddings and layout parameters
-        val vh = ViewHolder(v)
-        return vh
+        if (viewType == TYPE_ITEM){
+            val v = LayoutInflater.from(parent.context).inflate(R.layout.item_dynamic_value, parent, false)
+            return  ViewHolder(v)
+        }
+        else {
+            val v = LayoutInflater.from(parent.context).inflate(R.layout.item_dynamic_header, parent, false)
+            return  HeaderViewHolder(v)
+        }
     }
 
     // Replace the contents of a view (invoked by the layout manager)
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        holder.title.text = mDataset!![position].name
+        when (holder.itemViewType){
+            TYPE_ITEM ->  {
+                val vh = holder as ViewHolder
+                vh.title.text = mDataset!![position].name
+            }
+            TYPE_HEADER -> {
+                val vh = holder as HeaderViewHolder
+                vh.headerTitle.text = mDataset!![position].name
+            }
+        }
 
     }
 
@@ -79,6 +111,7 @@ class DynamicValueAdapter : RecyclerView.Adapter<DynamicValueAdapter.ViewHolder>
 
     fun setItems(items: MutableList<DynamicPhrase>) {
         this.mDataset = items
+        this.mDataset?.add(0, DynamicPhrase("Date/Time", "0")) //Add Header for date time
     }
 
 

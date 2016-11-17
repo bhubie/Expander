@@ -137,10 +137,11 @@ class DynamicValueFragment : Fragment() {
 
         recyclerView.addOnItemTouchListener(RecyclerItemClickListener(activity, recyclerView, object : RecyclerItemClickListener.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
-                val activity = activity as DynamicValueDialogFragment.DynamicValueDialogListener
-                activity.onFinishDialog(adapter.getDynamicValue(position))
+                if(position != 0){
+                    val activity = activity as DynamicValueDialogFragment.DynamicValueDialogListener
+                    activity.onFinishDialog(adapter.getDynamicValue(position))
+                }
 
-                //dialogDismissListener.onDismissDialog()
             }
             override fun onItemLongClick(view: View, position: Int) {
 

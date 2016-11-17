@@ -430,10 +430,35 @@ public class MacroActivityTest {
 
         //Click the first item in the recyclerview
         onView(withId(R.id.dynamicValueRecyclerView)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                RecyclerViewActions.actionOnItemAtPosition(1, click()));
 
         //Validate the phrase now contains the dynamic value phrase for day of week
         onView(withId(R.id.input_phrase)).check(matches(withText("Test Phrase !d")));
+    }
+
+    @Test
+    public void clickDynamicValueHeader(){
+        //Validates that when you click the add dynamic value header for Date/Time that nothing happens
+
+        //Clear shared Prefs
+        clearSharedPrefs(InstrumentationRegistry.getTargetContext());
+
+        //Set pref
+        setBooleanPref(InstrumentationRegistry.getTargetContext(), "isDynamicValuesEnabled", true);
+
+        //launch the main activity
+        Intent intent = new Intent();
+        mActivityTestRule.launchActivity(intent);
+
+        //Click the dynamic value button
+        onView(withId(R.id.dynamic_value_button)).perform(click());
+
+        //Click the first item in the recyclerview
+        onView(withId(R.id.dynamicValueRecyclerView)).perform(
+                RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+        //Validate the phrase now contains the dynamic value phrase for day of week
+        onView(withId(R.id.dynamicValueRecyclerView)).check(matches(isDisplayed()));
     }
 
     @Test
