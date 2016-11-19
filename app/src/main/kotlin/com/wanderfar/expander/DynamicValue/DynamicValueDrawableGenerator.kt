@@ -64,15 +64,16 @@ object DynamicValueDrawableGenerator {
     fun getFriendlyName(phrase: String): String{
 
         when(phrase){
-            "!d"    -> return "Day of Week"
-            "!ds"   -> return "Day of Week (Short)"
-            "!dm"   -> return "Day of Month"
-            "!ms"   -> return "Month (Short Name)"
-            "!m"    -> return "Month"
-            "!y"    -> return "Year"
-            "!ys"   -> return "Year (Short)"
-            "!t12h" -> return "Time (12 Hours)"
-            "!t24h" -> return "Time (24 Hours)"
+            "!d"            -> return "Day of Week"
+            "!ds"           -> return "Day of Week (Short)"
+            "!dm"           -> return "Day of Month"
+            "!ms"           -> return "Month (Short Name)"
+            "!m"            -> return "Month"
+            "!y"            -> return "Year"
+            "!ys"           -> return "Year (Short)"
+            "!t12h"         -> return "Time (12 Hours)"
+            "!t24h"         -> return "Time (24 Hours)"
+            "!clipboard"    -> return "Device Clipboard"
 
             else -> {
                 return "Unknown"

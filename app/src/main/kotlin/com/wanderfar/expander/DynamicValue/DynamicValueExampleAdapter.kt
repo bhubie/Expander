@@ -24,6 +24,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.wanderfar.expander.Application.Expander
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhrase
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator
 import com.wanderfar.expander.R
@@ -71,7 +72,7 @@ class DynamicValueExampleAdapter : RecyclerView.Adapter<DynamicValueExampleAdapt
 
         holder.name.text = mDataset!![position].name + "\t -> \t"
         holder.example.text = DynamicPhraseGenerator
-                .setDynamicPhraseValue(mDataset!![position].phrase, Locale.getDefault())
+                .setDynamicPhraseValue(Expander.context, mDataset!![position].phrase, Locale.getDefault())
 
     }
 

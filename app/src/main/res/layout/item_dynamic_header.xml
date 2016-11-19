@@ -13,7 +13,6 @@
         android:id="@+id/dynamic_value_header"
         android:textAppearance="?android:attr/textAppearanceListItem"
         android:textColor="@color/colorAccent"
-
         android:textSize="18sp"
         />
 </RelativeLayout>

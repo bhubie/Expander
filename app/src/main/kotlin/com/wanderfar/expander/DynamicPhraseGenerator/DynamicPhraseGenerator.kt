@@ -18,6 +18,9 @@
 
 package com.wanderfar.expander.DynamicPhraseGenerator
 
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,7 +38,8 @@ object DynamicPhraseGenerator {
             DynamicPhrase("Year", "!y"),
             DynamicPhrase("Year (Short)", "!ys"),
             DynamicPhrase("Time (12 Hours)", "!t12h"),
-            DynamicPhrase("Time (24 Hours)", "!t24h")
+            DynamicPhrase("Time (24 Hours)", "!t24h"),
+            DynamicPhrase("Clipboard", "!clipboard")
         )
 
     @JvmStatic fun getDynamicPhrases() : Array<DynamicPhrase> {
@@ -70,7 +74,7 @@ object DynamicPhraseGenerator {
     }
 
 
-    @JvmStatic fun setDynamicPhraseValue (phrase : String, locale : Locale) : String? {
+    @JvmStatic fun setDynamicPhraseValue (context: Context, phrase: String, locale: Locale) : String? {
         when (phrase) {
             "!d" -> return SimpleDateFormat("EEEE", locale).format(Calendar.getInstance().time)
             "!ds" -> return SimpleDateFormat("EE", locale).format(Calendar.getInstance().time)
@@ -81,6 +85,14 @@ object DynamicPhraseGenerator {
             "!ys" -> return  SimpleDateFormat("yy", locale).format(Calendar.getInstance().time)
             "!t12h" -> return  SimpleDateFormat("hh:mm aaa", locale).format(Calendar.getInstance().time)
             "!t24h" -> return  SimpleDateFormat("HH:mm", locale).format(Calendar.getInstance().time)
+            "!clipboard" -> {
+                val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                if (clipboard.primaryClip == null){
+                    return ""
+                } else {
+                    return clipboard.primaryClip.getItemAt(0).text.toString()
+                }
+            }
             else -> {
                 return null
             }

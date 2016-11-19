@@ -20,6 +20,7 @@
 
 package com.wanderfar.expander.Services
 
+import com.wanderfar.expander.Application.Expander
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.Models.MacroConstants
@@ -190,7 +191,7 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
             for ((phrase) in dynamicPhrases){
                 //Get the value of the phrase
-                val phraseValue = DynamicPhraseGenerator.setDynamicPhraseValue(phrase, Locale.getDefault())
+                val phraseValue = DynamicPhraseGenerator.setDynamicPhraseValue(Expander.context, phrase, Locale.getDefault())
 
                 //Replace it in the text and return it
                 updatedText = updatedText.replace(phrase, phraseValue.toString(), false)

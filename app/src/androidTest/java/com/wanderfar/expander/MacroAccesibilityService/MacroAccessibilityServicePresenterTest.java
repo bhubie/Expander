@@ -1,32 +1,40 @@
-package com.wanderfar.expander.MacroAccessibilityService;
+package com.wanderfar.expander.MacroAccesibilityService;
 
 
 
 
 
+
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
+import com.wanderfar.expander.Application.Expander;
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhrase;
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator;
 import com.wanderfar.expander.Models.Macro;
 import com.wanderfar.expander.Services.MacroAccessibilityServicePresenterImpl;
 import com.wanderfar.expander.Services.MacroAccessibilityServiceView;
-import com.wanderfar.expander.TestHelpers.TestHelpers;
+import com.wanderfar.expander.TestHelpers.MacroTestHelpers;
 
 import org.junit.Before;
 import org.junit.Test;
-
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 
+
+@RunWith(AndroidJUnit4.class)
+@PrepareForTest({Expander.class})
 public class MacroAccessibilityServicePresenterTest {
 
     private List<Macro> macroList = new ArrayList<>();
@@ -66,6 +74,11 @@ public class MacroAccessibilityServicePresenterTest {
 
 
 
+    //@Mock
+    //Context mMockContext;
+
+
+
     @Before
     public void setupData(){
         macroAccessibilityServiceView = mock(MacroAccessibilityServiceView.class);
@@ -73,11 +86,13 @@ public class MacroAccessibilityServicePresenterTest {
 
     }
 
+
+
     @Test
     public void matchedMacroWithASpace(){
         //Tests that if we have macro within the text bounds and the user hits space, that we successfully update the passed in text with the macro phrase
 
-        macroList.add(TestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(MacroTestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description", false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList, TESTMACRO_TEXT_BEFORE_WITH_SPACE,
                 TESTMACRO_CURSOR_POSITION_BEFORE_WITH_SPACE, true);
@@ -90,7 +105,7 @@ public class MacroAccessibilityServicePresenterTest {
     public void matchedMacroWithAPeriod(){
         //Tests that if we have a macro within the text bounds and the user types a period that we successfully update the passed in text with the phrase of the matched macro
 
-        macroList.add(TestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(MacroTestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description", false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList, TESTMACRO_TEXT_BEFORE_WITH_PERIOD,
                 TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD, true);
@@ -104,7 +119,7 @@ public class MacroAccessibilityServicePresenterTest {
         String text = "Here is some text that doesn't contain a Macro from the list";
         int cursorPosition = text.length();
 
-        macroList.add(TestHelpers.createMacro("Test", "Test Phrase", null, false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(MacroTestHelpers.createMacro("Test", "Test Phrase", null, false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList, text, cursorPosition, true);
         verify(macroAccessibilityServiceView, never()).updateText(text, cursorPosition);
@@ -115,8 +130,8 @@ public class MacroAccessibilityServicePresenterTest {
     public void macroMatchNotWithinTextBounds(){
         //Tests that if a macro is present within the passed in text and it isn't in the text bounds range that we do not update the text even though there is a match
 
-        macroList.add(TestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description",
-                false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(MacroTestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description",
+                false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList, TESTMACRO_TEXT_BEFORE_WITH_PERIOD,
                 TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD, true);
@@ -129,7 +144,7 @@ public class MacroAccessibilityServicePresenterTest {
     public void undoSetTextTest(){
         //Tests that if the undo set text method is called that undo and set the text back to be the previous matched macro name
 
-        macroList.add(TestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(MacroTestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description", false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList, TESTMACRO_TEXT_BEFORE_WITH_PERIOD,
                 TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD, true);
@@ -152,7 +167,7 @@ public class MacroAccessibilityServicePresenterTest {
         int cursorPositionAfter = textAfter.length();
 
 
-        macroList.add(TestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", true, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(MacroTestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", true, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList, textBefore, cursorPositionBefore, true);
 
         verify(macroAccessibilityServiceView, never()).updateText(textAfter, cursorPositionAfter);
@@ -168,7 +183,7 @@ public class MacroAccessibilityServicePresenterTest {
         int cursorPositionAfter = textAfter.length();
 
 
-        macroList.add(TestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", true, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(MacroTestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", true, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList, textBefore, cursorPositionBefore, true);
 
         verify(macroAccessibilityServiceView, times(1)).updateText(textAfter, cursorPositionAfter);
@@ -179,7 +194,7 @@ public class MacroAccessibilityServicePresenterTest {
         //if i have a macro that is not case sensitive and lowercase and the user passes in the macro in uppercase
         //I should have a match and pass back the expanded phrase
 
-        macroList.add(TestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(MacroTestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TESTMACRO_CASE_SENSITIVE_TEXT_BEFORE_WITH_PERIOD_MACRO_LOWERCASE,
                 TESTMACRO_CASE_SENSITIVE_CURSOR_POSITION_BEFORE_WITH_PERIOD, true);
@@ -193,7 +208,7 @@ public class MacroAccessibilityServicePresenterTest {
     public void macroSetToExpandOnASpace(){
         //Tests that if the given macro is set to expand on a space that it does
 
-        macroList.add(TestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, TestHelpers.ON_A_SPACE));
+        macroList.add(MacroTestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, MacroTestHelpers.ON_A_SPACE));
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TESTMACRO_TEXT_BEFORE_WITH_SPACE,
                 TESTMACRO_CURSOR_POSITION_BEFORE_WITH_SPACE, true);
@@ -208,7 +223,7 @@ public class MacroAccessibilityServicePresenterTest {
     public void macroSetToExpandImmediately(){
         //Tests that if the given macro is set to Expand Immedietely, that it does
 
-        macroList.add(TestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, TestHelpers.IMMEDIATELY));
+        macroList.add(MacroTestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, MacroTestHelpers.IMMEDIATELY));
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TESTMACRO_TEXT_BEFORE_EXPAND_IMMEDIATELY,
                 TESTMACRO_CURSOR_POSITION_BEFORE_EXPAND_IMMEDIATELY, true);
@@ -226,10 +241,10 @@ public class MacroAccessibilityServicePresenterTest {
         macroList.clear();
 
 
-        macroList.add(TestHelpers.createMacro("TESTMACRO",
+        macroList.add(MacroTestHelpers.createMacro("TESTMACRO",
                 "Test Macro Phrase",
                 "TestMacro Description",
-                false, TestHelpers.ON_A_PERIOD));
+                false, MacroTestHelpers.ON_A_PERIOD));
 
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
@@ -245,10 +260,10 @@ public class MacroAccessibilityServicePresenterTest {
     public void macroSetToExpandOnASpaceOrPeriodTestWithSpace(){
         //Tests that if the given macro is set to Expand on a period or space, and the user hits space that it expands
 
-        macroList.add(TestHelpers.createMacro("TESTMACRO",
+        macroList.add(MacroTestHelpers.createMacro("TESTMACRO",
                 "Test Macro Phrase",
                 "TestMacro Description",
-                false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+                false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TESTMACRO_TEXT_BEFORE_WITH_SPACE,
@@ -264,10 +279,10 @@ public class MacroAccessibilityServicePresenterTest {
     public void macroSetToExpandOnASpaceOrPeriodTestWithPeriod(){
         //Tests that if the given macro is set to Expand on a period or space, and the user hits a period that it expands
 
-        macroList.add(TestHelpers.createMacro("TESTMACRO",
+        macroList.add(MacroTestHelpers.createMacro("TESTMACRO",
                 "Test Macro Phrase",
                 "TestMacro Description",
-                false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+                false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
         macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
                 TESTMACRO_TEXT_BEFORE_WITH_PERIOD,
                 TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD, true);
@@ -331,8 +346,8 @@ public class MacroAccessibilityServicePresenterTest {
         String MacroPhrase = "!d is the current day of the week";
         String TextBefore = MacroName + ".";
 
-        macroList.add(TestHelpers.createMacro(MacroName,
-                MacroPhrase, "Ending phrase should have the current day of week", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(MacroTestHelpers.createMacro(MacroName,
+                MacroPhrase, "Ending phrase should have the current day of week", false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
 
         String textAfterExpansionWithPeriod = DAY_OF_WEEK_LONG + " is the current day of the week.";
@@ -354,8 +369,8 @@ public class MacroAccessibilityServicePresenterTest {
         String MacroName = "DayOfWeekMacroShort";
         String MacroPhrase = "!ds is the current day of the week";
         String TextBefore = MacroName + ".";
-        macroList.add(TestHelpers.createMacro(MacroName,
-                MacroPhrase, "Ending phrase should have the current day of week", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(MacroTestHelpers.createMacro(MacroName,
+                MacroPhrase, "Ending phrase should have the current day of week", false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
         String textAfterExpansionWithPeriod = DAY_OF_WEEK_SHORT + " is the current day of the week.";
 
@@ -377,8 +392,8 @@ public class MacroAccessibilityServicePresenterTest {
         String MacroName = "DayOfMonth";
         String MacroPhrase = "!dm is the current day of the month";
         String TextBefore = MacroName + ".";
-        macroList.add(TestHelpers.createMacro(MacroName,
-                MacroPhrase, "Ending phrase should have the current day of the month", false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(MacroTestHelpers.createMacro(MacroName,
+                MacroPhrase, "Ending phrase should have the current day of the month", false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
 
         String textAfterExpansionWithPeriod = DAY_OF_MONTH + " is the current day of the month.";
@@ -403,8 +418,8 @@ public class MacroAccessibilityServicePresenterTest {
         String MacroName = "MonthName";
         String MacroPhrase = "The current Month is !m";
         String TextBefore = MacroName + ".";
-        macroList.add(TestHelpers.createMacro(MacroName,
-                MacroPhrase, null, false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(MacroTestHelpers.createMacro(MacroName,
+                MacroPhrase, null, false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
 
         String textAfterExpansionWithPeriod = "The current Month is " + MONTH_LONG + ".";
@@ -428,8 +443,8 @@ public class MacroAccessibilityServicePresenterTest {
         String MacroName = "MonthNameShort";
         String MacroPhrase = "The current Month short name is !ms";
         String TextBefore = MacroName + ".";
-        macroList.add(TestHelpers.createMacro(MacroName,
-                MacroPhrase, null, false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(MacroTestHelpers.createMacro(MacroName,
+                MacroPhrase, null, false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
 
         String textAfterExpansionWithPeriod = "The current Month short name is " + MONTH_SHORT + ".";
@@ -453,8 +468,8 @@ public class MacroAccessibilityServicePresenterTest {
         String MacroName = "Year";
         String MacroPhrase = "The current Year is !y";
         String TextBefore = MacroName + ".";
-        macroList.add(TestHelpers.createMacro(MacroName,
-                MacroPhrase, null, false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(MacroTestHelpers.createMacro(MacroName,
+                MacroPhrase, null, false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
 
         String textAfterExpansionWithPeriod = "The current Year is " + YEAR + ".";
@@ -478,8 +493,8 @@ public class MacroAccessibilityServicePresenterTest {
         String MacroName = "YearShort";
         String MacroPhrase = "The current Year is !ys";
         String TextBefore = MacroName + ".";
-        macroList.add(TestHelpers.createMacro(MacroName,
-                MacroPhrase, null, false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(MacroTestHelpers.createMacro(MacroName,
+                MacroPhrase, null, false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
 
         String textAfterExpansionWithPeriod = "The current Year is " + YEAR_SHORT + ".";
@@ -503,8 +518,8 @@ public class MacroAccessibilityServicePresenterTest {
         String MacroName = "Time12Hours";
         String MacroPhrase = "The current time in 12 hours is !t12h";
         String TextBefore = MacroName + ".";
-        macroList.add(TestHelpers.createMacro(MacroName,
-                MacroPhrase, null, false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(MacroTestHelpers.createMacro(MacroName,
+                MacroPhrase, null, false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
 
         String textAfterExpansionWithPeriod = "The current time in 12 hours is " + TIME_12_HOURS + ".";
@@ -528,8 +543,8 @@ public class MacroAccessibilityServicePresenterTest {
         String MacroName = "Time24Hours";
         String MacroPhrase = "The current time in 24 hour format is !t24h";
         String TextBefore = MacroName + ".";
-        macroList.add(TestHelpers.createMacro(MacroName,
-                MacroPhrase, null, false, TestHelpers.ON_A_SPACE_OR_PERIOD));
+        macroList.add(MacroTestHelpers.createMacro(MacroName,
+                MacroPhrase, null, false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
         String textAfterExpansionWithPeriod = "The current time in 24 hour format is " + TIME_24_HOURS + ".";
 
@@ -542,45 +557,55 @@ public class MacroAccessibilityServicePresenterTest {
                 textAfterExpansionWithPeriod .length());
     }
 
+
     @Test
     public void macroWithDynamicValueUndoButtonTest(){
         //Tests that when there is a dynamic value in a macro phrase and the user hits undo
         //That the phrase is undone successfully
         //Test will make sure it works for every dynamic value
 
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+
+
+                DynamicPhrase[] dynamicValues = DynamicPhraseGenerator.getDynamicPhrases();
+
+                for (DynamicPhrase phrase: dynamicValues) {
+
+                    macroAccessibilityServiceView = mock(MacroAccessibilityServiceView.class);
+                    macroAccessibilityServicePresenter = new MacroAccessibilityServicePresenterImpl(macroAccessibilityServiceView);
+                    macroList.clear();
+
+                    String macroName = phrase.getName();
+                    String macroPhrase = "The output is: " + phrase.getPhrase();
+                    System.out.println(phrase.getName() + " " + phrase.getPhrase());
+                    String textBefore = macroName + ".";
+                    System.out.println(textBefore);
+                    String textAfterExpansion = "The output is: "
+                            + DynamicPhraseGenerator.setDynamicPhraseValue(InstrumentationRegistry.getTargetContext(), phrase.getPhrase(), US_LOCALE)
+                            + ".";
+
+                    macroList.add(MacroTestHelpers.createMacro(macroName,
+                            macroPhrase, null, false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
+
+                    macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
+                            textBefore,
+                            textBefore.length(), true);
+
+                    verify(macroAccessibilityServiceView, times(1)).updateText(
+                            textAfterExpansion,
+                            textAfterExpansion.length());
+
+                    macroAccessibilityServicePresenter.undoSetText();
+                    verify(macroAccessibilityServiceView, times(1)).updateText(textBefore,
+                            textBefore.length());
+                }
+            }
+        });
+
         macroList.clear();
 
-        DynamicPhrase[] dynamicValues = DynamicPhraseGenerator.getDynamicPhrases();
 
-        for (DynamicPhrase phrase: dynamicValues) {
-
-            macroAccessibilityServiceView = mock(MacroAccessibilityServiceView.class);
-            macroAccessibilityServicePresenter = new MacroAccessibilityServicePresenterImpl(macroAccessibilityServiceView);
-            macroList.clear();
-
-            String macroName = phrase.getName();
-            String macroPhrase = "The output is: " + phrase.getPhrase();
-            System.out.println(phrase.getName() + " " + phrase.getPhrase());
-            String textBefore = macroName + ".";
-            System.out.println(textBefore);
-            String textAfterExpansion = "The output is: "
-                    + DynamicPhraseGenerator.setDynamicPhraseValue(phrase.getPhrase(), US_LOCALE)
-                    + ".";
-
-            macroList.add(TestHelpers.createMacro(macroName,
-                    macroPhrase, null, false, TestHelpers.ON_A_SPACE_OR_PERIOD));
-
-            macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
-                    textBefore,
-                    textBefore.length(), true);
-
-           verify(macroAccessibilityServiceView, times(1)).updateText(
-                    textAfterExpansion,
-                    textAfterExpansion.length());
-
-            macroAccessibilityServicePresenter.undoSetText();
-            verify(macroAccessibilityServiceView, times(1)).updateText(textBefore,
-                    textBefore.length());
-        }
     }
 }

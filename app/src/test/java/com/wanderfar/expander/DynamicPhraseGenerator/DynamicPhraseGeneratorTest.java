@@ -21,15 +21,27 @@
 package com.wanderfar.expander.DynamicPhraseGenerator;
 
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+
 import com.wanderfar.expander.TestHelpers.TestHelpers;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import static android.content.Context.CLIPBOARD_SERVICE;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -47,6 +59,7 @@ public class DynamicPhraseGeneratorTest {
     private final String YEAR_SHORT_PHRASE = "!ys";
     private final String TIME_12HR_PHRASE = "!t12h";
     private final String TIME_24HR_PHRASE = "!t24h";
+    private final String CLIPBOARD_PHRASE = "!clipboard";
 
 
     private final Locale US_LOCALE = new Locale("en", "US");
@@ -66,6 +79,16 @@ public class DynamicPhraseGeneratorTest {
     private final String SUNDAY = "Sunday";
     private final String SUNDAY_SHORT = "Sun";
 
+    @Before
+    public void setup(){
+
+    }
+
+    @Mock
+    Context mMockContext;
+
+
+
 
     //Long day of week tests
 
@@ -77,7 +100,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(MONDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_OF_WEEK_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, DAY_OF_WEEK_PHRASE, US_LOCALE);
         assertEquals(MONDAY, result);
     }
 
@@ -89,7 +112,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(TUESDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_OF_WEEK_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, DAY_OF_WEEK_PHRASE, US_LOCALE);
         assertEquals(TUESDAY, result);
     }
 
@@ -101,7 +124,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(WEDNESDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_OF_WEEK_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, DAY_OF_WEEK_PHRASE, US_LOCALE);
         assertEquals(WEDNESDAY, result);
     }
 
@@ -113,7 +136,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(THURSDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_OF_WEEK_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, DAY_OF_WEEK_PHRASE, US_LOCALE);
         assertEquals(THURSDAY, result);
     }
 
@@ -125,7 +148,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(FRIDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_OF_WEEK_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, DAY_OF_WEEK_PHRASE, US_LOCALE);
         assertEquals(FRIDAY, result);
     }
 
@@ -137,7 +160,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(SATURDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_OF_WEEK_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, DAY_OF_WEEK_PHRASE, US_LOCALE);
         assertEquals(SATURDAY, result);
     }
 
@@ -149,7 +172,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(SUNDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_OF_WEEK_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, DAY_OF_WEEK_PHRASE, US_LOCALE);
         assertEquals(SUNDAY, result);
     }
 
@@ -163,7 +186,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(MONDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
         assertEquals(MONDAY_SHORT, result);
     }
 
@@ -175,7 +198,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(TUESDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
         assertEquals(TUESDAY_SHORT, result);
     }
 
@@ -187,7 +210,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(WEDNESDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
         assertEquals(WEDNESDAY_SHORT, result);
     }
 
@@ -199,7 +222,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(THURSDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
         assertEquals(THURSDAY_SHORT, result);
     }
 
@@ -211,7 +234,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(FRIDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
         assertEquals(FRIDAY_SHORT, result);
     }
 
@@ -223,7 +246,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(SATURDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
         assertEquals(SATURDAY_SHORT, result);
     }
 
@@ -235,7 +258,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(SUNDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, DAY_Of_WEEK_SHORT_PHRASE, US_LOCALE);
         assertEquals(SUNDAY_SHORT, result);
     }
 
@@ -248,7 +271,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(SUNDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(DAY_OF_MONTH_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, DAY_OF_MONTH_PHRASE, US_LOCALE);
         assertEquals("21", result);
     }
 
@@ -261,7 +284,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(SUNDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(MONTH_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, MONTH_PHRASE, US_LOCALE);
         assertEquals("June", result);
 
     }
@@ -273,7 +296,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(SUNDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(MONTH_SHORT_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, MONTH_SHORT_PHRASE, US_LOCALE);
         assertEquals("Jun", result);
 
     }
@@ -286,7 +309,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(SUNDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(YEAR_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, YEAR_PHRASE, US_LOCALE);
         assertEquals("2015", result);
 
     }
@@ -298,7 +321,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(SUNDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(YEAR_SHORT_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, YEAR_SHORT_PHRASE, US_LOCALE);
         assertEquals("15", result);
 
     }
@@ -311,7 +334,7 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(SUNDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(TIME_12HR_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, TIME_12HR_PHRASE, US_LOCALE);
         assertEquals("05:35 PM", result);
 
     }
@@ -323,9 +346,45 @@ public class DynamicPhraseGeneratorTest {
         mockStatic(Calendar.class);
         Date date = TestHelpers.getAPastDayOfTheWeek(SUNDAY);
         when(Calendar.getInstance().getTime()).thenReturn(date);
-        String result = DynamicPhraseGenerator.setDynamicPhraseValue(TIME_24HR_PHRASE, US_LOCALE);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, TIME_24HR_PHRASE, US_LOCALE);
         assertEquals("17:35", result);
 
+    }
+
+    @Test
+    public void clipboardTest(){
+        //Tests that if the dynamic phrase for clipboard is used we return what is in the clipboard
+
+        String clipboardText = "Clipboard Text";
+
+        //Mock a clipboard
+        ClipboardManager clipboard = Mockito.mock(ClipboardManager.class);
+        ClipData clipData = Mockito.mock(ClipData.class);
+        ClipData.Item item = Mockito.mock(ClipData.Item.class);
+        CharSequence charSequence = Mockito.mock(CharSequence.class);
+
+
+        when(mMockContext.getSystemService(CLIPBOARD_SERVICE)).thenReturn(clipboard);
+        when(clipboard.getPrimaryClip()).thenReturn(clipData);
+        when(clipData.getItemAt(0)).thenReturn(item);
+        when(item.getText()).thenReturn(charSequence);
+        when(charSequence.toString()).thenReturn(clipboardText);
+
+
+        String results = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, CLIPBOARD_PHRASE, US_LOCALE);
+
+        assertEquals(clipboardText, results);
+    }
+
+    @Test
+    public void noClipboardTest(){
+        //Tests that when the clipboard is null that we return an empty string when the phrase is expanded
+        //Only need to mock the clipboard manager as the Clip data will be null if we don't mock it
+
+        ClipboardManager clipboard = Mockito.mock(ClipboardManager.class);
+        when(mMockContext.getSystemService(CLIPBOARD_SERVICE)).thenReturn(clipboard);
+        String results = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, CLIPBOARD_PHRASE, US_LOCALE);
+        assertEquals("", results);
     }
 
 }

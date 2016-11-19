@@ -26,8 +26,7 @@ import io.paperdb.Paper
 
 
 
-class Expander : Application() {
-
+class Expander: Application() {
 
 
     companion object {
@@ -38,7 +37,6 @@ class Expander : Application() {
 
 
 
-
     override fun onCreate() {
         super.onCreate()
 
@@ -46,11 +44,6 @@ class Expander : Application() {
         Paper.init(applicationContext)
 
         context = applicationContext
-
-
     }
-
-
-
 
 }
