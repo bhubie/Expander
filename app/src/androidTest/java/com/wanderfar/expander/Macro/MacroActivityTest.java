@@ -438,7 +438,7 @@ public class MacroActivityTest {
 
     @Test
     public void clickDynamicValueHeader(){
-        //Validates that when you click the add dynamic value header for Date/Time that nothing happens
+        //Validates that when you click the add dynamic value header for Date/Time or Misc that nothing happens
 
         //Clear shared Prefs
         clearSharedPrefs(InstrumentationRegistry.getTargetContext());
@@ -457,7 +457,14 @@ public class MacroActivityTest {
         onView(withId(R.id.dynamicValueRecyclerView)).perform(
                 RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-        //Validate the phrase now contains the dynamic value phrase for day of week
+        //Validate the recyclierview is still displayed
+        onView(withId(R.id.dynamicValueRecyclerView)).check(matches(isDisplayed()));
+
+        //Click the 10th item in the recylerview.
+        onView(withId(R.id.dynamicValueRecyclerView)).perform(
+                RecyclerViewActions.actionOnItemAtPosition(10, click()));
+
+        //Validate the recyclierview is still displayed
         onView(withId(R.id.dynamicValueRecyclerView)).check(matches(isDisplayed()));
     }
 

@@ -137,9 +137,13 @@ class DynamicValueFragment : Fragment() {
 
         recyclerView.addOnItemTouchListener(RecyclerItemClickListener(activity, recyclerView, object : RecyclerItemClickListener.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
-                if(position != 0){
-                    val activity = activity as DynamicValueDialogFragment.DynamicValueDialogListener
-                    activity.onFinishDialog(adapter.getDynamicValue(position))
+                //If the position does not equal our header rows add the item to the activity
+                when(position){
+                    0, 10 -> ""//do nothing
+                    else ->{
+                        val activity = activity as DynamicValueDialogFragment.DynamicValueDialogListener
+                        activity.onFinishDialog(adapter.getDynamicValue(position))
+                    }
                 }
 
             }
