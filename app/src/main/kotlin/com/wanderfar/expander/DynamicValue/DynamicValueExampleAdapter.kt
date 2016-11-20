@@ -31,11 +31,21 @@ import com.wanderfar.expander.R
 import java.util.*
 
 
-class DynamicValueExampleAdapter : RecyclerView.Adapter<DynamicValueExampleAdapter.ViewHolder>() {
+class DynamicValueExampleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var mDataset: MutableList<DynamicPhrase>? = null
     private var position: Int = 0
+    private val TYPE_HEADER: Int = 0
+    private val TYPE_ITEM: Int = 1
 
+    override fun getItemViewType(position: Int): Int {
+        //if (check condition here with your listData)) // if it is headerView return header type
+        if (mDataset?.get(position)?.name == "Date/Time" || mDataset?.get(position)?.name == "Misc"){
+            return TYPE_HEADER
+        } else {
+            return TYPE_ITEM
+        }
+    }
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -52,6 +62,17 @@ class DynamicValueExampleAdapter : RecyclerView.Adapter<DynamicValueExampleAdapt
 
     }
 
+    inner class HeaderViewHolder(v: View) : RecyclerView.ViewHolder(v) {
+        // each data item is just a string in this case
+        var headerTitle: TextView
+
+        init {
+            headerTitle = v.findViewById(R.id.dynamic_value_header) as TextView
+
+        }
+
+    }
+
 
     // Provide a suitable constructor (depends on the kind of dataset)
     fun DynamicValueExampleAdapter(context: Context)  {
@@ -60,19 +81,39 @@ class DynamicValueExampleAdapter : RecyclerView.Adapter<DynamicValueExampleAdapt
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): ViewHolder {
+                                    viewType: Int): RecyclerView.ViewHolder {
+
+
         // create a new view
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_dynamic_value_example, parent, false)
-        val vh = ViewHolder(v)
-        return vh
+        if (viewType == TYPE_ITEM){
+            // create a new view
+            val v = LayoutInflater.from(parent.context).inflate(R.layout.item_dynamic_value_example, parent, false)
+            val vh = ViewHolder(v)
+            return vh
+        }
+        else {
+            val v = LayoutInflater.from(parent.context).inflate(R.layout.item_dynamic_header, parent, false)
+            return  HeaderViewHolder(v)
+        }
     }
 
     // Replace the contents of a view (invoked by the layout manager)
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        holder.name.text = mDataset!![position].name + "\t -> \t"
-        holder.example.text = DynamicPhraseGenerator
-                .setDynamicPhraseValue(Expander.context, mDataset!![position].phrase, Locale.getDefault())
+
+
+        when (holder.itemViewType){
+            TYPE_ITEM ->  {
+                val vh = holder as DynamicValueExampleAdapter.ViewHolder
+                vh.name.text = mDataset!![position].name + "\t -> \t"
+                vh.example.text = DynamicPhraseGenerator
+                        .setDynamicPhraseValue(Expander.context, mDataset!![position].phrase, Locale.getDefault())
+            }
+            TYPE_HEADER -> {
+                val vh = holder as DynamicValueExampleAdapter.HeaderViewHolder
+                vh.headerTitle.text = mDataset!![position].name
+            }
+        }
 
     }
 
@@ -83,6 +124,8 @@ class DynamicValueExampleAdapter : RecyclerView.Adapter<DynamicValueExampleAdapt
 
     fun setItems(items: MutableList<DynamicPhrase>) {
         this.mDataset = items
+        this.mDataset?.add(0, DynamicPhrase("Date/Time", "0")) //Add Header for date time
+        this.mDataset?.add(10, DynamicPhrase("Misc", "0")) //Add Header for Misc items
     }
 
 }

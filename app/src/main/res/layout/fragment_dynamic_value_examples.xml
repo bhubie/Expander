@@ -6,7 +6,9 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/dynamicValueExampleRecyclerView">
+        android:id="@+id/dynamicValueExampleRecyclerView"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false">
 
     </android.support.v7.widget.RecyclerView>
 </LinearLayout>
