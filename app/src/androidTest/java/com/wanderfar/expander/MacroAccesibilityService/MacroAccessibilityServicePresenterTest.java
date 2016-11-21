@@ -26,6 +26,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static com.wanderfar.expander.TestHelpers.TestUtils.getPhoneMakeModel;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -557,6 +558,32 @@ public class MacroAccessibilityServicePresenterTest {
                 textAfterExpansionWithPeriod .length());
     }
 
+    @Test
+    public void macroWithDynamicPhoneMakeModel(){
+        //Tests that if the macro expanded contains the dynamic phrase for phone make/model
+        //and the phrase is expanded, we return the make model of the phone.
+
+        macroList.clear();
+
+        String makeModel = getPhoneMakeModel();
+
+        String MacroName = "PhoneMakeModel";
+        String MacroPhrase = "The phone make/model is: !phonemm";
+        String TextBefore = MacroName + ".";
+        macroList.add(MacroTestHelpers.createMacro(MacroName,
+                MacroPhrase, null, false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
+
+        String textAfterExpansionWithPeriod = "The phone make/model is: " + makeModel + ".";
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent(macroList,
+                TextBefore,
+                TextBefore.length(), true);
+
+        verify(macroAccessibilityServiceView, times(1)).updateText(
+                textAfterExpansionWithPeriod ,
+                textAfterExpansionWithPeriod .length());
+
+    }
 
     @Test
     public void macroWithDynamicValueUndoButtonTest(){

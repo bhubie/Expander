@@ -24,6 +24,7 @@ package com.wanderfar.expander.DynamicPhraseGenerator;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.os.Build;
 
 import com.wanderfar.expander.TestHelpers.TestHelpers;
 
@@ -40,6 +41,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
+import static com.wanderfar.expander.TestHelpers.TestHelpers.setFinalStatic;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -60,6 +62,7 @@ public class DynamicPhraseGeneratorTest {
     private final String TIME_12HR_PHRASE = "!t12h";
     private final String TIME_24HR_PHRASE = "!t24h";
     private final String CLIPBOARD_PHRASE = "!clipboard";
+    private final String PHONE_MAKE_MODEL_PHRASE = "!phonemm";
 
 
     private final Locale US_LOCALE = new Locale("en", "US");
@@ -86,6 +89,9 @@ public class DynamicPhraseGeneratorTest {
 
     @Mock
     Context mMockContext;
+
+    @Mock
+    Build mMockBuild;
 
 
 
@@ -386,5 +392,6 @@ public class DynamicPhraseGeneratorTest {
         String results = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, CLIPBOARD_PHRASE, US_LOCALE);
         assertEquals("", results);
     }
+
 
 }

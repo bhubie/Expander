@@ -21,6 +21,7 @@ package com.wanderfar.expander.TestHelpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.NoMatchingViewException;
@@ -141,6 +142,16 @@ public class TestUtils {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(prefKey, value);
         editor.apply();
+    }
+
+    public static String getPhoneMakeModel(){
+        String model = Build.MODEL;
+        String manufacturer = Build.MANUFACTURER;
+        if (model.startsWith(manufacturer)) {
+            return model;
+        } else {
+            return manufacturer + " " + model;
+        }
     }
 
 }

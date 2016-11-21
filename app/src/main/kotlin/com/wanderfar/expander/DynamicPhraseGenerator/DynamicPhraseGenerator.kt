@@ -21,6 +21,7 @@ package com.wanderfar.expander.DynamicPhraseGenerator
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
+import android.os.Build
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,7 +40,8 @@ object DynamicPhraseGenerator {
             DynamicPhrase("Year (Short)", "!ys"),
             DynamicPhrase("Time (12 Hours)", "!t12h"),
             DynamicPhrase("Time (24 Hours)", "!t24h"),
-            DynamicPhrase("Clipboard", "!clipboard")
+            DynamicPhrase("Clipboard", "!clipboard"),
+            DynamicPhrase("Phone Make & Model", "!phonemm")
         )
 
     @JvmStatic fun getDynamicPhrases() : Array<DynamicPhrase> {
@@ -93,9 +95,27 @@ object DynamicPhraseGenerator {
                     return clipboard.primaryClip.getItemAt(0).text.toString()
                 }
             }
+            "!phonemm" -> {
+                val model = Build.MODEL
+                val manufacturer = Build.MANUFACTURER
+                if (model.startsWith(manufacturer)) {
+                    return model
+                } else {
+                    return manufacturer + " " + model
+                }
+            }
             else -> {
                 return null
             }
         }
     }
+
+    private fun getDeviceManufacturer() :String {
+        return Build.MANUFACTURER
+    }
+
+    private fun getDeviceModel() :String {
+        return Build.MODEL
+    }
+
 }
