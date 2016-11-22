@@ -24,6 +24,10 @@ import android.content.Context;
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhrase;
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator;
 import com.wanderfar.expander.Models.Macro;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import io.paperdb.Paper;
 
 public class MacroTestHelpers {
@@ -100,6 +104,26 @@ public class MacroTestHelpers {
 
             saveMacro(macroToSave);
         }
+    }
+
+    public static List<Macro> getSavedMacros() {
+
+        List<Macro> macroList = new ArrayList<>();
+
+
+        //Paper.init(Expander.context)
+
+        List<String> keys = Paper.book("Macros").getAllKeys();
+
+
+        for (String item : keys) {
+            //val macro = macroDB.getObject(item, Macro::class.java)
+            Macro macro = Paper.book("Macros").read(item);
+                    macroList.add(macro);
+
+        }
+
+        return macroList;
     }
 
 }

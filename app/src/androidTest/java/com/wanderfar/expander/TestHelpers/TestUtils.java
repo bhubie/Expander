@@ -24,12 +24,20 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.ViewAssertion;
 import android.support.test.espresso.matcher.BoundedMatcher;
+import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObject;
+import android.support.test.uiautomator.UiObjectNotFoundException;
+import android.support.test.uiautomator.UiScrollable;
+import android.support.test.uiautomator.UiSelector;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
+
+import com.wanderfar.expander.MainActivityTest;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -41,6 +49,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 
 public class TestUtils {
+
+    private final static String APPLICATION_NAME = "Expander";
+    private static UiDevice mDevice;
 
     public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {
         checkNotNull(itemMatcher);
@@ -152,6 +163,60 @@ public class TestUtils {
         } else {
             return manufacturer + " " + model;
         }
+    }
+
+    public static void scrollToAndClickAccessibilitySettingForApp() throws UiObjectNotFoundException {
+
+        mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+
+        UiScrollable accessibilityScreen = new UiScrollable(MainActivityTest.LauncherHelper.LAUNCHER_CONTAINER);
+        accessibilityScreen.setAsVerticalList();
+        accessibilityScreen.scrollTextIntoView(APPLICATION_NAME);
+
+        UiObject expanderApp = new UiObject(
+                new UiSelector().text(APPLICATION_NAME));
+
+
+            expanderApp.click();
+
+    }
+
+    public static void turnOnAccessibilityPermission() throws UiObjectNotFoundException {
+        UiScrollable texterScreen = new UiScrollable(MainActivityTest.LauncherHelper.LAUNCHER_CONTAINER);
+        texterScreen.setAsVerticalList();
+
+        UiObject permission = new UiObject(
+                new UiSelector().text("Off"));
+
+        permission.click();
+
+        UiScrollable permissionScreen = new UiScrollable(MainActivityTest.LauncherHelper.LAUNCHER_CONTAINER);
+        permissionScreen.setAsVerticalList();
+
+        UiObject permissionButton = new UiObject(
+                new UiSelector().text("OK"));
+
+        permissionButton.click();
+    }
+
+    public static void turnOffAccessibliyPermission() throws UiObjectNotFoundException {
+        UiScrollable texterScreen = new UiScrollable(MainActivityTest.LauncherHelper.LAUNCHER_CONTAINER);
+        texterScreen.setAsVerticalList();
+
+        UiObject permission = new UiObject(
+                new UiSelector().text("On"));
+
+        permission.click();
+
+        UiObject permissionButton = new UiObject(
+                new UiSelector().text("OK"));
+
+        permissionButton.click();
+
+    }
+
+    public static void pressDeviceBack(){
+        mDevice.pressBack();
     }
 
 }
