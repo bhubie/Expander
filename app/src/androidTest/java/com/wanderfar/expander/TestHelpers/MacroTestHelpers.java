@@ -80,7 +80,7 @@ public class MacroTestHelpers {
 
     public static void saveMacro(Macro macroToSave){
 
-        Paper.book("Macros").write("macro_" + macroToSave.getName(), macroToSave);
+        Paper.book("Macros").write(macroToSave.getName(), macroToSave);
     }
 
     public static Macro getMacro(String macroToLoad){

@@ -30,7 +30,7 @@ object MacroStore {
 
     fun saveMacro(macro: Macro){
 
-        Paper.book("Macros").write("macro_" + macro.name, macro)
+        Paper.book("Macros").write(macro.name, macro)
 
 
     }
@@ -59,20 +59,20 @@ object MacroStore {
     fun deleteMacro(name : String){
 
         //Paper.init(Expander.context)
-        Paper.book("Macros").delete("macro_" + name)
+        Paper.book("Macros").delete(name)
     }
 
     fun getMacro(macroToLoad: String) : Macro? {
 
         //Paper.init(Expander.context)
-        val macro = Paper.book("Macros").read<Macro>("macro_" + macroToLoad)
+        val macro = Paper.book("Macros").read<Macro>(macroToLoad)
 
 
         return macro
     }
 
     fun hasMacroChanged(macroToCheck: Macro, originalName: String): Boolean{
-        val loadedMacro = Paper.book("Macros").read<Macro>("macro_" + originalName)
+        val loadedMacro = Paper.book("Macros").read<Macro>(originalName)
 
         println(loadedMacro.areObjectMemberEqual(macroToCheck))
         return loadedMacro.areObjectMemberEqual(macroToCheck).not()
