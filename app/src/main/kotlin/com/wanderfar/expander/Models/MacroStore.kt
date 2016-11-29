@@ -32,7 +32,10 @@ object MacroStore {
 
         Paper.book("Macros").write(macro.name, macro)
 
+    }
 
+    fun getMacroKeys() : MutableList<String>{
+        return Paper.book("Macros").allKeys
     }
 
     fun getMacros() : MutableList<Macro>{
@@ -45,12 +48,8 @@ object MacroStore {
         val keys = Paper.book("Macros").allKeys
 
 
-        for (item: String in keys) {
-            //val macro = macroDB.getObject(item, Macro::class.java)
-            val macro = Paper.book("Macros").read<Macro>(item)
-            macroList.add(macro)
-
-            println(macro.name)
+        keys.mapTo(macroList) { //val macro = macroDB.getObject(item, Macro::class.java)
+            Paper.book("Macros").read<Macro>(it)
         }
 
         return macroList

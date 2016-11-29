@@ -19,13 +19,13 @@
 
 package com.wanderfar.expander.Services
 
-import com.wanderfar.expander.Models.Macro
+
 
 
 
 interface MacroAccessibilityServicePresenter {
 
-    fun onAccessibilityEvent(macrosToCheck : MutableList<Macro>, textToCheck : String, cursorPosition: Int,
+    fun onAccessibilityEvent(textToCheck : String, cursorPosition: Int,
                              replaceDynamicPhrases: Boolean)
 
     fun undoSetText()

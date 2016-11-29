@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.createAndSaveDynamicvAlueMacros;
+import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.createTestMacros;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.initDB;
 
 @RunWith(AndroidJUnit4.class)
@@ -41,5 +42,14 @@ public class MacroGeneratorHelper {
         initDB(InstrumentationRegistry.getTargetContext());
 
         createAndSaveDynamicvAlueMacros();
+    }
+
+    @Test
+    public void create1000TestMacros(){
+
+        //Initialize the DB and clear it
+        initDB(InstrumentationRegistry.getTargetContext());
+
+        createTestMacros(100);
     }
 }

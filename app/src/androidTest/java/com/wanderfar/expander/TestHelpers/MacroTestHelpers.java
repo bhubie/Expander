@@ -106,6 +106,21 @@ public class MacroTestHelpers {
         }
     }
 
+    public static void createTestMacros(int numberToCreate){
+
+        for (int i = 0; i < numberToCreate; i++){
+           Macro macroToSave = createMacro(
+                   "Macro" + i
+                   ,"Macro Phrase: " + i
+                   ,null
+                   ,false
+                   ,IMMEDIATELY
+           );
+
+            saveMacro(macroToSave);
+        }
+    }
+
     public static List<Macro> getSavedMacros() {
 
         List<Macro> macroList = new ArrayList<>();

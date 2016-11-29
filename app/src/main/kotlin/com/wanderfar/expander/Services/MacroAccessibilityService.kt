@@ -139,7 +139,7 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         //If the text isn't empty and we have necessary permission, check the text
         if(text.isNullOrEmpty().not() && isExpanderEnabled){
             Paper.init(this)
-            mPresenter.onAccessibilityEvent(MacroStore.getMacros(), text, source.textSelectionStart,
+            mPresenter.onAccessibilityEvent(text, source.textSelectionStart,
                     prefs.getBoolean("isDynamicValuesEnabled", false))
             hideFloatingUI()
         }

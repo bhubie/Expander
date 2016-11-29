@@ -24,6 +24,7 @@ import com.wanderfar.expander.Application.Expander
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.Models.MacroConstants
+import com.wanderfar.expander.Models.MacroStore
 import java.util.*
 
 
@@ -31,6 +32,7 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
     var macroAccessibilityServiceView = view
 
+    var macrosToCheck : MutableList<Macro>? = null
     lateinit var text : String
     var matchedMacro : String = null.toString()
     var matchedMacroStartingPosition : Int = 0
@@ -39,13 +41,16 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
     var charactersInsertedFromDynamicPhrases : Int = 0
 
 
-    override fun onAccessibilityEvent(macrosToCheck : MutableList<Macro>, textToCheck : String, cursorPosition: Int,
+    override fun onAccessibilityEvent(textToCheck : String, cursorPosition: Int,
                                       replaceDynamicPhrases: Boolean) {
-
+        if (macrosToCheck == null){
+            macrosToCheck = MacroStore.getMacros()
+            println("Macro List is empty")
+        }
         if (isInitialized){
             macroAccessibilityServiceView.hideFloatingUI()
         }
-        print("Is repeat visit is: " + isInitialized)
+
         isInitialized == true
 
         //declare variable that will say if a match was found
@@ -61,9 +66,8 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         //Hide the floating UI if it is already out there.
         //macroAccessibilityServiceView.hideFloatingUI()
 
-        for (macro: Macro in macrosToCheck) {
-
-            println(macro.name + " " + macro.macroPattern.toRegex().containsMatchIn(text.toString()))
+        //for (macro: Macro in macrosToCheck) {
+        macrosToCheck?.forEach { macro: Macro ->
 
             //get the length of the macro we are checking as we don't want to scan the whole text
             val macrolength = macro.name.length + 1
