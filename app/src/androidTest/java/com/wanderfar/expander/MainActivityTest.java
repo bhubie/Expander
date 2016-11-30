@@ -97,7 +97,7 @@ public class MainActivityTest {
     }
 
 
-    @Test
+    /*@Test
     public void testThatIfAccessibilityPermissionForAppIsOffThatSnackbarAppears() {
 
 
@@ -144,9 +144,9 @@ public class MainActivityTest {
             e.printStackTrace();
         }
         mDevice.waitForIdle();
-       /* onView(allOf(withId(android.support.design.R.id.snackbar_text),
+       *//* onView(allOf(withId(android.support.design.R.id.snackbar_text),
                 withText("Please enable Accessibility Settings permission for " + mActivityRule.getActivity().getResources().getString(R.string.app_name) + ". This is a required permission for the app to work.")))
-                .check(doesNotExist());*/
+                .check(doesNotExist());*//*
 
     }
 
@@ -261,5 +261,5 @@ public class MainActivityTest {
             isPermissionOff = false;
             return permissionOn;
         }
-    }
+    }*/
 }

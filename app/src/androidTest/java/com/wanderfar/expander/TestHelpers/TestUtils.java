@@ -169,7 +169,7 @@ public class TestUtils {
 
         mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 
-        UiScrollable accessibilityScreen = new UiScrollable(MainActivityTest.LauncherHelper.LAUNCHER_CONTAINER);
+        UiScrollable accessibilityScreen = new UiScrollable(LauncherHelper.LAUNCHER_CONTAINER);
         accessibilityScreen.setAsVerticalList();
         accessibilityScreen.scrollTextIntoView(APPLICATION_NAME);
 
@@ -181,8 +181,18 @@ public class TestUtils {
 
     }
 
+    public static class LauncherHelper {
+        public static final UiSelector ALL_APPS_BUTTON = new UiSelector().description("Apps");
+        public static final UiSelector LAUNCHER_CONTAINER = new UiSelector().scrollable(true);
+        public static final UiSelector LAUNCHER_ITEM =
+                new UiSelector().className(android.widget.TextView.class.getName());
+        //new UiSelector().description(android.widget.TextView.class.getName());
+        //new UiSelector().description("Settings");
+        //public static final UiSelector SETTINGS_BUTTON = new UiSelector().description("Settings");
+    }
+
     public static void turnOnAccessibilityPermission() throws UiObjectNotFoundException {
-        UiScrollable texterScreen = new UiScrollable(MainActivityTest.LauncherHelper.LAUNCHER_CONTAINER);
+        UiScrollable texterScreen = new UiScrollable(LauncherHelper.LAUNCHER_CONTAINER);
         texterScreen.setAsVerticalList();
 
         UiObject permission = new UiObject(
@@ -190,7 +200,7 @@ public class TestUtils {
 
         permission.click();
 
-        UiScrollable permissionScreen = new UiScrollable(MainActivityTest.LauncherHelper.LAUNCHER_CONTAINER);
+        UiScrollable permissionScreen = new UiScrollable(LauncherHelper.LAUNCHER_CONTAINER);
         permissionScreen.setAsVerticalList();
 
         UiObject permissionButton = new UiObject(
@@ -200,7 +210,7 @@ public class TestUtils {
     }
 
     public static void turnOffAccessibliyPermission() throws UiObjectNotFoundException {
-        UiScrollable texterScreen = new UiScrollable(MainActivityTest.LauncherHelper.LAUNCHER_CONTAINER);
+        UiScrollable texterScreen = new UiScrollable(LauncherHelper.LAUNCHER_CONTAINER);
         texterScreen.setAsVerticalList();
 
         UiObject permission = new UiObject(
