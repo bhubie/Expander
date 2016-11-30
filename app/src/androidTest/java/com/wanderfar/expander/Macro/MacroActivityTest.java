@@ -462,7 +462,7 @@ public class MacroActivityTest {
 
         //Click the 10th item in the recylerview.
         onView(withId(R.id.dynamicValueRecyclerView)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(10, click()));
+                RecyclerViewActions.actionOnItemAtPosition(11, click()));
 
         //Validate the recyclierview is still displayed
         onView(withId(R.id.dynamicValueRecyclerView)).check(matches(isDisplayed()));

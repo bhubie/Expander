@@ -139,7 +139,7 @@ class DynamicValueFragment : Fragment() {
             override fun onItemClick(view: View, position: Int) {
                 //If the position does not equal our header rows add the item to the activity
                 when(position){
-                    0, 10 -> ""//do nothing
+                    0, 11 -> ""//do nothing
                     else ->{
                         val activity = activity as DynamicValueDialogFragment.DynamicValueDialogListener
                         activity.onFinishDialog(adapter.getDynamicValue(position))

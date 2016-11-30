@@ -63,9 +63,11 @@ public class DynamicPhraseGeneratorTest {
     private final String TIME_24HR_PHRASE = "!t24h";
     private final String CLIPBOARD_PHRASE = "!clipboard";
     private final String PHONE_MAKE_MODEL_PHRASE = "!phonemm";
+    private final String DATE_PHRASE = "!date";
 
 
     private final Locale US_LOCALE = new Locale("en", "US");
+    private final Locale UK_LOCALE = new Locale("en", "GB");
 
     private final String MONDAY = "Monday";
     private final String MONDAY_SHORT = "Mon";
@@ -391,6 +393,30 @@ public class DynamicPhraseGeneratorTest {
         when(mMockContext.getSystemService(CLIPBOARD_SERVICE)).thenReturn(clipboard);
         String results = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, CLIPBOARD_PHRASE, US_LOCALE);
         assertEquals("", results);
+    }
+
+    @Test
+    public void dateTest(){
+        //Tests that when the dynamic phrase for date is used that we return the current date
+
+        //The date we are mocking is 06/21/15
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(SUNDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, DATE_PHRASE, US_LOCALE);
+        assertEquals("6/21/15", result);
+    }
+
+    @Test
+    public void dateTestUKLocale(){
+        //Tests that when the dynamic phrase for date is used and the User's Locale is UK that we return UK Locale
+
+        //The date we are mocking is 06/21/15
+        mockStatic(Calendar.class);
+        Date date = TestHelpers.getAPastDayOfTheWeek(SUNDAY);
+        when(Calendar.getInstance().getTime()).thenReturn(date);
+        String result = DynamicPhraseGenerator.setDynamicPhraseValue(mMockContext, DATE_PHRASE, UK_LOCALE);
+        assertEquals("21/06/15", result);
     }
 
 

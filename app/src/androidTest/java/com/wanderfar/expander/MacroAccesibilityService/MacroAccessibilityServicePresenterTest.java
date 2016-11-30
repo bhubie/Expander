@@ -20,6 +20,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
+
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -74,7 +76,7 @@ public class MacroAccessibilityServicePresenterTest {
     private final String YEAR_SHORT = new SimpleDateFormat("yy", US_LOCALE).format(Calendar.getInstance().getTime());
     private final String TIME_12_HOURS = new SimpleDateFormat("hh:mm aaa", US_LOCALE).format(Calendar.getInstance().getTime());
     private final String TIME_24_HOURS = new SimpleDateFormat("HH:mm", US_LOCALE).format(Calendar.getInstance().getTime());
-
+    private final String DATE = DateFormat.getDateInstance(DateFormat.SHORT, US_LOCALE).format(Calendar.getInstance().getTime());
 
     @Before
     public void setupData(){
@@ -239,7 +241,6 @@ public class MacroAccessibilityServicePresenterTest {
     public void macroSetToExpandOnAPeriod(){
         //Tests that if the given macro is set to Expand on a, that it does
 
-        macroList.clear();
 
         saveMacro(MacroTestHelpers.createMacro("TESTMACRO",
                 "Test Macro Phrase",
@@ -366,7 +367,6 @@ public class MacroAccessibilityServicePresenterTest {
     public void macroWithDynamicDayOfWeekShortInPhrase(){
         //Tests that if a macro expanded phrase contains the dynamic phrase for day of week short that when the phrase is expanded, that
         //it will expand and have the day of the week short
-        macroList.clear();
         String MacroName = "DayOfWeekMacroShort";
         String MacroPhrase = "!ds is the current day of the week";
         String TextBefore = MacroName + ".";
@@ -389,7 +389,6 @@ public class MacroAccessibilityServicePresenterTest {
     public void macroWithDynamicDayOfMonthInPhrase(){
         //Tests that if the macro expanded phrase contains the dynamic phrase for day of month
         //and the phrase is expanded, we return the day of the month
-        macroList.clear();
 
         String MacroName = "DayOfMonth";
         String MacroPhrase = "!dm is the current day of the month";
@@ -415,7 +414,6 @@ public class MacroAccessibilityServicePresenterTest {
         //Tests that if the macro expanded phrase contains the dynamic phrase for the Month name
         //and the phrase is expanded, we return the name of the month
 
-        macroList.clear();
 
         String MacroName = "MonthName";
         String MacroPhrase = "The current Month is !m";
@@ -440,7 +438,6 @@ public class MacroAccessibilityServicePresenterTest {
         //Tests that if the macro expanded phrase contains the dynamic phrase for the Month short name
         //and the phrase is expanded, we return the name of the month short version
 
-        macroList.clear();
 
         String MacroName = "MonthNameShort";
         String MacroPhrase = "The current Month short name is !ms";
@@ -466,7 +463,6 @@ public class MacroAccessibilityServicePresenterTest {
         //Tests that if the macro expanded phrase contains the dynamic phrase for the Year
         //and the phrase is expanded, we return the current year
 
-        macroList.clear();
 
         String MacroName = "Year";
         String MacroPhrase = "The current Year is !y";
@@ -491,7 +487,6 @@ public class MacroAccessibilityServicePresenterTest {
         //Tests that if the macro expanded phrase contains the dynamic phrase for the Year short
         //and the phrase is expanded, we return the current year short version
 
-        macroList.clear();
 
         String MacroName = "YearShort";
         String MacroPhrase = "The current Year is !ys";
@@ -516,7 +511,6 @@ public class MacroAccessibilityServicePresenterTest {
         //Tests that if the macro expanded phrase contains the dynamic phrase for the time 12 hours
         //and the phrase is expanded, we return the current time in 12 hour format
 
-        macroList.clear();
 
         String MacroName = "Time12Hours";
         String MacroPhrase = "The current time in 12 hours is !t12h";
@@ -541,7 +535,6 @@ public class MacroAccessibilityServicePresenterTest {
         //Tests that if the macro expanded phrase contains the dynamic phrase for the time 12 hours
         //and the phrase is expanded, we return the current time in 12 hour format
 
-        macroList.clear();
 
         String MacroName = "Time24Hours";
         String MacroPhrase = "The current time in 24 hour format is !t24h";
@@ -566,7 +559,6 @@ public class MacroAccessibilityServicePresenterTest {
         //Tests that if the macro expanded contains the dynamic phrase for phone make/model
         //and the phrase is expanded, we return the make model of the phone.
 
-        macroList.clear();
 
         String makeModel = getPhoneMakeModel();
 
@@ -590,6 +582,29 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
+    public void macroWithDynamicDateInPhrase() {
+        //Tests that if the macro expanded phrase contains the dynamic phrase for the date
+        //and the phrase is expanded, we return the date
+
+        String MacroName = "Date";
+        String MacroPhrase = "The current date is: !date";
+        String TextBefore = MacroName + ".";
+
+        saveMacro(MacroTestHelpers.createMacro(MacroName,
+                MacroPhrase, null, false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
+
+        String textAfterExpansionWithPeriod = "The current date is: " + DATE + ".";
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent(
+                TextBefore,
+                TextBefore.length(), true);
+
+        verify(macroAccessibilityServiceView, times(1)).updateText(
+                textAfterExpansionWithPeriod ,
+                textAfterExpansionWithPeriod .length());
+    }
+
+    @Test
     public void macroWithDynamicValueUndoButtonTest(){
         //Tests that when there is a dynamic value in a macro phrase and the user hits undo
         //That the phrase is undone successfully
@@ -606,7 +621,6 @@ public class MacroAccessibilityServicePresenterTest {
 
                     macroAccessibilityServiceView = mock(MacroAccessibilityServiceView.class);
                     macroAccessibilityServicePresenter = new MacroAccessibilityServicePresenterImpl(macroAccessibilityServiceView);
-                    macroList.clear();
 
                     String macroName = phrase.getName();
                     String macroPhrase = "The output is: " + phrase.getPhrase();
@@ -636,7 +650,6 @@ public class MacroAccessibilityServicePresenterTest {
             }
         });
 
-        macroList.clear();
 
 
     }

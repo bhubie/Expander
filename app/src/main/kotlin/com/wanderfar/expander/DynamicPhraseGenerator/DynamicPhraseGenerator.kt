@@ -22,6 +22,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Build
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,6 +41,7 @@ object DynamicPhraseGenerator {
             DynamicPhrase("Year (Short)", "!ys"),
             DynamicPhrase("Time (12 Hours)", "!t12h"),
             DynamicPhrase("Time (24 Hours)", "!t24h"),
+            DynamicPhrase("Date", "!date"),
             DynamicPhrase("Clipboard", "!clipboard"),
             DynamicPhrase("Phone Make & Model", "!phonemm")
         )
@@ -87,6 +89,7 @@ object DynamicPhraseGenerator {
             "!ys" -> return  SimpleDateFormat("yy", locale).format(Calendar.getInstance().time)
             "!t12h" -> return  SimpleDateFormat("hh:mm aaa", locale).format(Calendar.getInstance().time)
             "!t24h" -> return  SimpleDateFormat("HH:mm", locale).format(Calendar.getInstance().time)
+            "!date" -> return DateFormat.getDateInstance(DateFormat.SHORT, locale).format(Calendar.getInstance().time)
             "!clipboard" -> {
                 val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                 if (clipboard.primaryClip == null){

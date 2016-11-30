@@ -125,7 +125,7 @@ class DynamicValueExampleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
     fun setItems(items: MutableList<DynamicPhrase>) {
         this.mDataset = items
         this.mDataset?.add(0, DynamicPhrase("Date/Time", "0")) //Add Header for date time
-        this.mDataset?.add(10, DynamicPhrase("Misc", "0")) //Add Header for Misc items
+        this.mDataset?.add(11, DynamicPhrase("Misc", "0")) //Add Header for Misc items
     }
 
 }

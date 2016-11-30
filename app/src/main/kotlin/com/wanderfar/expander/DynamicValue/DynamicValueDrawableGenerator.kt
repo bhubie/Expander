@@ -73,6 +73,7 @@ object DynamicValueDrawableGenerator {
             "!ys"           -> return "Year (Short)"
             "!t12h"         -> return "Time (12 Hours)"
             "!t24h"         -> return "Time (24 Hours)"
+            "!date"         -> return "Date"
             "!clipboard"    -> return "Device Clipboard"
             "!phonemm"      -> return "Phone Make & Model"
             else -> {
