@@ -31,7 +31,8 @@ import com.wanderfar.expander.R
 
 class DynamicValueAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var mDataset: MutableList<DynamicPhrase>? = null
+
+    private var mDataset: MutableList<String>? = null
     private var position: Int = 0
     private val TYPE_HEADER: Int = 0
     private val TYPE_ITEM: Int = 1
@@ -39,7 +40,7 @@ class DynamicValueAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
         //if (check condition here with your listData)) // if it is headerView return header type
-        if (mDataset?.get(position)?.name == "Date/Time" || mDataset?.get(position)?.name == "Misc"){
+        if (mDataset?.get(position) == "Date/Time" || mDataset?.get(position) == "Misc"){
             return TYPE_HEADER
         } else {
             return TYPE_ITEM
@@ -94,11 +95,12 @@ class DynamicValueAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         when (holder.itemViewType){
             TYPE_ITEM ->  {
                 val vh = holder as ViewHolder
-                vh.title.text = mDataset!![position].name
+
+                vh.title.text = DynamicValueDrawableGenerator.getFriendlyName(mDataset!![position])
             }
             TYPE_HEADER -> {
                 val vh = holder as HeaderViewHolder
-                vh.headerTitle.text = mDataset!![position].name
+                vh.headerTitle.text = mDataset!![position]
             }
         }
 
@@ -109,10 +111,11 @@ class DynamicValueAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return if (mDataset == null) 0 else mDataset!!.size
     }
 
-    fun setItems(items: MutableList<DynamicPhrase>) {
+    //fun setItems(items: MutableList<DynamicPhrase>) {
+    fun setItems(items: MutableList<String>) {
         this.mDataset = items
-        this.mDataset?.add(0, DynamicPhrase("Date/Time", "0")) //Add Header for date time
-        this.mDataset?.add(11, DynamicPhrase("Misc", "0")) //Add Header for Misc items
+        this.mDataset?.add(0, "Date/Time") //Add Header for date time
+        this.mDataset?.add(11, "Misc") //Add Header for Misc items
     }
 
 
@@ -125,7 +128,7 @@ class DynamicValueAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     fun getDynamicValue (position: Int): String{
-        return mDataset!![position].phrase
+        return mDataset!![position]
     }
 
 }

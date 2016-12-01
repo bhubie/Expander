@@ -33,14 +33,14 @@ import java.util.*
 
 class DynamicValueExampleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var mDataset: MutableList<DynamicPhrase>? = null
+    private var mDataset: MutableList<String>? = null
     private var position: Int = 0
     private val TYPE_HEADER: Int = 0
     private val TYPE_ITEM: Int = 1
 
     override fun getItemViewType(position: Int): Int {
         //if (check condition here with your listData)) // if it is headerView return header type
-        if (mDataset?.get(position)?.name == "Date/Time" || mDataset?.get(position)?.name == "Misc"){
+        if (mDataset?.get(position)== "Date/Time" || mDataset?.get(position) == "Misc"){
             return TYPE_HEADER
         } else {
             return TYPE_ITEM
@@ -105,13 +105,16 @@ class DynamicValueExampleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
         when (holder.itemViewType){
             TYPE_ITEM ->  {
                 val vh = holder as DynamicValueExampleAdapter.ViewHolder
-                vh.name.text = mDataset!![position].name + "\t -> \t"
+                vh.name.text = DynamicValueDrawableGenerator.getFriendlyName(mDataset!![position])+ "\t -> \t"
                 vh.example.text = DynamicPhraseGenerator
-                        .setDynamicPhraseValue(Expander.context, mDataset!![position].phrase, Locale.getDefault())
+                        .setDynamicPhraseValue(Expander.context,
+                                mDataset!![position],
+                                Locale.getDefault())
+
             }
             TYPE_HEADER -> {
                 val vh = holder as DynamicValueExampleAdapter.HeaderViewHolder
-                vh.headerTitle.text = mDataset!![position].name
+                vh.headerTitle.text = mDataset!![position]
             }
         }
 
@@ -122,10 +125,11 @@ class DynamicValueExampleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
         return if (mDataset == null) 0 else mDataset!!.size
     }
 
-    fun setItems(items: MutableList<DynamicPhrase>) {
+    //fun setItems(items: MutableList<DynamicPhrase>) {
+    fun setItems(items: MutableList<String>) {
         this.mDataset = items
-        this.mDataset?.add(0, DynamicPhrase("Date/Time", "0")) //Add Header for date time
-        this.mDataset?.add(11, DynamicPhrase("Misc", "0")) //Add Header for Misc items
+        this.mDataset?.add(0, "Date/Time") //Add Header for date time
+        this.mDataset?.add(11, "Misc") //Add Header for Misc items
     }
 
 }

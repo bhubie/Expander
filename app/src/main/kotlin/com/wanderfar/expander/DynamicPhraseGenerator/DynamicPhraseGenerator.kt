@@ -32,21 +32,21 @@ object DynamicPhraseGenerator {
     lateinit var mDynamicPhrasesFound : MutableList<DynamicPhraseFoundModel>
 
     val dynamicPhraseOptions = arrayOf(
-            DynamicPhrase("Day of Week", "!d"),
-            DynamicPhrase("Day of Week (Short)", "!ds"),
-            DynamicPhrase("Day of Month", "!dm"),
-            DynamicPhrase("Month", "!m"),
-            DynamicPhrase("Month (Short Name)", "!ms"),
-            DynamicPhrase("Year", "!y"),
-            DynamicPhrase("Year (Short)", "!ys"),
-            DynamicPhrase("Time (12 Hours)", "!t12h"),
-            DynamicPhrase("Time (24 Hours)", "!t24h"),
-            DynamicPhrase("Date", "!date"),
-            DynamicPhrase("Clipboard", "!clipboard"),
-            DynamicPhrase("Phone Make & Model", "!phonemm")
-        )
+            "!date",        //Date
+            "!d",           //Day of week
+            "!ds",          //Day of Week Short
+            "!dm",          //Day of Month
+            "!m",           //Month
+            "!ms",          //Month Short
+            "!y",           //Year
+            "!ys",          //Year Short
+            "!t12h",        //Time 12 hours
+            "!t24h",        //Time 24 hours
+            "!clipboard",   //Clipboard
+            "!phonemm"      //Phone make and model
+    )
 
-    @JvmStatic fun getDynamicPhrases() : Array<DynamicPhrase> {
+    @JvmStatic fun getDynamicPhrases() : Array<String> {
         return dynamicPhraseOptions
     }
 
@@ -60,13 +60,12 @@ object DynamicPhraseGenerator {
 
         mDynamicPhrasesFound = mutableListOf()
 
-        for ((name, phrase) in dynamicPhraseOptions){
-
-            val regexMatcher = Regex("$phrase(\\W|$)")
+        for (string in dynamicPhraseOptions){
+            val regexMatcher = Regex("$string(\\W|$)")
 
             regexMatcher.findAll(textToCheck).forEach {
                 val item = DynamicPhraseFoundModel(
-                        phrase, it.range.start, it.range.endInclusive, phrase.length)
+                        string, it.range.start, it.range.endInclusive, string.length)
                 mDynamicPhrasesFound.add(item)
             }
 

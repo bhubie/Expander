@@ -37,8 +37,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 
-import com.wanderfar.expander.MainActivityTest;
-
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -186,9 +184,6 @@ public class TestUtils {
         public static final UiSelector LAUNCHER_CONTAINER = new UiSelector().scrollable(true);
         public static final UiSelector LAUNCHER_ITEM =
                 new UiSelector().className(android.widget.TextView.class.getName());
-        //new UiSelector().description(android.widget.TextView.class.getName());
-        //new UiSelector().description("Settings");
-        //public static final UiSelector SETTINGS_BUTTON = new UiSelector().description("Settings");
     }
 
     public static void turnOnAccessibilityPermission() throws UiObjectNotFoundException {

@@ -23,6 +23,7 @@ import android.content.Context;
 
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhrase;
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator;
+import com.wanderfar.expander.DynamicValue.DynamicValueDrawableGenerator;
 import com.wanderfar.expander.Models.Macro;
 
 import java.util.ArrayList;
@@ -89,14 +90,17 @@ public class MacroTestHelpers {
     }
 
     public static void createAndSaveDynamicvAlueMacros(){
-        DynamicPhrase[] dynamicValues = DynamicPhraseGenerator.getDynamicPhrases();
+        //DynamicPhrase[] dynamicValues = DynamicPhraseGenerator.getDynamicPhrases();
+        String[] dynamicValues = DynamicPhraseGenerator.getDynamicPhrases();
 
-        for (DynamicPhrase phrase:
+        for (String phrase:
              dynamicValues) {
 
             Macro macroToSave = createMacro(
-                   phrase.getName() //Macro Name
-                   ,"The phrase is: " + phrase.getPhrase() //Macro phase
+                   //phrase.getName() //Macro Name
+                    DynamicValueDrawableGenerator.getFriendlyName(phrase) //Macro Name
+                   //,"The phrase is: " + phrase.getPhrase() //Macro phase
+                    ,"The phrase is: " + phrase//Macro phase
                    ,null //Macro Description
                    ,false //is Case sensitive
                    ,ON_A_SPACE_OR_PERIOD //Expand when setting

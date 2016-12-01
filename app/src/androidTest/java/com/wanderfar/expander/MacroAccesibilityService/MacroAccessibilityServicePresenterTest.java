@@ -8,8 +8,8 @@ package com.wanderfar.expander.MacroAccesibilityService;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import com.wanderfar.expander.Application.Expander;
-import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhrase;
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator;
+import com.wanderfar.expander.DynamicValue.DynamicValueDrawableGenerator;
 import com.wanderfar.expander.Models.Macro;
 import com.wanderfar.expander.Services.MacroAccessibilityServicePresenterImpl;
 import com.wanderfar.expander.Services.MacroAccessibilityServiceView;
@@ -615,20 +615,27 @@ public class MacroAccessibilityServicePresenterTest {
             public void run() {
 
 
-                DynamicPhrase[] dynamicValues = DynamicPhraseGenerator.getDynamicPhrases();
+                //DynamicPhrase[] dynamicValues = DynamicPhraseGenerator.getDynamicPhrases();
+                String[] dynamicValues = DynamicPhraseGenerator.getDynamicPhrases();
 
-                for (DynamicPhrase phrase: dynamicValues) {
+                for (String phrase: dynamicValues) {
 
                     macroAccessibilityServiceView = mock(MacroAccessibilityServiceView.class);
                     macroAccessibilityServicePresenter = new MacroAccessibilityServicePresenterImpl(macroAccessibilityServiceView);
 
-                    String macroName = phrase.getName();
-                    String macroPhrase = "The output is: " + phrase.getPhrase();
-                    System.out.println(phrase.getName() + " " + phrase.getPhrase());
+                    //String macroName = phrase.getName();
+                    String macroName = DynamicValueDrawableGenerator.getFriendlyName(phrase);
+
+                    //String macroPhrase = "The output is: " + phrase.getPhrase();
+                    String macroPhrase = "The output is: " + phrase;
+
+
                     String textBefore = macroName + ".";
-                    System.out.println(textBefore);
+
                     String textAfterExpansion = "The output is: "
-                            + DynamicPhraseGenerator.setDynamicPhraseValue(InstrumentationRegistry.getTargetContext(), phrase.getPhrase(), US_LOCALE)
+                            //+ DynamicPhraseGenerator.setDynamicPhraseValue(InstrumentationRegistry.getTargetContext(), phrase.getPhrase(), US_LOCALE)
+                            + DynamicPhraseGenerator.setDynamicPhraseValue(InstrumentationRegistry.getTargetContext(),
+                            phrase, US_LOCALE)
                             + ".";
 
                     saveMacro(MacroTestHelpers.createMacro(macroName,

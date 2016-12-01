@@ -63,7 +63,7 @@ object DynamicValueDrawableGenerator {
 
     }
 
-    fun getFriendlyName(phrase: String): String{
+    @JvmStatic fun getFriendlyName(phrase: String): String{
 
         val resources = Expander.context.resources
         when(phrase){
