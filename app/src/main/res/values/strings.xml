@@ -17,7 +17,6 @@
     <string name="settings_activity_draw_over_other_apps_permission_disabled_summary">Tap to turn on the permission to display a floating indication after text expansion</string>
     <string name="settings_activity_draw_over_other_apps_permission_enabled_summary">Tap to turn off the permission to display a floating indicator after text expansion</string>
     <string name="settings_activity_floating_UI_key">floatingUISetting</string>
-    <string name="menu_settings_title">Settings</string>
     <string name="settings_activity_FloatingUI_Opacity_Level_Summary">Tap to adjust the opacity level of the floating UI</string>
     <string name="settings_activity_Opacity_Level_Setting_Title">Floating UI Opacity Level</string>
     <string name="settings_dialog_message">Current Opacity is:</string>
@@ -37,7 +36,8 @@
 
     <string name="accessibility_enabled">com.wanderfar.expander/.Services.MacroAccessibilityService</string>
     <string name="main_activity_accessibility_settings_snackbar_link_label">Open Settings</string>
-    <string name="menu_about_title">About</string>
+    <string name="main_activity_no_macro_found_text">No Shortcuts found. Tap the + button to start creating them!</string>
+
 
     <string name="about_activity_main_description">Expander is a free and open source text expansion application. For any issues, feature requests, or if you just want to chat please reach out using the below contact information!</string>
     <string name="about_activity_contact_group_label">Contact Information</string>
@@ -64,11 +64,25 @@
     <string name="macro_activity_phrase_label">Shortcut Phrase</string>
     <string name="macro_activity_macro_description_label">Shortcut Description (Optional)</string>
 
-    <string name="main_activity_no_macro_found_text">No Shortcuts found. Tap the + button to start creating them!</string>
-
+    <string name="menu_settings_title">Settings</string>
     <string name="menu_macro_delete_shortcut">Delete Shortcut</string>
     <string name="menu_macro_save_shortcut_title">Save Shortcut</string>
+    <string name="menu_about_title">About</string>
+
     <string name="fragment_dynamic_value_cancel_button_title">Cancel</string>
+
+    <string name="dynamic_value_friendly_name_day_of_week">Day of Week</string>
+    <string name="dynamic_value_friendly_name_day_of_week_short">Day of Week (Short)</string>
+    <string name="dynamic_value_friendly_name_day_of_month">Day of Month</string>
+    <string name="dynamic_value_friendly_name_month_short">Month (Short Name)</string>
+    <string name="dynamic_value_friendly_name_month">Month</string>
+    <string name="dynamic_value_friendly_name_year">Year</string>
+    <string name="dynamic_value_friendly_name_year_short">Year (Short)</string>
+    <string name="dynamic_value_friendly_name_time_12_hours">Time (12 Hours)</string>
+    <string name="dynamic_value_friendly_name_time_24_hours">Time (24 Hours)</string>
+    <string name="dynamic_value_friendly_name_date">Date</string>
+    <string name="dynamic_value_friendly_name_clipboard">Device Clipboard</string>
+    <string name="dynamic_value_friendly_name_phone">Phone Make &amp; Model</string>
 
 
     <string-array name="empty_array" />

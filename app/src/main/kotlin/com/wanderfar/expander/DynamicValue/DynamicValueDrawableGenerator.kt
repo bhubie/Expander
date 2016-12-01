@@ -21,7 +21,9 @@ package com.wanderfar.expander.DynamicValue
 
 import android.content.Context
 import android.text.Spannable
+import com.wanderfar.expander.Application.Expander
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator
+import com.wanderfar.expander.R
 
 
 object DynamicValueDrawableGenerator {
@@ -63,19 +65,20 @@ object DynamicValueDrawableGenerator {
 
     fun getFriendlyName(phrase: String): String{
 
+        val resources = Expander.context.resources
         when(phrase){
-            "!d"            -> return "Day of Week"
-            "!ds"           -> return "Day of Week (Short)"
-            "!dm"           -> return "Day of Month"
-            "!ms"           -> return "Month (Short Name)"
-            "!m"            -> return "Month"
-            "!y"            -> return "Year"
-            "!ys"           -> return "Year (Short)"
-            "!t12h"         -> return "Time (12 Hours)"
-            "!t24h"         -> return "Time (24 Hours)"
-            "!date"         -> return "Date"
-            "!clipboard"    -> return "Device Clipboard"
-            "!phonemm"      -> return "Phone Make & Model"
+            "!d"            -> return resources.getString(R.string.dynamic_value_friendly_name_day_of_week)
+            "!ds"           -> return resources.getString(R.string.dynamic_value_friendly_name_day_of_week_short)
+            "!dm"           -> return resources.getString(R.string.dynamic_value_friendly_name_day_of_month)
+            "!ms"           -> return resources.getString(R.string.dynamic_value_friendly_name_month_short)
+            "!m"            -> return resources.getString(R.string.dynamic_value_friendly_name_month)
+            "!y"            -> return resources.getString(R.string.dynamic_value_friendly_name_year)
+            "!ys"           -> return resources.getString(R.string.dynamic_value_friendly_name_year_short)
+            "!t12h"         -> return resources.getString(R.string.dynamic_value_friendly_name_time_12_hours)
+            "!t24h"         -> return resources.getString(R.string.dynamic_value_friendly_name_time_24_hours)
+            "!date"         -> return resources.getString(R.string.dynamic_value_friendly_name_date)
+            "!clipboard"    -> return resources.getString(R.string.dynamic_value_friendly_name_clipboard)
+            "!phonemm"      -> return resources.getString(R.string.dynamic_value_friendly_name_phone)
             else -> {
                 return "Unknown"
             }

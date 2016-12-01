@@ -80,15 +80,15 @@ object DynamicPhraseGenerator {
 
     @JvmStatic fun setDynamicPhraseValue (context: Context, phrase: String, locale: Locale) : String? {
         when (phrase) {
-            "!d" -> return SimpleDateFormat("EEEE", locale).format(Calendar.getInstance().time)
-            "!ds" -> return SimpleDateFormat("EE", locale).format(Calendar.getInstance().time)
-            "!dm" -> return SimpleDateFormat("d", locale).format(Calendar.getInstance().time)
-            "!m" -> return SimpleDateFormat("MMMM", locale).format(Calendar.getInstance().time)
-            "!ms" -> return  SimpleDateFormat("MMM", locale).format(Calendar.getInstance().time)
-            "!y" -> return  SimpleDateFormat("yyyy", locale).format(Calendar.getInstance().time)
-            "!ys" -> return  SimpleDateFormat("yy", locale).format(Calendar.getInstance().time)
-            "!t12h" -> return  SimpleDateFormat("hh:mm aaa", locale).format(Calendar.getInstance().time)
-            "!t24h" -> return  SimpleDateFormat("HH:mm", locale).format(Calendar.getInstance().time)
+            "!d"    -> return SimpleDateFormat("EEEE", locale).format(Calendar.getInstance().time)
+            "!ds"   -> return SimpleDateFormat("EE", locale).format(Calendar.getInstance().time)
+            "!dm"   -> return SimpleDateFormat("d", locale).format(Calendar.getInstance().time)
+            "!m"    -> return SimpleDateFormat("MMMM", locale).format(Calendar.getInstance().time)
+            "!ms"   -> return SimpleDateFormat("MMM", locale).format(Calendar.getInstance().time)
+            "!y"    -> return SimpleDateFormat("yyyy", locale).format(Calendar.getInstance().time)
+            "!ys"   -> return SimpleDateFormat("yy", locale).format(Calendar.getInstance().time)
+            "!t12h" -> return SimpleDateFormat("hh:mm aaa", locale).format(Calendar.getInstance().time)
+            "!t24h" -> return SimpleDateFormat("HH:mm", locale).format(Calendar.getInstance().time)
             "!date" -> return DateFormat.getDateInstance(DateFormat.SHORT, locale).format(Calendar.getInstance().time)
             "!clipboard" -> {
                 val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
