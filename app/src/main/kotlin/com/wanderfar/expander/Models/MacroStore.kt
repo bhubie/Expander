@@ -30,9 +30,12 @@ object MacroStore {
 
     fun saveMacro(macro: Macro){
 
-        Paper.book("Macros").write("macro_" + macro.name, macro)
+        Paper.book("Macros").write(macro.name, macro)
 
+    }
 
+    fun getMacroKeys() : MutableList<String>{
+        return Paper.book("Macros").allKeys
     }
 
     fun getMacros() : MutableList<Macro>{
@@ -45,12 +48,8 @@ object MacroStore {
         val keys = Paper.book("Macros").allKeys
 
 
-        for (item: String in keys) {
-            //val macro = macroDB.getObject(item, Macro::class.java)
-            val macro = Paper.book("Macros").read<Macro>(item)
-            macroList.add(macro)
-
-            println(macro.name)
+        keys.mapTo(macroList) { //val macro = macroDB.getObject(item, Macro::class.java)
+            Paper.book("Macros").read<Macro>(it)
         }
 
         return macroList
@@ -59,20 +58,20 @@ object MacroStore {
     fun deleteMacro(name : String){
 
         //Paper.init(Expander.context)
-        Paper.book("Macros").delete("macro_" + name)
+        Paper.book("Macros").delete(name)
     }
 
     fun getMacro(macroToLoad: String) : Macro? {
 
         //Paper.init(Expander.context)
-        val macro = Paper.book("Macros").read<Macro>("macro_" + macroToLoad)
+        val macro = Paper.book("Macros").read<Macro>(macroToLoad)
 
 
         return macro
     }
 
     fun hasMacroChanged(macroToCheck: Macro, originalName: String): Boolean{
-        val loadedMacro = Paper.book("Macros").read<Macro>("macro_" + originalName)
+        val loadedMacro = Paper.book("Macros").read<Macro>(originalName)
 
         println(loadedMacro.areObjectMemberEqual(macroToCheck))
         return loadedMacro.areObjectMemberEqual(macroToCheck).not()
@@ -80,7 +79,7 @@ object MacroStore {
 
     fun Macro.areObjectMemberEqual(macroToCheck : Macro): Boolean{
         return this.name == macroToCheck.name && this.phrase == macroToCheck.phrase
-                && this.description == macroToCheck.description && this.isCaseSensitive == macroToCheck.isCaseSensitive
+                && this.description.equals(macroToCheck.description) && this.isCaseSensitive == macroToCheck.isCaseSensitive
                 && this.expandWhenSetting == macroToCheck.expandWhenSetting && this.macroPattern == macroToCheck.macroPattern
     }
 

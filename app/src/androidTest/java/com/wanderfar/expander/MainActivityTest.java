@@ -1,5 +1,6 @@
 package com.wanderfar.expander;
 
+import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -23,6 +24,10 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 
+import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.buildGenericTestMacro;
+import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.initDB;
+import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.saveMacro;
+import static com.wanderfar.expander.TestHelpers.TestUtils.isGone;
 import static org.hamcrest.core.AllOf.allOf;
 
 
@@ -57,10 +62,42 @@ public class MainActivityTest {
         // Start from the home screen
         mDevice.pressHome();
 
+        //Initialize the DB and clear it
+        initDB(InstrumentationRegistry.getTargetContext());
+
+    }
+
+    @Test
+    public void testNoMacroFoundMessageIsDisplayed(){
+        //Test that if no macros were loaded that no macros found message is visible
+
+        //Launch the main activity
+        Intent intent = new Intent();
+        mActivityRule.launchActivity(intent);
+
+        //Validate that the no Macro Message is visible
+
+        onView(withId(R.id.noMacroFound)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testNoMacroFoundMessageIsNotDisplayed(){
+        //Test that if a macro is loaded that the no macro found message is not displayed
+
+        //create a generic test macro and save it
+        //Save the Macro
+        saveMacro(buildGenericTestMacro());
+        
+        //Launch the main activity
+        Intent intent = new Intent();
+        mActivityRule.launchActivity(intent);
+
+        //Validate that the no Macro Message is not visible
+        onView(withId(R.id.noMacroFound)).check(isGone());
     }
 
 
-    @Test
+    /*@Test
     public void testThatIfAccessibilityPermissionForAppIsOffThatSnackbarAppears() {
 
 
@@ -107,9 +144,9 @@ public class MainActivityTest {
             e.printStackTrace();
         }
         mDevice.waitForIdle();
-       /* onView(allOf(withId(android.support.design.R.id.snackbar_text),
+       *//* onView(allOf(withId(android.support.design.R.id.snackbar_text),
                 withText("Please enable Accessibility Settings permission for " + mActivityRule.getActivity().getResources().getString(R.string.app_name) + ". This is a required permission for the app to work.")))
-                .check(doesNotExist());*/
+                .check(doesNotExist());*//*
 
     }
 
@@ -185,8 +222,6 @@ public class MainActivityTest {
 
         expanderApp.click();
 
-
-
         UiScrollable texterScreen = new UiScrollable(LauncherHelper.LAUNCHER_CONTAINER);
         texterScreen.setAsVerticalList();
 
@@ -226,5 +261,5 @@ public class MainActivityTest {
             isPermissionOff = false;
             return permissionOn;
         }
-    }
+    }*/
 }

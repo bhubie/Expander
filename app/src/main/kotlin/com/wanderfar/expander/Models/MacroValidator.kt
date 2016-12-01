@@ -35,7 +35,7 @@ object MacroValidator {
         with(macro){
             if(name.isNullOrEmpty()) return MacroError.EMPTY_NAME
             if(phrase.isNullOrEmpty()) return MacroError.EMPTY_PHRASE
-            if(Paper.book("Macros").exist("macro_" + name) && isNewMacro) return MacroError.DUPLICATE_NAME
+            if(Paper.book("Macros").exist(name) && isNewMacro) return MacroError.DUPLICATE_NAME
         }
 
         return MacroError.NO_ERROR

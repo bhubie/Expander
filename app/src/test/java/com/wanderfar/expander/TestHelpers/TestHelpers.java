@@ -18,8 +18,14 @@
 
 package com.wanderfar.expander.TestHelpers;
 
+
 import com.wanderfar.expander.Models.Macro;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 public class TestHelpers {
@@ -33,28 +39,68 @@ public class TestHelpers {
                                     String macroDescription, Boolean isCaseSensative, int ExpandWhenSetting){
         Macro macro = new Macro();
 
-        macro.name = macroName;
-        macro.phrase = macroPhrase;
-        macro.description = macroDescription;
+        macro.setName(macroName);
+        macro.setPhrase(macroPhrase);
+        macro.setDescription(macroDescription);
         macro.setExpandWhenSetting(ExpandWhenSetting);
         macro.setCaseSensitive(isCaseSensative);
+        macro.setMacroPattern(setMacroRegexPattern(ExpandWhenSetting, macroName));
 
-        macro.macroPattern = setMacroRegexPattern(ExpandWhenSetting, macroName);
         return macro;
     }
 
     private static String setMacroRegexPattern(int whenToExpand, String name){
 
+        String newName = name.replace("(", "\\(").replace(")", "\\)");
+
         switch(whenToExpand){
 
-            case ON_A_SPACE_OR_PERIOD : return "(" + name + ")" + "(\\s|\\.|\\.\\s)";
-            case ON_A_SPACE : return "(" + name + ")" + "(\\s)";
-            case ON_A_PERIOD : return "(" + name + ")" + "(\\.)";
-            case IMMEDIATELY : return name;
-            default: return name;
+            case ON_A_SPACE_OR_PERIOD : return "(" + newName + ")" + "(\\s|\\.|\\.\\s)";
+            case ON_A_SPACE : return "(" + newName + ")" + "(\\s)";
+            case ON_A_PERIOD : return "(" + newName + ")" + "(\\.)";
+            case IMMEDIATELY : return newName;
+            default: return newName;
 
         }
+    }
 
+    public static Date getAPastDayOfTheWeek(String dayToGet) {
 
+        Calendar calendar = new GregorianCalendar();
+
+        switch (dayToGet) {
+            case "Monday" :  calendar.set(2015, Calendar.JUNE, 15);
+                break;
+            case "Tuesday" :  calendar.set(2015, Calendar.JUNE, 16);
+                break;
+            case "Wednesday" :  calendar.set(2015, Calendar.JUNE, 17);
+                break;
+            case "Thursday" :  calendar.set(2015, Calendar.JUNE, 18);
+                break;
+            case "Friday" :  calendar.set(2015, Calendar.JUNE, 19);
+                break;
+            case "Saturday" :  calendar.set(2015, Calendar.JUNE, 20);
+                break;
+            case "Sunday" :  calendar.set(2015, Calendar.JUNE, 21);
+                break;
+        }
+
+        calendar.set(Calendar.HOUR_OF_DAY,17);
+        calendar.set(Calendar.MINUTE,35);
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,0);
+
+        return calendar.getTime();
+    }
+
+    public static void setFinalStatic(Field field, Object newValue) throws Exception {
+        field.setAccessible(true);
+
+        // remove final modifier from field
+        Field modifiersField = Field.class.getDeclaredField("modifiers");
+        modifiersField.setAccessible(true);
+        modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+
+        field.set(null, newValue);
     }
 }

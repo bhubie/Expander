@@ -20,46 +20,54 @@
 
 package com.wanderfar.expander.Services
 
+import com.wanderfar.expander.Application.Expander
+import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.Models.MacroConstants
+import com.wanderfar.expander.Models.MacroStore
+import java.util.*
 
 
 class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceView) : MacroAccessibilityServicePresenter {
 
-
-
-
     var macroAccessibilityServiceView = view
 
+    var macrosToCheck : MutableList<Macro>? = null
     lateinit var text : String
     var matchedMacro : String = null.toString()
     var matchedMacroStartingPosition : Int = 0
     var matchedMacroEndingPosition : Int = 0
     var isInitialized : Boolean = false
+    var charactersInsertedFromDynamicPhrases : Int = 0
 
 
-    override fun onAccessibilityEvent(macrosToCheck : MutableList<Macro>, textToCheck : String, cursorPosition: Int) {
-
+    override fun onAccessibilityEvent(textToCheck : String, cursorPosition: Int,
+                                      replaceDynamicPhrases: Boolean) {
+        if (macrosToCheck == null){
+            macrosToCheck = MacroStore.getMacros()
+            println("Macro List is empty")
+        }
         if (isInitialized){
             macroAccessibilityServiceView.hideFloatingUI()
         }
-        print("Is repeat visit is: " + isInitialized)
+
         isInitialized == true
 
         //declare variable that will say if a match was found
         var aMatchWasFound : Boolean = false
 
+
         //declare variables that will store the start of the match and the new cursor position
         var newCursorPosition : Int = 0
+        charactersInsertedFromDynamicPhrases = 0
 
         text = textToCheck
 
         //Hide the floating UI if it is already out there.
         //macroAccessibilityServiceView.hideFloatingUI()
 
-        for (macro: Macro in macrosToCheck) {
-
-            println(macro.name + " " + macro.macroPattern.toRegex().containsMatchIn(text.toString()))
+        //for (macro: Macro in macrosToCheck) {
+        macrosToCheck?.forEach { macro: Macro ->
 
             //get the length of the macro we are checking as we don't want to scan the whole text
             val macrolength = macro.name.length + 1
@@ -79,18 +87,26 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
             if (result != null && hasCurrentMatchBeenUnDone(macro.name,
                     result.range.start, matchedMacro, matchedMacroStartingPosition).not()){
 
+
                 //If Macro is set to expand immediately, set the end replacing range to be end range + 1
                 //This fixes bug where it wasn't replacing the whole shortcut when setting the phrase
                 if (macro.expandWhenSetting == MacroConstants.IMMEDIATELY){
-                    text = text.replaceRange(result.range.start, result.range.endInclusive + 1, macro.phrase)
+                    if (replaceDynamicPhrases){
+                        text = text.replaceRange(result.range.start, result.range.endInclusive + 1, replaceDynamicPhrases(macro.phrase))
+                    }else {
+                        text = text.replaceRange(result.range.start, result.range.endInclusive + 1, macro.phrase)
+                    }
 
-                    newCursorPosition = setNewCursorPosition(result.range.start, macro.phrase.length)
+                    newCursorPosition = charactersInsertedFromDynamicPhrases + setNewCursorPosition(result.range.start, macro.phrase.length)
                 } else {
-                    text = text.replaceRange(result.range.start, result.range.endInclusive, macro.phrase)
+                    if (replaceDynamicPhrases){
+                        text = text.replaceRange(result.range.start, result.range.endInclusive, replaceDynamicPhrases(macro.phrase))
+                    } else {
+                        text = text.replaceRange(result.range.start, result.range.endInclusive, macro.phrase)
+                    }
 
-                    newCursorPosition = setNewCursorPosition(result.range.start, macro.phrase.length) + 1
+                    newCursorPosition = charactersInsertedFromDynamicPhrases + setNewCursorPosition(result.range.start, macro.phrase.length) + 1
                 }
-
 
                 aMatchWasFound = true
 
@@ -98,7 +114,6 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
                 matchedMacro = macro.name
                 matchedMacroStartingPosition = result.range.start
                 matchedMacroEndingPosition = result.range.start + macro.phrase.length
-
 
             }
         }
@@ -120,9 +135,11 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
     }
 
     override fun undoSetText() {
-        text = text.replaceRange(matchedMacroStartingPosition, matchedMacroEndingPosition, matchedMacro)
+        text = text.replaceRange(matchedMacroStartingPosition,
+                matchedMacroEndingPosition + charactersInsertedFromDynamicPhrases,
+                matchedMacro)
 
-        macroAccessibilityServiceView.updateText(text, setNewCursorPosition(matchedMacroStartingPosition, matchedMacro.length))
+        macroAccessibilityServiceView.updateText(text, setNewCursorPosition(matchedMacroStartingPosition, matchedMacro.length + 1))
     }
 
     private fun  setTextSearchStart(macroLength: Int, cursorPosition: Int): Int {
@@ -158,11 +175,38 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         //Check if the current match we are on matches the previous match and that the starting positions match as well
         //If they do, that means the user "un-did" the match so we shouldn't re-do it
 
-        if (currentMatch == previousMatch && currentMatchStart == previousMatchStart){
-            return true
-        } else {
-            return false
+        return currentMatch == previousMatch && currentMatchStart == previousMatchStart
+    }
+
+    private fun replaceDynamicPhrases(textToCheck : String) : String {
+
+        //Get the list of dynamic values
+        val dynamicPhrases = DynamicPhraseGenerator.checkTextForDynamicPhrases(textToCheck)
+
+        //if the list is empty, return the original text
+        if (dynamicPhrases.isEmpty()){
+            return textToCheck
+
         }
+        else {
+
+            //if the list isn't empty, replace the text
+            var updatedText = textToCheck
+
+            for ((phrase) in dynamicPhrases){
+                //Get the value of the phrase
+                val phraseValue = DynamicPhraseGenerator.setDynamicPhraseValue(Expander.context, phrase, Locale.getDefault())
+
+                //Replace it in the text and return it
+                updatedText = updatedText.replace(phrase, phraseValue.toString(), false)
+
+                charactersInsertedFromDynamicPhrases += (phraseValue.toString().length - phrase.length)
+
+            }
+
+            return updatedText
+        }
+
     }
 
 

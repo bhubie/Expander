@@ -17,33 +17,10 @@
  */
 
 
-package com.wanderfar.expander.Application
-
-import android.app.Application
-import android.content.Context
-import io.paperdb.Paper
+package com.wanderfar.expander.DynamicPhraseGenerator
 
 
-
-
-class Expander: Application() {
-
-
-    companion object {
-        //platformStatic allow access it from java code
-        //@JvmStatic lateinit var graph: ApplicationComponent
-        @JvmStatic lateinit var context : Context
-    }
-
-
-
-    override fun onCreate() {
-        super.onCreate()
-
-
-        Paper.init(applicationContext)
-
-        context = applicationContext
-    }
-
-}
+data class DynamicPhraseFoundModel(val phrase : String,
+                                   val startPosition : Int,
+                                   val endPosition: Int,
+                                   val phraseLength : Int)

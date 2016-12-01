@@ -31,11 +31,17 @@ class MainActivityPresenterImpl(override var view: MainActivityView?) : MainActi
     override fun onCreate() {
         //on Create Load existing Macros
         //TODO Load on background thread
-
-
         view?.showProgress()
 
-        view?.setData(MacroStore.getMacros())
+        val macroList = MacroStore.getMacros()
+
+        //if macro list is not empty, load the macros to the view
+        //Else display the no macro found message
+        if (macroList.isNotEmpty()){
+            view?.setData(macroList)
+        } else {
+            view?.showNoMacroFoundMessage()
+        }
 
         view?.hideProgress()
 
@@ -44,6 +50,5 @@ class MainActivityPresenterImpl(override var view: MainActivityView?) : MainActi
     override fun onResume() {
 
     }
-
 
 }

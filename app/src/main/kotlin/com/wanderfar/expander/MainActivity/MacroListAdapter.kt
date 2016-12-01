@@ -25,6 +25,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.wanderfar.expander.DynamicValue.DynamicValueTextView
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.R
 
@@ -46,8 +47,7 @@ class MacroListAdapter
 
         init {
             macroName = v.findViewById(R.id.macroName) as TextView
-            macroPhrase = v.findViewById(R.id.macroPhrase) as TextView
-
+            macroPhrase = v.findViewById(R.id.macroPhrase) as DynamicValueTextView
 
         }
 
@@ -59,12 +59,7 @@ class MacroListAdapter
         notifyItemInserted(position)
     }
 
-
-    fun remove(position: Int) {
-        mDataset!!.removeAt(position)
-        notifyItemRemoved(position)
-    }
-
+    
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): MacroListAdapter.ViewHolder {

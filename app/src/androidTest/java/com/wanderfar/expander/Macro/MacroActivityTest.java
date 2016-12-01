@@ -19,28 +19,29 @@
 package com.wanderfar.expander.Macro;
 
 
+
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.KeyEvent;
 
 import com.wanderfar.expander.MainActivity.MainActivity;
 import com.wanderfar.expander.TestHelpers.MacroTestHelpers;
 import com.wanderfar.expander.Models.Macro;
 import com.wanderfar.expander.R;
 
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.pressKey;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -53,8 +54,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.initDB;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.saveMacro;
 import static com.wanderfar.expander.TestHelpers.TestUtils.atPosition;
+import static com.wanderfar.expander.TestHelpers.TestUtils.clearSharedPrefs;
 import static com.wanderfar.expander.TestHelpers.TestUtils.hasErrorText;
+import static com.wanderfar.expander.TestHelpers.TestUtils.isGone;
+import static com.wanderfar.expander.TestHelpers.TestUtils.setBooleanPref;
 import static java.lang.Thread.sleep;
+
 
 
 @RunWith(AndroidJUnit4.class)
@@ -80,6 +85,8 @@ public class MacroActivityTest {
         //Save the Macro
         saveMacro(testMacro);
     }
+
+
 
     //Start activity tests
 
@@ -360,5 +367,129 @@ public class MacroActivityTest {
         onView(withId(R.id.noteListRecyclerView))
                 .check(matches(atPosition(0, hasDescendant(withText(testMacro.getName())))));
 
+    }
+
+
+    @Test
+    public void dynamicValuesTurnedOffTest(){
+        //Validates that if dynamic values is turned off in the settings that the add dynamic values button is not present
+
+        //Clear shared Prefs
+        clearSharedPrefs(InstrumentationRegistry.getTargetContext());
+
+        //Set pref
+        setBooleanPref(InstrumentationRegistry.getTargetContext(), "isDynamicValuesEnabled", false);
+
+        //launch the main activity
+        Intent intent = new Intent();
+        mActivityTestRule.launchActivity(intent);
+
+        //Validate button is not present
+        onView(withId(R.id.dynamic_value_button)).check(isGone());
+
+    }
+
+    @Test
+    public void dynamicValuesTurnedOnTest(){
+        //Validates that if dynamic values is turned on in the settings that the add dynamic values button is present
+
+        //Clear shared Prefs
+        clearSharedPrefs(InstrumentationRegistry.getTargetContext());
+
+        //Set pref
+        setBooleanPref(InstrumentationRegistry.getTargetContext(), "isDynamicValuesEnabled", true);
+
+        //launch the main activity
+        Intent intent = new Intent();
+        mActivityTestRule.launchActivity(intent);
+
+        //Validate button is present
+        onView(withId(R.id.dynamic_value_button)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void addDynamicValue(){
+        //Validates that when a user adds a dynamic value from the pop up that the dynamic value is added to the phrase edit text
+        //And that it properly adds a space if the last character didn't contain a space
+
+        //Clear shared Prefs
+        clearSharedPrefs(InstrumentationRegistry.getTargetContext());
+
+        //Set pref
+        setBooleanPref(InstrumentationRegistry.getTargetContext(), "isDynamicValuesEnabled", true);
+
+        //launch the main activity
+        Intent intent = new Intent();
+        mActivityTestRule.launchActivity(intent);
+
+        //Input text into the phrase field
+        onView(withId(R.id.input_phrase)).perform(clearText(), typeText("Test Phrase"));
+
+        //Click the dynamic value button
+        onView(withId(R.id.dynamic_value_button)).perform(click());
+
+        //Click the first item in the recyclerview
+        onView(withId(R.id.dynamicValueRecyclerView)).perform(
+                RecyclerViewActions.actionOnItemAtPosition(1, click()));
+
+        //Validate the phrase now contains the dynamic value phrase for day of week
+        onView(withId(R.id.input_phrase)).check(matches(withText("Test Phrase !d")));
+    }
+
+    @Test
+    public void clickDynamicValueHeader(){
+        //Validates that when you click the add dynamic value header for Date/Time or Misc that nothing happens
+
+        //Clear shared Prefs
+        clearSharedPrefs(InstrumentationRegistry.getTargetContext());
+
+        //Set pref
+        setBooleanPref(InstrumentationRegistry.getTargetContext(), "isDynamicValuesEnabled", true);
+
+        //launch the main activity
+        Intent intent = new Intent();
+        mActivityTestRule.launchActivity(intent);
+
+        //Click the dynamic value button
+        onView(withId(R.id.dynamic_value_button)).perform(click());
+
+        //Click the first item in the recyclerview
+        onView(withId(R.id.dynamicValueRecyclerView)).perform(
+                RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+        //Validate the recyclierview is still displayed
+        onView(withId(R.id.dynamicValueRecyclerView)).check(matches(isDisplayed()));
+
+        //Click the 10th item in the recylerview.
+        onView(withId(R.id.dynamicValueRecyclerView)).perform(
+                RecyclerViewActions.actionOnItemAtPosition(11, click()));
+
+        //Validate the recyclierview is still displayed
+        onView(withId(R.id.dynamicValueRecyclerView)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void deleteDynamicValueFromPhrase(){
+        //Tests that if the user hits the back space button and they are deleting a dynamic value
+        //That the whole dynamic value is deleted
+
+        //Clear shared Prefs
+        clearSharedPrefs(InstrumentationRegistry.getTargetContext());
+
+        //Set pref
+        setBooleanPref(InstrumentationRegistry.getTargetContext(), "isDynamicValuesEnabled", true);
+
+        //launch the main activity
+        Intent intent = new Intent();
+        mActivityTestRule.launchActivity(intent);
+
+        //Input text into the phrase field
+        onView(withId(R.id.input_phrase)).perform(clearText(), typeText("Test Phrase !d"));
+
+        //Press the delete key in input phrase
+        onView(withId(R.id.input_phrase)).perform(pressKey(KeyEvent.KEYCODE_DEL));
+
+        //Validate the phrase now contains the dynamic value phrase for day of week
+        onView(withId(R.id.input_phrase)).check(matches(withText("Test Phrase ")));
     }
 }

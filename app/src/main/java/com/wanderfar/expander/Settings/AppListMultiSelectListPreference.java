@@ -20,7 +20,6 @@
 package com.wanderfar.expander.Settings;
 
 import android.annotation.TargetApi;
-
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -94,7 +93,7 @@ public class AppListMultiSelectListPreference extends MultiSelectListPreference 
                             setEntryValues(entriesValues.toArray(new CharSequence[]{}));
                         }
                     });*/
-                }
+            }
 
         };
 

@@ -16,34 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+package com.wanderfar.expander.DynamicPhraseGenerator
 
-package com.wanderfar.expander.Application
-
-import android.app.Application
-import android.content.Context
-import io.paperdb.Paper
-
-
-
-
-class Expander: Application() {
-
-
-    companion object {
-        //platformStatic allow access it from java code
-        //@JvmStatic lateinit var graph: ApplicationComponent
-        @JvmStatic lateinit var context : Context
-    }
-
-
-
-    override fun onCreate() {
-        super.onCreate()
-
-
-        Paper.init(applicationContext)
-
-        context = applicationContext
-    }
-
-}
+data class DynamicPhrase (val name : String,
+                          val phrase : String)

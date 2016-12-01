@@ -22,29 +22,26 @@ package com.wanderfar.expander.Macro
 
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.SwitchCompat
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.view.View
+import com.wanderfar.expander.DynamicValue.DynamicValueDialogFragment
+
 import com.wanderfar.expander.MainActivity.MainActivity
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.Models.MacroConstants
 import com.wanderfar.expander.R
+import kotlinx.android.synthetic.main.activity_macro.*
 
 
-class MacroActivity : AppCompatActivity(), MacroActivityView {
+class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialogFragment.DynamicValueDialogListener {
 
-    lateinit var macroName: EditText
-    lateinit var macroPhrase: EditText
-    lateinit var macroDescription: EditText
-    lateinit var isCaseSensitive: SwitchCompat
-    lateinit var expandWhenContainer : LinearLayout
-    lateinit var expandWhenSetting: TextView
+    lateinit var dynamicValueDialogFragment : DynamicValueDialogFragment
+
+
     var originalName: String = ""
     var expandWhenValue : Int = MacroConstants.ON_A_SPACE_OR_PERIOD
     var mMacroToOpen: String? = null
@@ -60,14 +57,7 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_macro)
 
-        val toolbar = findViewById(R.id.toolbar) as Toolbar?
         setSupportActionBar(toolbar)
-
-        macroName = findViewById(R.id.input_name) as EditText
-        macroPhrase = findViewById(R.id.input_phrase) as EditText
-        macroDescription = findViewById(R.id.input_description) as EditText
-        isCaseSensitive = findViewById(R.id.case_sensitive_switch) as SwitchCompat
-
 
         mMacroToOpen = intent.getStringExtra(resources.getString(R.string.string_extra_macro_name))
 
@@ -82,15 +72,19 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
 
         initExpandWhenSettings()
 
-        mPresenter.onCreate(mMacroToOpen.toString())
+        initAddDynamicValueButton()
+
+        mPresenter.onCreate((mMacroToOpen.toString()))
     }
-
-
 
 
     override fun onResume(){
         super.onResume()
 
+        //check if dynamic values is turned on,  if its off, make the button invisible
+        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean("isDynamicValuesEnabled", false)){
+            dynamic_value_button.visibility = View.GONE
+        }
         mPresenter.onResume()
     }
 
@@ -116,8 +110,6 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_macro, menu)
-
-
 
         return true
     }
@@ -147,8 +139,6 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
     }
 
 
-
-
     override fun showProgress() {
 
     }
@@ -160,13 +150,13 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
     override fun setData(macro: Macro) {
 
         val items = resources.getStringArray(R.array.expand_when_labels)
-        macroName.setText(macro.name)
+        input_name.setText(macro.name)
         originalName = macro.name
-        macroPhrase.setText(macro.phrase)
-        expandWhenSetting.text = items[macro.expandWhenSetting].toString()
+        input_phrase.setText(macro.phrase)
+        expandWhenSummary.text = items[macro.expandWhenSetting].toString()
 
         if (macro.description.isNullOrEmpty().not()){
-            macroDescription.setText(macro.description)
+            input_description.setText(macro.description)
         }
     }
 
@@ -176,16 +166,16 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
 
 
     override fun showDuplicateMacroError() {
-        macroName.error = resources.getString(R.string.macro_activity_duplicate_name_error_message)
+        input_name.error = resources.getString(R.string.macro_activity_duplicate_name_error_message)
 
     }
 
     override fun showMacroNoNameError() {
-        macroName.error = resources.getString(R.string.macro_activity_no_name_error_message)
+        input_name.error = resources.getString(R.string.macro_activity_no_name_error_message)
     }
 
     override fun showMacroNoPhraseError() {
-        macroPhrase.error = resources.getString(R.string.macro_activity_no_phrase_error_message)
+        input_phrase.error = resources.getString(R.string.macro_activity_no_phrase_error_message)
     }
 
     override fun showSavedMacro() {
@@ -194,34 +184,30 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
         finish()
     }
 
-    private fun initExpandWhenSettings() {
-        expandWhenContainer = findViewById(R.id.caseExpandWhenContainer) as LinearLayout
-        expandWhenSetting = findViewById(R.id.expandWhenSummary) as TextView
+    override fun onFinishDialog(dynamicValue: String) {
+        //Before updating text, check if the last character contains a space.
+        //If it doesn't and the phrase isn't empty append a space with the dynamic value
+
+        if (input_phrase.text.isEmpty() || input_phrase.text.last().isWhitespace()){
+            input_phrase.append(dynamicValue)
+        } else {
+            input_phrase.append(" $dynamicValue")
+        }
+
+        //Dismiss the dialog if it is showing
+        if (dynamicValueDialogFragment.isVisible){
+            dynamicValueDialogFragment.dismiss()
+        }
 
 
-        val items = resources.getStringArray(R.array.expand_when_labels)
-        expandWhenSetting.text = items[MacroConstants.ON_A_SPACE_OR_PERIOD]
-
-        expandWhenContainer.setOnClickListener ({
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("When Should the Shortcut Expand?")
-
-            builder.setItems(items) { dialog, item ->
-                expandWhenSetting.text = items[item].toString()
-                expandWhenValue = item
-            }
-
-            val alert = builder.create()
-            alert.show()
-        })
     }
 
     override fun askIfUserWantsToSaveChanges() {
         AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle)
-            .setTitle("Changes Found")
-            .setMessage("Would you like to save your changes?")
-            .setPositiveButton("Save", { dialog, which -> saveMacro() })
-            .setNegativeButton("Discard", { dialog, which -> goBack() })
+            .setTitle(getString(R.string.macro_activity_changes_found_title))
+            .setMessage(getString(R.string.macro_activity_changes_found_message_body))
+            .setPositiveButton(getString(R.string.macro_activity_changes_found_positive_button), { dialog, which -> saveMacro() })
+            .setNegativeButton(getString(R.string.macro_activity_changes_found_negative_button), { dialog, which -> goBack() })
             .create()
             .show()
     }
@@ -229,9 +215,9 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
     override fun onBackPressed(){
 
         if (isNewMacro.not()){
-            mPresenter.checkIfMacroIsChanged(originalName, macroName.text.toString(), macroPhrase.text.toString(),
-                    macroDescription.text.toString(),
-                    expandWhenValue, isCaseSensitive.isChecked, isNewMacro)
+            mPresenter.checkIfMacroIsChanged(originalName, input_name.text.toString(), input_phrase.text.toString(),
+                    input_description.text.toString(),
+                    expandWhenValue, case_sensitive_switch.isChecked, isNewMacro)
         } else {
             goBack()
         }
@@ -244,9 +230,39 @@ class MacroActivity : AppCompatActivity(), MacroActivityView {
 
     override fun saveMacro() {
 
-        mPresenter.saveMacro(originalName, macroName.text.toString(), macroPhrase.text.toString(),
-                macroDescription.text.toString(),
-                expandWhenValue ,isCaseSensitive.isChecked, isNewMacro)
+        mPresenter.saveMacro(originalName, input_name.text.toString(), input_phrase.text.toString(),
+                input_description.text.toString(),
+                expandWhenValue , case_sensitive_switch.isChecked, isNewMacro)
+
+    }
+
+    private fun initExpandWhenSettings() {
+
+        val items = resources.getStringArray(R.array.expand_when_labels)
+        expandWhenSummary.text = items[MacroConstants.ON_A_SPACE_OR_PERIOD]
+
+        caseExpandWhenContainer.setOnClickListener ({
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle(getString(R.string.macro_activity_expand_when_dialog_title))
+
+            builder.setItems(items) { dialog, item ->
+                expandWhenSummary.text = items[item].toString()
+                expandWhenValue = item
+            }
+
+            val alert = builder.create()
+            alert.show()
+        })
+    }
+
+
+    private fun initAddDynamicValueButton() {
+        dynamic_value_button.setOnClickListener {
+            val fm = supportFragmentManager
+            dynamicValueDialogFragment = DynamicValueDialogFragment()
+            dynamicValueDialogFragment.show(fm, null)
+
+        }
     }
 
 }

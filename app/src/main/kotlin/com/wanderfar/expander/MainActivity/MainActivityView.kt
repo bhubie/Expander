@@ -23,10 +23,6 @@ import com.wanderfar.expander.Base.View
 import com.wanderfar.expander.Models.Macro
 
 
-/**
- * Created by bretthuber on 7/16/16.
- */
-
 interface MainActivityView : View {
 
     // shows the loading bar
@@ -40,4 +36,7 @@ interface MainActivityView : View {
 
     //load's the note
     fun loadData(macros: MutableList<Macro>)
+
+    //shows no macro message
+    fun showNoMacroFoundMessage()
 }

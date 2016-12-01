@@ -20,7 +20,15 @@ package com.wanderfar.expander.TestHelpers;
 
 
 import android.content.Context;
+
+import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhrase;
+import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator;
+import com.wanderfar.expander.DynamicValue.DynamicValueDrawableGenerator;
 import com.wanderfar.expander.Models.Macro;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import io.paperdb.Paper;
 
 public class MacroTestHelpers {
@@ -34,25 +42,27 @@ public class MacroTestHelpers {
                                     String macroDescription, Boolean isCaseSensative, int ExpandWhenSetting){
         Macro macro = new Macro();
 
-        macro.name = macroName;
-        macro.phrase = macroPhrase;
-        macro.description = macroDescription;
+        macro.setName(macroName);
+        macro.setPhrase(macroPhrase);
+        macro.setDescription(macroDescription);
         macro.setExpandWhenSetting(ExpandWhenSetting);
         macro.setCaseSensitive(isCaseSensative);
 
-        macro.macroPattern = setMacroRegexPattern(ExpandWhenSetting, macroName);
+        macro.setMacroPattern(setMacroRegexPattern(ExpandWhenSetting, macroName));
         return macro;
     }
 
     private static String setMacroRegexPattern(int whenToExpand, String name){
 
+        String newName = name.replace("(", "\\(").replace(")", "\\)");
+
         switch(whenToExpand){
 
-            case ON_A_SPACE_OR_PERIOD : return "(" + name + ")" + "(\\s|\\.|\\.\\s)";
-            case ON_A_SPACE : return "(" + name + ")" + "(\\s)";
-            case ON_A_PERIOD : return "(" + name + ")" + "(\\.)";
-            case IMMEDIATELY : return name;
-            default: return name;
+            case ON_A_SPACE_OR_PERIOD : return "(" + newName + ")" + "(\\s|\\.|\\.\\s)";
+            case ON_A_SPACE : return "(" + newName + ")" + "(\\s)";
+            case ON_A_PERIOD : return "(" + newName + ")" + "(\\.)";
+            case IMMEDIATELY : return newName;
+            default: return newName;
 
         }
 
@@ -71,12 +81,68 @@ public class MacroTestHelpers {
 
     public static void saveMacro(Macro macroToSave){
 
-        Paper.book("Macros").write("macro_" + macroToSave.getName(), macroToSave);
+        Paper.book("Macros").write(macroToSave.getName(), macroToSave);
     }
 
     public static Macro getMacro(String macroToLoad){
 
        return Paper.book("Macros").read(macroToLoad, new Macro());
+    }
+
+    public static void createAndSaveDynamicvAlueMacros(){
+        //DynamicPhrase[] dynamicValues = DynamicPhraseGenerator.getDynamicPhrases();
+        String[] dynamicValues = DynamicPhraseGenerator.getDynamicPhrases();
+
+        for (String phrase:
+             dynamicValues) {
+
+            Macro macroToSave = createMacro(
+                   //phrase.getName() //Macro Name
+                    DynamicValueDrawableGenerator.getFriendlyName(phrase) //Macro Name
+                   //,"The phrase is: " + phrase.getPhrase() //Macro phase
+                    ,"The phrase is: " + phrase//Macro phase
+                   ,null //Macro Description
+                   ,false //is Case sensitive
+                   ,ON_A_SPACE_OR_PERIOD //Expand when setting
+            );
+
+            saveMacro(macroToSave);
+        }
+    }
+
+    public static void createTestMacros(int numberToCreate){
+
+        for (int i = 0; i < numberToCreate; i++){
+           Macro macroToSave = createMacro(
+                   "Macro" + i
+                   ,"Macro Phrase: " + i
+                   ,null
+                   ,false
+                   ,IMMEDIATELY
+           );
+
+            saveMacro(macroToSave);
+        }
+    }
+
+    public static List<Macro> getSavedMacros() {
+
+        List<Macro> macroList = new ArrayList<>();
+
+
+        //Paper.init(Expander.context)
+
+        List<String> keys = Paper.book("Macros").getAllKeys();
+
+
+        for (String item : keys) {
+            //val macro = macroDB.getObject(item, Macro::class.java)
+            Macro macro = Paper.book("Macros").read(item);
+                    macroList.add(macro);
+
+        }
+
+        return macroList;
     }
 
 }

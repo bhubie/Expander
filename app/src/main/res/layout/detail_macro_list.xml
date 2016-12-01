@@ -24,12 +24,14 @@
         android:id="@+id/macroName"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"/>
-    <TextView
+    <com.wanderfar.expander.DynamicValue.DynamicValueTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.wanderfar.expander"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/macroPhrase"
         android:layout_below="@+id/macroName"
-        android:textStyle="italic"/>
+        android:textStyle="italic"
+        custom:displayDrawableForDynamicValue="true"/>
 
 </RelativeLayout>
  </android.support.v7.widget.CardView>

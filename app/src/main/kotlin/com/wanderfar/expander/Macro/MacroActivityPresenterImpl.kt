@@ -60,13 +60,14 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
 
 
         val mMacro = Macro()
-        mMacro.name = name
-        mMacro.phrase = phrase
-        mMacro.description = description
-        mMacro.isCaseSensitive = isCaseSensitive
-        mMacro.expandWhenSetting = expandWhenSetting
-        mMacro.macroPattern = setMacroRegexPattern(expandWhenSetting, name)
-        
+        mMacro.apply {
+            this.name = name
+            this.phrase = phrase
+            this.description = description
+            this.isCaseSensitive = isCaseSensitive
+            this.expandWhenSetting = expandWhenSetting
+            this.macroPattern = setMacroRegexPattern(expandWhenSetting, name)
+        }
 
         //Validate we have a name and phrase before saving
         when(MacroValidator.validateMacro(mMacro, isNewMacro)){
@@ -103,12 +104,16 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
 
         val mMacro = Macro()
 
-        mMacro.name = newName
-        mMacro.phrase = phrase
-        mMacro.description = description
-        mMacro.isCaseSensitive = isCaseSensitive
-        mMacro.expandWhenSetting = expandWhenSetting
-        mMacro.macroPattern = setMacroRegexPattern(expandWhenSetting, newName)
+        mMacro.apply {
+
+            this.name = newName
+            this.phrase = phrase
+            this.description = description
+            this.isCaseSensitive = isCaseSensitive
+            this.expandWhenSetting = expandWhenSetting
+            this.macroPattern = setMacroRegexPattern(expandWhenSetting, newName)
+
+        }
 
         //If the macro has changed, as the user if they want to save or keep changed
         //If it hasn't changed call the back button like normal
@@ -131,13 +136,17 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
     }
 
     fun setMacroRegexPattern(whenToExpand : Int, name : String) : String {
+
+        //Make any parenthesis found in name be regex friendly
+        val regexFriendlyString = name.replace("(", "\\(").replace(")", "\\)")
+
         when (whenToExpand) {
-            MacroConstants.ON_A_SPACE_OR_PERIOD -> return "(" + name + ")" + "(\\s|\\.|\\.\\s)"
-            MacroConstants.ON_A_SPACE -> return "(" + name + ")" + "(\\s)"
-            MacroConstants.ON_A_PERIOD -> return "(" + name + ")" + "(\\.)"
-            MacroConstants.IMMEDIATELY -> return name
+            MacroConstants.ON_A_SPACE_OR_PERIOD -> return "($regexFriendlyString)(\\s|\\.|\\.\\s)"
+            MacroConstants.ON_A_SPACE -> return "($regexFriendlyString)(\\s)"
+            MacroConstants.ON_A_PERIOD -> return "($regexFriendlyString)(\\.)"
+            MacroConstants.IMMEDIATELY -> return regexFriendlyString
             else -> {
-                return name
+                return regexFriendlyString
             }
         }
     }

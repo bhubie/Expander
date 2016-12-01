@@ -26,11 +26,8 @@ import android.os.Bundle
 import android.provider.Settings
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -43,13 +40,13 @@ import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.R
 import com.wanderfar.expander.Settings.SettingsActivity
 import com.wanderfar.expander.Utilities.RecyclerItemClickListener
+import kotlinx.android.synthetic.main.activity_main2.*
 
 
 class MainActivity : AppCompatActivity(), MainActivityView {
 
-    lateinit var mRecyclerView : RecyclerView
+
     lateinit var mAdapter : MacroListAdapter
-    lateinit var mPullToRefresh : SwipeRefreshLayout
 
     //Create the presenter
     private val mPresenter : MainActivityPresenter<MainActivityView> by lazy {
@@ -62,7 +59,6 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
         //Expander.graph.inject(this)
 
-        val toolbar = findViewById(R.id.toolbar) as Toolbar?
         setSupportActionBar(toolbar)
 
         val fab = findViewById(R.id.fab) as FloatingActionButton?
@@ -79,8 +75,6 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
         mPresenter.onCreate()
     }
-
-
 
 
     override fun onResume(){
@@ -106,17 +100,14 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
 
     override fun showProgress() {
-
-        mPullToRefresh.isRefreshing = true
-
+        pullToRefresh.isRefreshing = true
     }
 
     override fun hideProgress() {
-        mPullToRefresh.isRefreshing = false
+        pullToRefresh.isRefreshing = false
     }
 
     override fun setData(macros: MutableList<Macro>) {
-
         mAdapter.setData(macros)
         mAdapter.notifyDataSetChanged()
 
@@ -126,15 +117,15 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
     }
 
+    override fun showNoMacroFoundMessage() {
+        noMacroFound.visibility = View.VISIBLE
+    }
 
     private fun checkIfAccessibilityPermissionIsEnabled() {
 
 
         if (isAccessibilityEnabled("com.wanderfar.expander/.Services.MacroAccessibilityService")){
-
-        //(isAccessibilityEnabled(resources.getString(R.string.accessibility_enabled))){
             println("Permission Enabled!")
-
             println("Package name is: " + applicationContext.packageName)
         }
         else {
@@ -170,7 +161,6 @@ class MainActivity : AppCompatActivity(), MainActivityView {
                 //.getEnabledAccessibilityServiceList(AccessibilityEvent.TYPES_ALL_MASK)
                 .getEnabledAccessibilityServiceList(AccessibilityEvent.TYPES_ALL_MASK)
 
-        //runningServices.
         for (service: AccessibilityServiceInfo in runningServices) {
 
             println("Services are:" + service.packageNames)
@@ -185,13 +175,13 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
 
     private fun initRecyclerView() {
-        mRecyclerView = findViewById(R.id.noteListRecyclerView) as RecyclerView
-        mAdapter = MacroListAdapter(this)
-        mRecyclerView.layoutManager = LinearLayoutManager(this,
-                LinearLayoutManager.VERTICAL, false)
-        mRecyclerView.adapter = mAdapter
 
-        mRecyclerView.addOnItemTouchListener(RecyclerItemClickListener(this, mRecyclerView, object : RecyclerItemClickListener.OnItemClickListener {
+        mAdapter = MacroListAdapter(this)
+        noteListRecyclerView.layoutManager = LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false)
+        noteListRecyclerView.adapter = mAdapter
+
+        noteListRecyclerView.addOnItemTouchListener(RecyclerItemClickListener(this, noteListRecyclerView, object : RecyclerItemClickListener.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 val bundle = Bundle()
                 bundle.putString(resources.getString(R.string.string_extra_macro_name), mAdapter.getMacroName(position))
@@ -208,17 +198,13 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     }
 
     private fun initPullToRefresh() {
-        mPullToRefresh = findViewById(R.id.pullToRefresh) as SwipeRefreshLayout
-
-        mPullToRefresh.setColorSchemeResources(R.color.colorAccent)
-
-        mPullToRefresh.setOnRefreshListener { mPresenter.onCreate() }
+        pullToRefresh.setColorSchemeResources(R.color.colorAccent)
+        pullToRefresh.setOnRefreshListener { mPresenter.onCreate() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
-
 
         return true
     }
@@ -226,9 +212,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         val id = item.itemId
-
         if (id == R.id.action_settings) {
-
             val intent1 = Intent(this, SettingsActivity::class.java)
             startActivity(intent1)
             return true
