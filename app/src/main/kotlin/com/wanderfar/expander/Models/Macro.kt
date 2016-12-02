@@ -27,7 +27,7 @@ class Macro (){
     var phrase : String = ""
     var description : String? = null
     var macroPattern : String = ""
-    //var usageCount : Int = 0
+    var usageCount : Int = 0
     var isCaseSensitive : Boolean = false
     var expandWhenSetting : Int = MacroConstants.ON_A_SPACE_OR_PERIOD
 

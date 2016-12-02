@@ -11,8 +11,8 @@ import com.wanderfar.expander.Application.Expander;
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator;
 import com.wanderfar.expander.DynamicValue.DynamicValueDrawableGenerator;
 import com.wanderfar.expander.Models.Macro;
-import com.wanderfar.expander.Services.MacroAccessibilityServicePresenterImpl;
-import com.wanderfar.expander.Services.MacroAccessibilityServiceView;
+import com.wanderfar.expander.MacroAccessibilityService.MacroAccessibilityServicePresenterImpl;
+import com.wanderfar.expander.MacroAccessibilityService.MacroAccessibilityServiceView;
 import com.wanderfar.expander.TestHelpers.MacroTestHelpers;
 
 import org.junit.Before;

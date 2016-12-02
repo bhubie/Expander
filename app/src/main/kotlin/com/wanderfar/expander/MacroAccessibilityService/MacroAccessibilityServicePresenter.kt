@@ -17,7 +17,7 @@
  */
 
 
-package com.wanderfar.expander.Services
+package com.wanderfar.expander.MacroAccessibilityService
 
 
 

@@ -17,16 +17,18 @@
  */
 
 
-package com.wanderfar.expander.Services
+package com.wanderfar.expander.MacroAccessibilityService
 
-import android.view.GestureDetector
-import android.view.MotionEvent
-
+import com.wanderfar.expander.Base.View
 
 
-class SingleTapConfirm : GestureDetector.SimpleOnGestureListener() {
 
-    override fun  onSingleTapUp(event : MotionEvent) : Boolean {
-        return true
-    }
+
+interface MacroAccessibilityServiceView : View {
+
+
+    fun updateText(updatedText : String, newCursorPosition : Int, matchedMacro : String)
+
+    fun hideFloatingUI()
 }
+

@@ -17,7 +17,7 @@
  */
 
 
-package com.wanderfar.expander.Services
+package com.wanderfar.expander.MacroAccessibilityService
 
 
 
@@ -39,6 +39,7 @@ import android.view.*
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.FrameLayout
+import com.wanderfar.expander.MacroStatisticsService.MacroStatisticsService
 import com.wanderfar.expander.Models.MacroStore
 import io.paperdb.Paper
 import java.util.*
@@ -157,7 +158,7 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         super.onDestroy()
     }
 
-    override fun updateText(updatedText: String, newCursorPosition: Int) {
+    override fun updateText(updatedText: String, newCursorPosition: Int, matchedMacro: String) {
         val arguments = Bundle()
         arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, updatedText)
 
@@ -178,6 +179,11 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
             }
         }
 
+        //Start service to update macro usage stats in the background
+        val intent = Intent(this, MacroStatisticsService::class.java)
+        intent.putExtra("MACRO", matchedMacro)
+        startService(intent)
+
     }
 
     override fun hideFloatingUI() {
@@ -189,8 +195,6 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
     }
 
 
-
-
     fun initFloatingUIElements() {
         floatingUI = FrameLayout(this)
 
@@ -199,8 +203,6 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
     }
 
     fun createFloatingUI() {
-
-
 
         val params = WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,

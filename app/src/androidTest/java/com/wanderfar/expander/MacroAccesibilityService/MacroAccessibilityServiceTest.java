@@ -30,7 +30,7 @@ import android.support.test.uiautomator.UiObjectNotFoundException;
 import com.wanderfar.expander.MainActivity.MainActivity;
 import com.wanderfar.expander.Models.Macro;
 import com.wanderfar.expander.R;
-import com.wanderfar.expander.Services.MacroAccessibilityService;
+import com.wanderfar.expander.MacroAccessibilityService.MacroAccessibilityService;
 import com.wanderfar.expander.TestHelpers.MacroTestHelpers;
 
 import org.junit.Before;
