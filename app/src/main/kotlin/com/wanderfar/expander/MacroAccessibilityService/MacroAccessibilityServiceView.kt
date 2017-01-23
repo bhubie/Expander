@@ -27,8 +27,10 @@ import com.wanderfar.expander.Base.View
 interface MacroAccessibilityServiceView : View {
 
 
-    fun updateText(updatedText : String, newCursorPosition : Int, matchedMacro : String)
+    fun updateText(updatedText : String, newCursorPosition : Int)
 
     fun hideFloatingUI()
+
+    fun startUpdateMacroStatisticsService(matchedMacro: String,increaseOrDecrease : String)
 }
 

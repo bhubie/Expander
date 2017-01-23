@@ -15,6 +15,7 @@ import com.wanderfar.expander.MacroAccessibilityService.MacroAccessibilityServic
 import com.wanderfar.expander.MacroAccessibilityService.MacroAccessibilityServiceView;
 import com.wanderfar.expander.TestHelpers.MacroTestHelpers;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,9 +29,11 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.getMacro;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.initDB;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.saveMacro;
 import static com.wanderfar.expander.TestHelpers.TestUtils.getPhoneMakeModel;
+import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -656,8 +659,24 @@ public class MacroAccessibilityServicePresenterTest {
                 }
             }
         });
+    }
 
 
+    @Test public void testThatUpdateStatisticsServiceIsCalledWhenAMacroIsMatchedAndThenUnDone(){
+        String textBefore = "This string contains a TESTMACRO.";
+        String textAfter = "This string contains a Test Macro Phrase.";
+        int cursorPositionBefore = textBefore.length();
+        int cursorPositionAfter = textAfter.length();
+
+        saveMacro(MacroTestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", true, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent(textBefore, cursorPositionBefore, true);
+        verify(macroAccessibilityServiceView, times(1)).updateText(textAfter, cursorPositionAfter);
+        verify(macroAccessibilityServiceView, times(1)).startUpdateMacroStatisticsService("TESTMACRO", "Increase");
+
+        macroAccessibilityServicePresenter.undoSetText();
+
+        verify(macroAccessibilityServiceView, times(1)).startUpdateMacroStatisticsService("TESTMACRO", "Decrease");
 
     }
 }

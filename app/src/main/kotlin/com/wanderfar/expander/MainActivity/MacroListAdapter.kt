@@ -28,6 +28,7 @@ import android.widget.TextView
 import com.wanderfar.expander.DynamicValue.DynamicValueTextView
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.R
+import java.text.SimpleDateFormat
 
 
 class MacroListAdapter
@@ -44,10 +45,14 @@ class MacroListAdapter
         // each data item is just a string in this case
         var macroName: TextView
         var macroPhrase: TextView
+        var usageCount: TextView
+        var lastUsed: TextView
 
         init {
             macroName = v.findViewById(R.id.macroName) as TextView
             macroPhrase = v.findViewById(R.id.macroPhrase) as DynamicValueTextView
+            usageCount = v.findViewById(R.id.usageCount) as TextView
+            lastUsed = v.findViewById(R.id.lastUsed) as TextView
 
         }
 
@@ -74,12 +79,17 @@ class MacroListAdapter
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.macroName.text = mDataset!![position].name
-
         holder.macroPhrase.text = mDataset!![position].phrase
+        holder.usageCount.text = mDataset!![position].usageCount.toString()
 
+        if (mDataset!![position].lastUsed != null){
 
-
-
+            //holder.lastUsed.text = mDataset!![position].lastUsed.toString()
+            val format =SimpleDateFormat("MM/dd/yyyy")
+            holder.lastUsed.text = format.format(mDataset!![position].lastUsed)
+        } else {
+            holder.lastUsed.text = "Never Used"
+        }
 
         holder.itemView.isLongClickable = true
     }

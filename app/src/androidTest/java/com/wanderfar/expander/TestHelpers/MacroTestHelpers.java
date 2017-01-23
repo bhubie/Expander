@@ -24,6 +24,7 @@ import android.content.Context;
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhrase;
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator;
 import com.wanderfar.expander.DynamicValue.DynamicValueDrawableGenerator;
+import com.wanderfar.expander.MainActivity.MacroListAdapter;
 import com.wanderfar.expander.Models.Macro;
 
 import java.util.ArrayList;

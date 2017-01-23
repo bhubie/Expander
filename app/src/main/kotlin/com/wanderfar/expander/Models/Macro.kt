@@ -19,6 +19,8 @@
 
 package com.wanderfar.expander.Models
 
+import java.util.*
+
 
 class Macro (){
 
@@ -30,6 +32,7 @@ class Macro (){
     var usageCount : Int = 0
     var isCaseSensitive : Boolean = false
     var expandWhenSetting : Int = MacroConstants.ON_A_SPACE_OR_PERIOD
+    var lastUsed : Date? = null
 
 }
 

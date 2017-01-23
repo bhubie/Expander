@@ -50,6 +50,7 @@ import com.wanderfar.expander.R
 class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServiceView {
 
 
+
     lateinit var windowManager : WindowManager
     lateinit var floatingUI: FrameLayout
     lateinit var gestureDetector : GestureDetector
@@ -158,7 +159,7 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         super.onDestroy()
     }
 
-    override fun updateText(updatedText: String, newCursorPosition: Int, matchedMacro: String) {
+    override fun updateText(updatedText: String, newCursorPosition: Int) {
         val arguments = Bundle()
         arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, updatedText)
 
@@ -179,11 +180,18 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
             }
         }
 
+
+
+    }
+
+    override fun startUpdateMacroStatisticsService(matchedMacro: String, increaseOrDecrease: String) {
         //Start service to update macro usage stats in the background
+
+        println("Starting Service!!!")
         val intent = Intent(this, MacroStatisticsService::class.java)
         intent.putExtra("MACRO", matchedMacro)
+        intent.putExtra("INCREASE_OR_DECREASE", increaseOrDecrease)
         startService(intent)
-
     }
 
     override fun hideFloatingUI() {

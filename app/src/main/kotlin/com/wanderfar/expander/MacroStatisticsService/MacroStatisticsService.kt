@@ -22,6 +22,7 @@ import android.app.IntentService
 import android.content.Intent
 import com.wanderfar.expander.Models.MacroStore
 import io.paperdb.Paper
+import java.util.*
 
 
 class MacroStatisticsService : IntentService("UpdateMacroStatsService") {
@@ -30,24 +31,29 @@ class MacroStatisticsService : IntentService("UpdateMacroStatsService") {
 
         //Get the macro we need to update
         val macroToLoad = intent?.getStringExtra("MACRO")
+        val increaseOrDecrease = intent?.getStringExtra("INCREASE_OR_DECREASE")
+
+        println("Service Started!!!")
 
         //Init the db
         Paper.init(this)
 
         //Get the macro
         val macro = MacroStore.getMacro(macroToLoad as String)
-
-        //Update usage count
         var currentCount = macro?.usageCount
 
-        macro?.usageCount =  1 + currentCount as Int
+        //Update the usage counts
+        if(increaseOrDecrease == "Increase"){
+            macro?.usageCount = 1 + currentCount as Int
+        } else {
+            macro?.usageCount = -1 + currentCount as Int
+        }
 
-        macro?.description = "Test"
+        macro?.lastUsed = Date()
 
-        println("Macro is:"  + macroToLoad)
-        println("Usage count is: " + macro?.usageCount)
-        println("Macro phrase " + macro?.phrase )
-        println("Macro description " + macro?.description)
+        println("Macro Usage count: " + macro?.usageCount)
+        println("Macro Date: " + macro?.lastUsed)
+
         //Save the macro
         if (macro != null) {
             MacroStore.saveMacro(macro)

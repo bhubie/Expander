@@ -119,7 +119,8 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         }
 
         if (aMatchWasFound){
-            macroAccessibilityServiceView.updateText(text, newCursorPosition, matchedMacro)
+            macroAccessibilityServiceView.updateText(text, newCursorPosition)
+            macroAccessibilityServiceView.startUpdateMacroStatisticsService(matchedMacro, "Increase")
         }
         else {
             //macroAccessibilityServiceView.hideFloatingUI()
@@ -140,8 +141,9 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
                 matchedMacro)
 
         macroAccessibilityServiceView.updateText(text,
-                setNewCursorPosition(matchedMacroStartingPosition, matchedMacro.length + 1),
-                matchedMacro)
+                setNewCursorPosition(matchedMacroStartingPosition, matchedMacro.length + 1))
+
+        macroAccessibilityServiceView.startUpdateMacroStatisticsService(matchedMacro, "Decrease")
     }
 
     private fun  setTextSearchStart(macroLength: Int, cursorPosition: Int): Int {
