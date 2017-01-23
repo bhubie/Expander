@@ -17,16 +17,18 @@
  */
 
 
-package com.wanderfar.expander.Services
-
-import android.view.GestureDetector
-import android.view.MotionEvent
+package com.wanderfar.expander.MacroAccessibilityService
 
 
 
-class SingleTapConfirm : GestureDetector.SimpleOnGestureListener() {
 
-    override fun  onSingleTapUp(event : MotionEvent) : Boolean {
-        return true
-    }
+
+interface MacroAccessibilityServicePresenter {
+
+    fun onAccessibilityEvent(textToCheck : String, cursorPosition: Int,
+                             replaceDynamicPhrases: Boolean)
+
+    fun undoSetText()
+
+
 }

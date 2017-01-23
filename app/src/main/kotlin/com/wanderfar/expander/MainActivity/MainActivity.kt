@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     private fun checkIfAccessibilityPermissionIsEnabled() {
 
 
-        if (isAccessibilityEnabled("com.wanderfar.expander/.Services.MacroAccessibilityService")){
+        if (isAccessibilityEnabled("com.wanderfar.expander/.MacroAccessibilityService.MacroAccessibilityService")){
             println("Permission Enabled!")
             println("Package name is: " + applicationContext.packageName)
         }

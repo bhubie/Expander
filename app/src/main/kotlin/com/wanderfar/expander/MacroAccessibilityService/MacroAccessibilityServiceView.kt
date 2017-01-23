@@ -17,18 +17,20 @@
  */
 
 
-package com.wanderfar.expander.Services
+package com.wanderfar.expander.MacroAccessibilityService
+
+import com.wanderfar.expander.Base.View
 
 
 
 
-
-interface MacroAccessibilityServicePresenter {
-
-    fun onAccessibilityEvent(textToCheck : String, cursorPosition: Int,
-                             replaceDynamicPhrases: Boolean)
-
-    fun undoSetText()
+interface MacroAccessibilityServiceView : View {
 
 
+    fun updateText(updatedText : String, newCursorPosition : Int)
+
+    fun hideFloatingUI()
+
+    fun startUpdateMacroStatisticsService(matchedMacro: String,increaseOrDecrease : String)
 }
+

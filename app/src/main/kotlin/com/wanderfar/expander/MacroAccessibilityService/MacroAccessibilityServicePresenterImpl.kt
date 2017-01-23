@@ -18,7 +18,7 @@
 
 
 
-package com.wanderfar.expander.Services
+package com.wanderfar.expander.MacroAccessibilityService
 
 import com.wanderfar.expander.Application.Expander
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator
@@ -120,6 +120,7 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
         if (aMatchWasFound){
             macroAccessibilityServiceView.updateText(text, newCursorPosition)
+            macroAccessibilityServiceView.startUpdateMacroStatisticsService(matchedMacro, "Increase")
         }
         else {
             //macroAccessibilityServiceView.hideFloatingUI()
@@ -139,7 +140,10 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
                 matchedMacroEndingPosition + charactersInsertedFromDynamicPhrases,
                 matchedMacro)
 
-        macroAccessibilityServiceView.updateText(text, setNewCursorPosition(matchedMacroStartingPosition, matchedMacro.length + 1))
+        macroAccessibilityServiceView.updateText(text,
+                setNewCursorPosition(matchedMacroStartingPosition, matchedMacro.length + 1))
+
+        macroAccessibilityServiceView.startUpdateMacroStatisticsService(matchedMacro, "Decrease")
     }
 
     private fun  setTextSearchStart(macroLength: Int, cursorPosition: Int): Int {
