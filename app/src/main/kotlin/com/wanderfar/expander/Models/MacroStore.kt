@@ -31,7 +31,16 @@ object MacroStore {
     fun saveMacro(macro: Macro){
 
         Paper.book("Macros").write(macro.name, macro)
+        setMacroStoreUpdatedFlag(true)
 
+    }
+
+    fun hasStoreBeenUpdated(): Boolean{
+        return Paper.book().read("macroStoreUpdated", false)
+    }
+
+    fun setMacroStoreUpdatedFlag(flag: Boolean) {
+        Paper.book().write("macroStoreUpdated", flag)
     }
 
     fun getMacroKeys() : MutableList<String>{
@@ -41,9 +50,6 @@ object MacroStore {
     fun getMacros() : MutableList<Macro>{
 
         val macroList = mutableListOf<Macro>()
-
-
-        //Paper.init(Expander.context)
 
         val keys = Paper.book("Macros").allKeys
 
@@ -59,14 +65,11 @@ object MacroStore {
 
         //Paper.init(Expander.context)
         Paper.book("Macros").delete(name)
+        setMacroStoreUpdatedFlag(true)
     }
 
     fun getMacro(macroToLoad: String) : Macro? {
-
-        //Paper.init(Expander.context)
         val macro = Paper.book("Macros").read<Macro>(macroToLoad)
-
-
         return macro
     }
 
