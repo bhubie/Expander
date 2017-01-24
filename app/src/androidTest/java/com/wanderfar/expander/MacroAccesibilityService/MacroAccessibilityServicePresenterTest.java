@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Locale;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.getMacro;
+import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.getMacroStoreUpdatedFlag;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.initDB;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.saveMacro;
 import static com.wanderfar.expander.TestHelpers.TestUtils.getPhoneMakeModel;
@@ -662,7 +663,8 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
 
-    @Test public void testThatUpdateStatisticsServiceIsCalledWhenAMacroIsMatchedAndThenUnDone(){
+    @Test
+    public void testThatUpdateStatisticsServiceIsCalledWhenAMacroIsMatchedAndThenUnDone(){
         String textBefore = "This string contains a TESTMACRO.";
         String textAfter = "This string contains a Test Macro Phrase.";
         int cursorPositionBefore = textBefore.length();

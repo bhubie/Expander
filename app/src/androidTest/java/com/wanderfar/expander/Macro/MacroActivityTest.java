@@ -27,6 +27,8 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.KeyEvent;
 
+import com.wanderfar.expander.MacroAccessibilityService.MacroAccessibilityServicePresenterImpl;
+import com.wanderfar.expander.MacroAccessibilityService.MacroAccessibilityServiceView;
 import com.wanderfar.expander.MainActivity.MainActivity;
 import com.wanderfar.expander.TestHelpers.MacroTestHelpers;
 import com.wanderfar.expander.Models.Macro;
@@ -51,6 +53,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.getMacroStoreUpdatedFlag;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.initDB;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.saveMacro;
 import static com.wanderfar.expander.TestHelpers.TestUtils.atPosition;
@@ -59,7 +62,8 @@ import static com.wanderfar.expander.TestHelpers.TestUtils.hasErrorText;
 import static com.wanderfar.expander.TestHelpers.TestUtils.isGone;
 import static com.wanderfar.expander.TestHelpers.TestUtils.setBooleanPref;
 import static java.lang.Thread.sleep;
-
+import static junit.framework.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -433,7 +437,7 @@ public class MacroActivityTest {
                 RecyclerViewActions.actionOnItemAtPosition(1, click()));
 
         //Validate the phrase now contains the dynamic value phrase for day of week
-        onView(withId(R.id.input_phrase)).check(matches(withText("Test Phrase !d")));
+        onView(withId(R.id.input_phrase)).check(matches(withText("Test Phrase !date")));
     }
 
     @Test
@@ -491,5 +495,18 @@ public class MacroActivityTest {
 
         //Validate the phrase now contains the dynamic value phrase for day of week
         onView(withId(R.id.input_phrase)).check(matches(withText("Test Phrase ")));
+    }
+
+    @Test
+    public void testThatMacroStoreUpdatedFlagIsProperlySetWhenMacrosAreSavedThenMatched(){
+        saveValidMacroTest();
+        assertEquals(getMacroStoreUpdatedFlag(), true);
+
+        MacroAccessibilityServiceView macroAccessibilityServiceView = mock(MacroAccessibilityServiceView.class);
+        MacroAccessibilityServicePresenterImpl macroAccessibilityServicePresenter = new MacroAccessibilityServicePresenterImpl(macroAccessibilityServiceView);
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent("Text", 3, true);
+        assertEquals(getMacroStoreUpdatedFlag(), false);
+
     }
 }

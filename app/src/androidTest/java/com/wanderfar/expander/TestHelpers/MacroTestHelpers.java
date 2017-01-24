@@ -79,6 +79,10 @@ public class MacroTestHelpers {
         Paper.book("Macros").destroy();
     }
 
+    public static boolean getMacroStoreUpdatedFlag(){
+        return Paper.book().read("macroStoreUpdated", false);
+    }
+
 
     public static void saveMacro(Macro macroToSave){
 

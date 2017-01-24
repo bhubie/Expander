@@ -43,9 +43,10 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
     override fun onAccessibilityEvent(textToCheck : String, cursorPosition: Int,
                                       replaceDynamicPhrases: Boolean) {
-        if (macrosToCheck == null){
+        if (macrosToCheck == null || MacroStore.hasStoreBeenUpdated()){
             macrosToCheck = MacroStore.getMacros()
-            println("Macro List is empty")
+            MacroStore.setMacroStoreUpdatedFlag(false)
+
         }
         if (isInitialized){
             macroAccessibilityServiceView.hideFloatingUI()
