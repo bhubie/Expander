@@ -90,22 +90,17 @@ public class MacroActivityTest {
         saveMacro(testMacro);
     }
 
-
-
     //Start activity tests
 
     @Test
-    public void newMacroActivityStart(){
-        //Test if activity is started new that existing macro isn't loaded
+    public void shouldStartMacroActivityWithBlankFieldsWhenActivityIsStartedAndNoMacroIsPassedIn(){
         Intent intent = new Intent();
         mActivityTestRule.launchActivity(intent);
         onView(withId(R.id.input_name)).check(matches(withText("")));
     }
 
     @Test
-    public void existingMacroActivityStart(){
-        //Test if activity is started  via existing macro, that macro is pulled up and proper fields are pulled in
-
+    public void shouldStartMacroActivityAndSetFieldsWithTheMacroInformationWhenActivityIsStartedWithPassedInMacro(){
 
         //create an intent to pass in the macro
         Intent intent = new Intent();
@@ -127,8 +122,7 @@ public class MacroActivityTest {
     //Save tests
 
     @Test
-    public void saveValidMacroTest() {
-        //Test that if user creates macro and all valid fields are filled in that macro is saved and user is back to main activity
+    public void whenSavingAMacroUserShouldBeReturnedToMainActivityAndSavedMacroShouldBePresentInList() {
 
         //Launch the activity
         Intent intent = new Intent();
@@ -150,8 +144,7 @@ public class MacroActivityTest {
     }
 
     @Test
-    public void saveMacroWithNoNameError(){
-        //Tests that if user hits save and macro name isn't filled in that we throw save error
+    public void whenSavingAMacroAndUserDoesNotProvideANameNoNameErrorShouldBeCalled(){
 
         //Launch the activity
         Intent intent = new Intent();
@@ -168,8 +161,7 @@ public class MacroActivityTest {
     }
 
     @Test
-    public void saveMacroWithNoPhraseError(){
-        //Tests that if user hits save and the phrase isn't filled in that we throw no phrase error
+    public void whenSavingAMacroAndUserDoesNotProvideAPhraseNoPhraseErrorShouldBeCalled(){
 
         //Launch the activity
         Intent intent = new Intent();
@@ -186,9 +178,7 @@ public class MacroActivityTest {
     }
 
     @Test
-    public void saveMacroWithDuplicateNameError(){
-        //Tests that if user hits save and macro name is duplicate that we throw duplicate name error
-
+    public void whenSavingAMacroAndAMacroAlreadyExistsWithTheSameNameDuplicateNameErrorShouldBeCalled(){
 
         //Launch the activity
         Intent intent = new Intent();
@@ -210,8 +200,7 @@ public class MacroActivityTest {
 
     //Delete tests
     @Test
-    public void newMacroDeleteTest(){
-        //Tests that if user hits delete button on a new macro that isn't saved we don't do anything
+    public void whenUserHitsDeleteButtonOnANonSavedMacroNothingShouldHappen(){
 
         //Launch the activity
         Intent intent = new Intent();
@@ -225,8 +214,7 @@ public class MacroActivityTest {
     }
 
     @Test
-    public void existingMacroDeleteTest(){
-        //Tests that if user hits delete button on existing macro macro is deleted and returned to main activity
+    public void whenUSerHitsDeleteButtonOnAnExistingMacroUserShouldBeReturnedToMainActivityAndMacroShouldNotExistInListAnymore(){
 
         //create an intent to pass in the macro
         Intent intent = new Intent();
@@ -245,9 +233,7 @@ public class MacroActivityTest {
 
     //Back button tests
     @Test
-    public void existingMacroChangeMadeDeviceBackButtonSaveChangesTest(){
-        //Test that if user hits the device back button on existing macro and a change was made that we ask if the want to save
-        //And if they hit save we save the changes and go back
+    public void whenUserHitsBackButtonAndTheyMadeChangesToAMacroChangesFoundDialogShouldBeCalled(){
 
         //create an intent to pass in the macro
         Intent intent = new Intent();
@@ -277,8 +263,7 @@ public class MacroActivityTest {
     }
 
     @Test
-    public void existingMacroNoChangeMadeDeviceBackButtonTest() {
-        //Test that if a user hits back button on existing macro and no change was made that we go back
+    public void whenUserHitsDeviceBackButtonAndTheyDidNotMakeChangesToTheMacroMacroTheMacroChangesFoundDialogShouldNotBeCalled() {
 
         //launch the main activity
         Intent intent = new Intent();
@@ -299,9 +284,7 @@ public class MacroActivityTest {
     }
 
     @Test
-    public void existingMacroChangeMadeToolbarBackButtonSaveChangesTest(){
-        //Test that if user hits the toolbar back button on existing macro and a change was made that we ask if the want to save
-        //And if they hit save we save the changes and go back
+    public void whenUserHitsDeviceBackButtonAndTheyMadeChangesToTheMacroMacroTheMacroChangesFoundDialogShouldBeCalled(){
 
         //create an intent to pass in the macro
         Intent intent = new Intent();
@@ -328,8 +311,7 @@ public class MacroActivityTest {
     }
 
     @Test
-    public void existingMacroNoChangeMadeToolbarBackButtonTest() {
-        //Test that if a user hits toolbar back button on existing macro and no change was made that we go back
+    public void whenUserHitsToolbarBackButtonAndTheyDidNotMakeChangesToTheMacroTheMacroChangesFoundDialogShouldNotBeCalled() {
 
         //launch the main activity
         Intent intent = new Intent();
@@ -347,8 +329,7 @@ public class MacroActivityTest {
     }
 
     @Test
-    public void newMacroDeviceBackButtonTest() {
-        //Test that if a user hits back button on new macro, that we go back
+    public void whenUserHitsBackButtonOnANewMacroTheyShouldBeReturnedToTheMainActivity() {
 
         //launch the main activity
         Intent intent = new Intent();
@@ -375,8 +356,7 @@ public class MacroActivityTest {
 
 
     @Test
-    public void dynamicValuesTurnedOffTest(){
-        //Validates that if dynamic values is turned off in the settings that the add dynamic values button is not present
+    public void whenSettingForDynamicValuesIsTurnedOffTheAddDynamicValueButtonShouldNotBePresent(){
 
         //Clear shared Prefs
         clearSharedPrefs(InstrumentationRegistry.getTargetContext());
@@ -394,8 +374,7 @@ public class MacroActivityTest {
     }
 
     @Test
-    public void dynamicValuesTurnedOnTest(){
-        //Validates that if dynamic values is turned on in the settings that the add dynamic values button is present
+    public void whenSettingForDynamicValueIsTurendOnTheAddDynamicValuebuttonShouldBePresent(){
 
         //Clear shared Prefs
         clearSharedPrefs(InstrumentationRegistry.getTargetContext());
@@ -412,9 +391,7 @@ public class MacroActivityTest {
     }
 
     @Test
-    public void addDynamicValue(){
-        //Validates that when a user adds a dynamic value from the pop up that the dynamic value is added to the phrase edit text
-        //And that it properly adds a space if the last character didn't contain a space
+    public void whenUserAddsDynamicValueToPhraseThePhraseShouldContainTheDynamicValueTheySelected(){
 
         //Clear shared Prefs
         clearSharedPrefs(InstrumentationRegistry.getTargetContext());
@@ -432,7 +409,7 @@ public class MacroActivityTest {
         //Click the dynamic value button
         onView(withId(R.id.dynamic_value_button)).perform(click());
 
-        //Click the first item in the recyclerview
+        //Click the first item in the recycler view
         onView(withId(R.id.dynamicValueRecyclerView)).perform(
                 RecyclerViewActions.actionOnItemAtPosition(1, click()));
 
@@ -441,8 +418,7 @@ public class MacroActivityTest {
     }
 
     @Test
-    public void clickDynamicValueHeader(){
-        //Validates that when you click the add dynamic value header for Date/Time or Misc that nothing happens
+    public void whenUserClicksTheHeadersInAddDynamicValueNothingShouldHappen(){
 
         //Clear shared Prefs
         clearSharedPrefs(InstrumentationRegistry.getTargetContext());
@@ -457,25 +433,23 @@ public class MacroActivityTest {
         //Click the dynamic value button
         onView(withId(R.id.dynamic_value_button)).perform(click());
 
-        //Click the first item in the recyclerview
+        //Click the first item in the recycler view
         onView(withId(R.id.dynamicValueRecyclerView)).perform(
                 RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-        //Validate the recyclierview is still displayed
+        //Validate the recyclier view is still displayed
         onView(withId(R.id.dynamicValueRecyclerView)).check(matches(isDisplayed()));
 
-        //Click the 10th item in the recylerview.
+        //Click the 10th item in the recyler view.
         onView(withId(R.id.dynamicValueRecyclerView)).perform(
                 RecyclerViewActions.actionOnItemAtPosition(11, click()));
 
-        //Validate the recyclierview is still displayed
+        //Validate the recycler view is still displayed
         onView(withId(R.id.dynamicValueRecyclerView)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void deleteDynamicValueFromPhrase(){
-        //Tests that if the user hits the back space button and they are deleting a dynamic value
-        //That the whole dynamic value is deleted
+    public void whenUserHitsBackspaceInPhraseEditTextAndTheyAreDeletingDynamicValueTheWholeDynamicValueShouldBeDeleted(){
 
         //Clear shared Prefs
         clearSharedPrefs(InstrumentationRegistry.getTargetContext());
@@ -498,8 +472,10 @@ public class MacroActivityTest {
     }
 
     @Test
-    public void testThatMacroStoreUpdatedFlagIsProperlySetWhenMacrosAreSavedThenMatched(){
-        saveValidMacroTest();
+    public void whenMacrosAreSavedThenMatchedTheMacroStoreUpdatedFlagShouldBeProperlySet(){
+        //Save A Macro
+        whenSavingAMacroUserShouldBeReturnedToMainActivityAndSavedMacroShouldBePresentInList();
+
         assertEquals(getMacroStoreUpdatedFlag(), true);
 
         MacroAccessibilityServiceView macroAccessibilityServiceView = mock(MacroAccessibilityServiceView.class);
