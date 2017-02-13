@@ -93,8 +93,7 @@ public class MacroAccessibilityServicePresenterTest {
 
 
     @Test
-    public void matchedMacroWithASpace(){
-        //Tests that if we have macro within the text bounds and the user hits space, that we successfully update the passed in text with the macro phrase
+    public void shouldReturnExpandedMacroWhenUserTypesMacroFollowedByASpace(){
 
         saveMacro(MacroTestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description", false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
@@ -106,8 +105,7 @@ public class MacroAccessibilityServicePresenterTest {
 
 
     @Test
-    public void matchedMacroWithAPeriod(){
-        //Tests that if we have a macro within the text bounds and the user types a period that we successfully update the passed in text with the phrase of the matched macro
+    public void shouldReturnExpandedMacroWhenUserTypesMacroFollowedByAPeriod(){
 
         saveMacro(MacroTestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description", false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
@@ -117,8 +115,7 @@ public class MacroAccessibilityServicePresenterTest {
                 TESTMACRO_CURSOR_POSITION_AFTER_WITH_PERIOD);
     }
     @Test
-    public void invalidMacroMatch(){
-        //Tests that if the text the user has typed does not contain a macro that we do not change the text to the macro phrase
+    public void shouldNotReturnAnExpandedMacroWhenMacroIsNotMatched(){
 
         String text = "Here is some text that doesn't contain a Macro from the list";
         int cursorPosition = text.length();
@@ -131,8 +128,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroMatchNotWithinTextBounds(){
-        //Tests that if a macro is present within the passed in text and it isn't in the text bounds range that we do not update the text even though there is a match
+    public void shouldNotReturnAnExpandedMacroWhenMatchedMacroIsNotWithinPassedTextBounds(){
 
         saveMacro(MacroTestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description",
                 false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
@@ -145,8 +141,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void undoSetTextTest(){
-        //Tests that if the undo set text method is called that undo and set the text back to be the previous matched macro name
+    public void shouldUndoExpandedTextBackToOriginalWhenMacroIsExpandedAndUserHitsUndoButton(){
 
         saveMacro(MacroTestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description", false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
@@ -162,8 +157,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void caseSensitiveMacroInvalidMatchTest() {
-        //Tests that if a macro is case sensitive and the user passes in the macro with the wrong case that we don't change the text
+    public void shouldNotUpdateTextWhenMatchedMacroIsCaseSensitiveAndMacroIsPassedInWithWrongCase() {
 
         String textBefore = "This string contains a testmacro.";
         String textAfter = "This string contains a Test Macro Phrase.";
@@ -178,8 +172,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void caseSensitiveMacroValidMatchTest() {
-        //Tests that if a macro is case sensitive and the user passes in the macro with the right Case that we change the test
+    public void shouldCallUpdateTextWhenMatchedMacroIsCaseSensitiveAndPassedInTextContainedCorrectCase() {
 
         String textBefore = "This string contains a TESTMACRO.";
         String textAfter = "This string contains a Test Macro Phrase.";
@@ -193,9 +186,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void nonCaseSensitiveMacroMatchWithUpperCasePassedInText(){
-        //if i have a macro that is not case sensitive and lowercase and the user passes in the macro in uppercase
-        //I should have a match and pass back the expanded phrase
+    public void shouldUpdateTextWhenMatchedMacroIsNotCaseSensitiveAndPassedInTextContainsMacroPassedInUppercase(){
 
         saveMacro(MacroTestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
@@ -209,8 +200,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroSetToExpandOnASpace(){
-        //Tests that if the given macro is set to expand on a space that it does
+    public void shouldCallUpdateTextWhenPassedInTextContainsAMacroFollowedByASpace(){
 
         saveMacro(MacroTestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, MacroTestHelpers.ON_A_SPACE));
 
@@ -225,8 +215,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroSetToExpandImmediately(){
-        //Tests that if the given macro is set to Expand Immedietely, that it does
+    public void shouldCallUpdateTextWhenPassedInTextContainsAMatchedMacroThatIsSetToExpandImmedietelyWhenMatched(){
 
         saveMacro(MacroTestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, MacroTestHelpers.IMMEDIATELY));
 
@@ -242,9 +231,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroSetToExpandOnAPeriod(){
-        //Tests that if the given macro is set to Expand on a, that it does
-
+    public void shouldCallUpdateTextWhenPassedInTextContainsMacroFollowedByAPeriodAndMatchedMacroIsSetToExpandOnPeriod(){
 
         saveMacro(MacroTestHelpers.createMacro("TESTMACRO",
                 "Test Macro Phrase",
@@ -261,8 +248,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroSetToExpandOnASpaceOrPeriodTestWithSpace(){
-        //Tests that if the given macro is set to Expand on a period or space, and the user hits space that it expands
+    public void shouldCallUpdateTextWhenPassedInTextContainsMacroFollowedByASpaceAndMatchedMacroIsSetToExpandOnPeriodorSpace(){
 
         saveMacro(MacroTestHelpers.createMacro("TESTMACRO",
                 "Test Macro Phrase",
@@ -280,8 +266,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroSetToExpandOnASpaceOrPeriodTestWithPeriod(){
-        //Tests that if the given macro is set to Expand on a period or space, and the user hits a period that it expands
+    public void shouldCallUpdateTextWhenPassedInTextContainsMacroFollowedByAPeriodAndMatchedMacroIsSetToExpandOnPeriodorSpace(){
 
         saveMacro(MacroTestHelpers.createMacro("TESTMACRO",
                 "Test Macro Phrase",
@@ -300,8 +285,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroWithNoExpansionSettingShouldExpanOnASpaceOrPeriodTestWithPeriod(){
-        //Tests that if the given macro does not have an expand when setting that the macro expands on a space or period
+    public void shouldCallUpdateTextWhenPassedInTextContainsMacroFollowedByAPeriodAndMatchedMacroDoesNotHaveAExpandWhenSetting(){
 
         Macro macro = new Macro();
         macro.setName("testmacro");
@@ -322,8 +306,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroWithNoExpansionSettingShouldExpanOnASpaceOrPeriodTestWithSpace() {
-        //Tests that if the given macro does not have an expand when setting that the macro expands on a space or period
+    public void shouldCallUpdateTextWhenPassedInTextContainsMacroFollowedByASpaceAndMatchedMacroDoesNotHaveAExpandWhenSetting() {
 
         Macro macro = new Macro();
         macro.setName("testmacro");
@@ -344,9 +327,7 @@ public class MacroAccessibilityServicePresenterTest {
 
 
     @Test
-    public void macroWithDynamicDayOfWeekInPhrase(){
-        //Tests that if a macro expanded phrase contains the dynamic phrase for day of week that when the phrase is expanded that
-        //it will expand and have the day of the week
+    public void shouldCallUpdateTextThatContainsTheDayOfTheWeekWhenPassedInTextContainsMacroAndTheMatchedMacroPhraseContainsDynamicValueForDayOFWeek(){
 
         String MacroName = "DayOfWeekMacro";
         String MacroPhrase = "!d is the current day of the week";
@@ -368,9 +349,8 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroWithDynamicDayOfWeekShortInPhrase(){
-        //Tests that if a macro expanded phrase contains the dynamic phrase for day of week short that when the phrase is expanded, that
-        //it will expand and have the day of the week short
+    public void shouldCallUpdateTextThatContainsTheDayOfTheWeekShortWhenPassedInTextContainsMacroAndTheMatchedMacroPhraseContainsDynamicValueForDayOfWeekShort(){
+
         String MacroName = "DayOfWeekMacroShort";
         String MacroPhrase = "!ds is the current day of the week";
         String TextBefore = MacroName + ".";
@@ -390,9 +370,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroWithDynamicDayOfMonthInPhrase(){
-        //Tests that if the macro expanded phrase contains the dynamic phrase for day of month
-        //and the phrase is expanded, we return the day of the month
+    public void shouldCallUpdateTextThatContainsTheDayOfTheMonthWhenPassedInTextContainsMacroAndTheMatchedMacroPhraseContainsDynamicValueForDayOfMonth(){
 
         String MacroName = "DayOfMonth";
         String MacroPhrase = "!dm is the current day of the month";
@@ -414,10 +392,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroWithDynamicMonthInPhrase() {
-        //Tests that if the macro expanded phrase contains the dynamic phrase for the Month name
-        //and the phrase is expanded, we return the name of the month
-
+    public void shouldCallUpdateTextThatContainsTheCurrentMonthWhenPassedInTextContainsMacroAndTheMatchedMacroPhraseContainsDynamicValueForMonthName() {
 
         String MacroName = "MonthName";
         String MacroPhrase = "The current Month is !m";
@@ -438,10 +413,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroWithDynamicMonthShortNameInPhrase() {
-        //Tests that if the macro expanded phrase contains the dynamic phrase for the Month short name
-        //and the phrase is expanded, we return the name of the month short version
-
+    public void shouldCallUpdateTextThatContainsTheCurrentMonthShortNameWhenPassedInTextContainsMacroAndTheMatchedMacroPhraseContainsDynamicValueForMonthShortName() {
 
         String MacroName = "MonthNameShort";
         String MacroPhrase = "The current Month short name is !ms";
@@ -463,10 +435,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroWithDynamicYearInPhrase() {
-        //Tests that if the macro expanded phrase contains the dynamic phrase for the Year
-        //and the phrase is expanded, we return the current year
-
+    public void shouldCallUpdateTextThatContainsTheCurrentYearWhenPassedInTextContainsMacroAndTheMatchedMacroPhraseContainsDynamicValueForYear() {
 
         String MacroName = "Year";
         String MacroPhrase = "The current Year is !y";
@@ -487,10 +456,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroWithDynamicYearShortInPhrase() {
-        //Tests that if the macro expanded phrase contains the dynamic phrase for the Year short
-        //and the phrase is expanded, we return the current year short version
-
+    public void shouldCallUpdateTextThatContainsTheCurrentYearShortNameWhenPassedInTextContainsMacroAndTheMatchedMacroPhraseContainsDynamicValueForYearShortName() {
 
         String MacroName = "YearShort";
         String MacroPhrase = "The current Year is !ys";
@@ -511,10 +477,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroWithDynamicTime12HoursInPhrase() {
-        //Tests that if the macro expanded phrase contains the dynamic phrase for the time 12 hours
-        //and the phrase is expanded, we return the current time in 12 hour format
-
+    public void shouldCallUpdateTextThatContainsTheCurrentTime12HoursFormatWhenPassedInTextContainsMacroAndTheMatchedMacroPhraseContainsDynamicValueForTime12Hours() {
 
         String MacroName = "Time12Hours";
         String MacroPhrase = "The current time in 12 hours is !t12h";
@@ -535,10 +498,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroWithDynamicTime24HoursInPhrase() {
-        //Tests that if the macro expanded phrase contains the dynamic phrase for the time 12 hours
-        //and the phrase is expanded, we return the current time in 12 hour format
-
+    public void shouldCallUpdateTextThatContainsTheCurrentTime24HoursFormatWhenPassedInTextContainsMacroAndTheMatchedMacroPhraseContainsDynamicValueForTime24Hours() {
 
         String MacroName = "Time24Hours";
         String MacroPhrase = "The current time in 24 hour format is !t24h";
@@ -559,10 +519,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroWithDynamicPhoneMakeModel(){
-        //Tests that if the macro expanded contains the dynamic phrase for phone make/model
-        //and the phrase is expanded, we return the make model of the phone.
-
+    public void shouldCallUpdateTextThatContainsThePhonesMakeAndModelWhenPassedInTextContainsMacroAndTheMatchedMacroPhraseContainsDynamicValueForPhoneMakeModel(){
 
         String makeModel = getPhoneMakeModel();
 
@@ -586,9 +543,7 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroWithDynamicDateInPhrase() {
-        //Tests that if the macro expanded phrase contains the dynamic phrase for the date
-        //and the phrase is expanded, we return the date
+    public void shouldCallUpdateTextThatContainsTheCurrentDateWhenPassedInTextContainsMacroAndTheMatchedMacroPhraseContainsDynamicValueForDate() {
 
         String MacroName = "Date";
         String MacroPhrase = "The current date is: !date";
@@ -609,17 +564,12 @@ public class MacroAccessibilityServicePresenterTest {
     }
 
     @Test
-    public void macroWithDynamicValueUndoButtonTest(){
-        //Tests that when there is a dynamic value in a macro phrase and the user hits undo
-        //That the phrase is undone successfully
-        //Test will make sure it works for every dynamic value
+    public void shouldUndoExpandedTextBackToOriginalWhenMacroIsExpandedAndUserHitsUndoButtonAndMatchedMacroContainedADynamicPhrase(){
 
         getInstrumentation().runOnMainSync(new Runnable() {
             @Override
             public void run() {
 
-
-                //DynamicPhrase[] dynamicValues = DynamicPhraseGenerator.getDynamicPhrases();
                 String[] dynamicValues = DynamicPhraseGenerator.getDynamicPhrases();
 
                 for (String phrase: dynamicValues) {
@@ -637,7 +587,6 @@ public class MacroAccessibilityServicePresenterTest {
                     String textBefore = macroName + ".";
 
                     String textAfterExpansion = "The output is: "
-                            //+ DynamicPhraseGenerator.setDynamicPhraseValue(InstrumentationRegistry.getTargetContext(), phrase.getPhrase(), US_LOCALE)
                             + DynamicPhraseGenerator.setDynamicPhraseValue(InstrumentationRegistry.getTargetContext(),
                             phrase, US_LOCALE)
                             + ".";
@@ -662,9 +611,8 @@ public class MacroAccessibilityServicePresenterTest {
         });
     }
 
-
     @Test
-    public void testThatUpdateStatisticsServiceIsCalledWhenAMacroIsMatchedAndThenUnDone(){
+    public void shouldCallUpdateStatisticsServiceTwiceWhenAMacroIsMatchedAndThenUnDone(){
         String textBefore = "This string contains a TESTMACRO.";
         String textAfter = "This string contains a Test Macro Phrase.";
         int cursorPositionBefore = textBefore.length();
