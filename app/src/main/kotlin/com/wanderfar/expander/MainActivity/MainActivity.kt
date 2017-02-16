@@ -224,6 +224,11 @@ class MainActivity : AppCompatActivity(), MainActivityView {
             return true
         }
 
+        if (id == R.id.action_sort_by){
+
+            return true
+        }
+
         return super.onOptionsItemSelected(item)
     }
 
