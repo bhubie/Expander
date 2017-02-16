@@ -27,6 +27,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.wanderfar.expander.DynamicValue.DynamicValueTextView
 import com.wanderfar.expander.Models.Macro
+import com.wanderfar.expander.Models.MacroConstants
 import com.wanderfar.expander.R
 import java.text.SimpleDateFormat
 
@@ -105,10 +106,24 @@ class MacroListAdapter
     }
 
 
-    fun setData(macro: MutableList<Macro>) {
+    fun setData(macro: MutableList<Macro>, sortBy: Int) {
 
         this.mDataset = macro
+
+        sortList(sortBy)
+
+        notifyDataSetChanged()
     }
 
+    fun sortList(sortBy: Int){
+        when (sortBy) {
+            MacroConstants.SORT_BY_NAME  -> sortByMacroName()
+            else -> sortByMacroName()
+        }
+    }
+
+    private fun sortByMacroName(){
+        this.mDataset!!.sortBy(Macro::name)
+    }
 
 }

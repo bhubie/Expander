@@ -38,6 +38,7 @@ import android.widget.TextView
 import com.wanderfar.expander.Macro.MacroActivity
 import com.wanderfar.expander.About.AboutActivity
 import com.wanderfar.expander.Models.Macro
+import com.wanderfar.expander.Models.MacroConstants
 import com.wanderfar.expander.R
 import com.wanderfar.expander.Settings.SettingsActivity
 import com.wanderfar.expander.Utilities.RecyclerItemClickListener
@@ -109,7 +110,8 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     }
 
     override fun setData(macros: MutableList<Macro>) {
-        mAdapter.setData(macros)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        mAdapter.setData(macros, prefs.getInt("SortByMethod", MacroConstants.SORT_BY_NAME))
         mAdapter.notifyDataSetChanged()
 
     }
@@ -208,9 +210,9 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         val sortByShortcutName = menu.findItem(R.id.sortByName)
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val sortBySetting = prefs.getString("SortByMethod", "Name")
+        val sortBySetting = prefs.getInt("SortByMethod", MacroConstants.SORT_BY_NAME)
 
-        if (sortBySetting == "Name") {
+        if (sortBySetting == MacroConstants.SORT_BY_NAME) {
             sortByShortcutName.isChecked = true
         }
 
