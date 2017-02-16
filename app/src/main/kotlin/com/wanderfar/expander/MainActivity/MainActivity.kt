@@ -23,6 +23,7 @@ import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.provider.Settings
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
@@ -202,6 +203,20 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         pullToRefresh.setOnRefreshListener { mPresenter.onCreate() }
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean{
+
+        val sortByShortcutName = menu.findItem(R.id.sortByName)
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val sortBySetting = prefs.getString("SortByMethod", "Name")
+
+        if (sortBySetting == "Name") {
+            sortByShortcutName.isChecked = true
+        }
+
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -221,11 +236,6 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         if (id == R.id.action_about){
             val aboutIntent = Intent(this, AboutActivity::class.java)
             startActivity(aboutIntent)
-            return true
-        }
-
-        if (id == R.id.action_sort_by){
-
             return true
         }
 
