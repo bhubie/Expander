@@ -14,7 +14,13 @@
         android:orderInCategory="101"
         android:title="@string/menu_settings_title"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_settings_white_24dp"/>
+        android:icon="@drawable/ic_settings_white_24dp">
+        <menu>
+            <group android:id="@+id/sortGroup" android:checkableBehavior="single">
+                <item android:id="@+id/sortByDate" android:title="@string/menu_sort_by_name_label"/>
+            </group>
+        </menu>
+    </item>
     <item
         android:id="@+id/action_about"
         android:orderInCategory="102"
