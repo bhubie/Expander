@@ -15,11 +15,16 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.ON_A_SPACE_OR_PERIOD;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.buildGenericTestMacro;
+import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.createMacro;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.initDB;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.saveMacro;
+import static com.wanderfar.expander.TestHelpers.TestUtils.atPosition;
 import static com.wanderfar.expander.TestHelpers.TestUtils.isGone;
 
 
@@ -100,6 +105,27 @@ public class MainActivityTest {
 
 
         onView(withText("Shortcut Name")).check(matches(isChecked()));*/
+
+    }
+
+    @Test
+    public void whenNoSortBySettingIsFoundMacrosShouldBeSortedAlphabeticallyByMacroName(){
+        //Create A Macro Named B
+        saveMacro(createMacro("B", "Macro Phrase", "Macro Description", false, ON_A_SPACE_OR_PERIOD));
+
+        //Create A Macro Named A
+        saveMacro(createMacro("A", "Macro Phrase", "Macro Description", false, ON_A_SPACE_OR_PERIOD));
+
+        //Launch the main activity
+        Intent intent = new Intent();
+        mActivityRule.launchActivity(intent);
+
+        //Validate that A is first, in view and that B is second
+        onView(withId(R.id.noteListRecyclerView))
+                .check(matches(atPosition(0, hasDescendant(withText("A")))));
+
+        onView(withId(R.id.noteListRecyclerView))
+                .check(matches(atPosition(1, hasDescendant(withText("B")))));
 
     }
 
