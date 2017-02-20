@@ -118,12 +118,19 @@ class MacroListAdapter
     fun sortList(sortBy: Int){
         when (sortBy) {
             MacroConstants.SORT_BY_NAME  -> sortByMacroName()
+            MacroConstants.SORT_BY_USAGE_COUNT -> sortByUsageCount()
             else -> sortByMacroName()
         }
+
+        notifyDataSetChanged()
     }
 
     private fun sortByMacroName(){
         this.mDataset!!.sortBy(Macro::name)
+    }
+
+    private fun sortByUsageCount(){
+        this.mDataset!!.sortByDescending(Macro::usageCount)
     }
 
 }

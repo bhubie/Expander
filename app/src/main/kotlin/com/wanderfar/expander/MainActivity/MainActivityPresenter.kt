@@ -25,4 +25,7 @@ import com.wanderfar.expander.Base.View
 
 
 
-interface MainActivityPresenter<T : View> : BaseActivityPresenter<T>
+interface MainActivityPresenter<T : View> : BaseActivityPresenter<T> {
+    fun setMacroSort(sortMethod: Int)
+
+}

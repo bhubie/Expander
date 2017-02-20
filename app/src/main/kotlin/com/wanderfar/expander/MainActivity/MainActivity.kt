@@ -124,8 +124,22 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         noMacroFound.visibility = View.VISIBLE
     }
 
-    private fun checkIfAccessibilityPermissionIsEnabled() {
+    override fun setMacroListSortPreference(sortPreference: Int) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor = prefs.edit()
+        editor.putInt("SortByMethod", sortPreference)
+        editor.apply()
+    }
 
+    override fun sortMacroListAdapter(sortBy: Int) {
+        mAdapter.sortList(sortBy)
+    }
+
+    override fun refreshMenu() {
+        invalidateOptionsMenu()
+    }
+
+    private fun checkIfAccessibilityPermissionIsEnabled() {
 
         if (isAccessibilityEnabled("com.wanderfar.expander/.MacroAccessibilityService.MacroAccessibilityService")){
             println("Permission Enabled!")
@@ -208,12 +222,15 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     override fun onPrepareOptionsMenu(menu: Menu): Boolean{
 
         val sortByShortcutName = menu.findItem(R.id.sortByName)
+        val sortByShortcutUsageCount = menu.findItem(R.id.sortByUsageCount)
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         val sortBySetting = prefs.getInt("SortByMethod", MacroConstants.SORT_BY_NAME)
 
-        if (sortBySetting == MacroConstants.SORT_BY_NAME) {
-            sortByShortcutName.isChecked = true
+        when (sortBySetting) {
+            MacroConstants.SORT_BY_NAME  -> sortByShortcutName.isChecked = true
+            MacroConstants.SORT_BY_USAGE_COUNT -> sortByShortcutUsageCount.isChecked = true
+            else -> sortByShortcutName.isChecked = true
         }
 
         return super.onPrepareOptionsMenu(menu)
@@ -241,7 +258,19 @@ class MainActivity : AppCompatActivity(), MainActivityView {
             return true
         }
 
+        if (id == R.id.sortByName){
+            mPresenter.setMacroSort(MacroConstants.SORT_BY_NAME)
+            return true
+        }
+
+        if (id == R.id.sortByUsageCount){
+            mPresenter.setMacroSort(MacroConstants.SORT_BY_USAGE_COUNT)
+            return true
+        }
+
         return super.onOptionsItemSelected(item)
     }
+
+
 
 }

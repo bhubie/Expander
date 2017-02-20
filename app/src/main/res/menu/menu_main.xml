@@ -12,6 +12,7 @@
         <menu>
             <group android:id="@+id/sortGroup" android:checkableBehavior="single">
                 <item android:id="@+id/sortByName" android:title="@string/menu_sort_by_name_label"/>
+                <item android:id="@+id/sortByUsageCount" android:title="@string/menu_sort_by_usage_count_label"/>
             </group>
         </menu>
     </item>
