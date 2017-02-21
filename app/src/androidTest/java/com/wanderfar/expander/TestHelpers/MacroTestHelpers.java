@@ -28,6 +28,7 @@ import com.wanderfar.expander.MainActivity.MacroListAdapter;
 import com.wanderfar.expander.Models.Macro;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.paperdb.Paper;
@@ -92,6 +93,18 @@ public class MacroTestHelpers {
     public static Macro getMacro(String macroToLoad){
 
        return Paper.book("Macros").read(macroToLoad, new Macro());
+    }
+
+    public static void setMacroUsageCount(Macro macroToSet, int usageCount){
+        Macro macro = Paper.book("Macros").read(macroToSet.getName(), new Macro());
+        macro.setUsageCount(usageCount);
+        Paper.book("Macros").write(macro.getName(), macro);
+    }
+
+    public static void setMacroLastUsed(Macro macroToSet, Date lastUsed){
+        Macro macro = Paper.book("Macros").read(macroToSet.getName(), new Macro());
+        macro.setLastUsed(lastUsed);
+        Paper.book("Macros").write(macro.getName(), macro);
     }
 
     public static void createAndSaveDynamicvAlueMacros(){

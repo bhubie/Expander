@@ -27,7 +27,6 @@ import com.wanderfar.expander.Models.MacroStore
 
 class MainActivityPresenterImpl(override var view: MainActivityView?) : MainActivityPresenter<MainActivityView> {
 
-
     override fun onCreate() {
         //on Create Load existing Macros
         //TODO Load on background thread
@@ -50,5 +49,12 @@ class MainActivityPresenterImpl(override var view: MainActivityView?) : MainActi
     override fun onResume() {
 
     }
+
+    override fun setMacroSort(sortMethod: Int) {
+        view?.setMacroListSortPreference(sortMethod)
+        view?.sortMacroListAdapter(sortMethod)
+        view?.refreshMenu()
+    }
+
 
 }

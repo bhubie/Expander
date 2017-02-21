@@ -4,14 +4,29 @@
     >
 
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
+        android:id="@+id/action_sort_by"
+        android:orderInCategory="101"
         android:title="@string/menu_settings_title"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_settings_white_24dp"/>
+        android:icon="@drawable/ic_sort_white_24dp">
+        <menu>
+            <group android:id="@+id/sortGroup" android:checkableBehavior="single">
+                <item android:id="@+id/sortByName" android:title="@string/menu_sort_by_name_label"/>
+                <item android:id="@+id/sortByUsageCount" android:title="@string/menu_sort_by_usage_count_label"/>
+                <item android:id="@+id/sortByLastUsed" android:title="@string/menu_sort_by_last_used_label"/>
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="101"
+        android:title="@string/menu_settings_title"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_settings_white_24dp">
+    </item>
     <item
         android:id="@+id/action_about"
-        android:orderInCategory="101"
+        android:orderInCategory="102"
         android:title="@string/menu_about_title"
         app:showAsAction="never" />
 </menu>

@@ -41,7 +41,6 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
-
 import static android.support.test.espresso.core.deps.guava.base.Preconditions.checkNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;
 

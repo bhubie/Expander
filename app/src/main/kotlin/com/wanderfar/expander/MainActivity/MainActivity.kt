@@ -23,6 +23,7 @@ import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.provider.Settings
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
@@ -37,6 +38,7 @@ import android.widget.TextView
 import com.wanderfar.expander.Macro.MacroActivity
 import com.wanderfar.expander.About.AboutActivity
 import com.wanderfar.expander.Models.Macro
+import com.wanderfar.expander.Models.MacroConstants
 import com.wanderfar.expander.R
 import com.wanderfar.expander.Settings.SettingsActivity
 import com.wanderfar.expander.Utilities.RecyclerItemClickListener
@@ -108,7 +110,8 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     }
 
     override fun setData(macros: MutableList<Macro>) {
-        mAdapter.setData(macros)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        mAdapter.setData(macros, prefs.getInt("SortByMethod", MacroConstants.SORT_BY_NAME))
         mAdapter.notifyDataSetChanged()
 
     }
@@ -121,8 +124,22 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         noMacroFound.visibility = View.VISIBLE
     }
 
-    private fun checkIfAccessibilityPermissionIsEnabled() {
+    override fun setMacroListSortPreference(sortPreference: Int) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor = prefs.edit()
+        editor.putInt("SortByMethod", sortPreference)
+        editor.apply()
+    }
 
+    override fun sortMacroListAdapter(sortBy: Int) {
+        mAdapter.sortList(sortBy)
+    }
+
+    override fun refreshMenu() {
+        invalidateOptionsMenu()
+    }
+
+    private fun checkIfAccessibilityPermissionIsEnabled() {
 
         if (isAccessibilityEnabled("com.wanderfar.expander/.MacroAccessibilityService.MacroAccessibilityService")){
             println("Permission Enabled!")
@@ -202,6 +219,25 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         pullToRefresh.setOnRefreshListener { mPresenter.onCreate() }
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean{
+
+        val sortByShortcutName = menu.findItem(R.id.sortByName)
+        val sortByShortcutUsageCount = menu.findItem(R.id.sortByUsageCount)
+        val sortByLastUsed = menu.findItem(R.id.sortByLastUsed)
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val sortBySetting = prefs.getInt("SortByMethod", MacroConstants.SORT_BY_NAME)
+
+        when (sortBySetting) {
+            MacroConstants.SORT_BY_NAME  -> sortByShortcutName.isChecked = true
+            MacroConstants.SORT_BY_USAGE_COUNT -> sortByShortcutUsageCount.isChecked = true
+            MacroConstants.SORT_BY_LAST_USED -> sortByLastUsed.isChecked = true
+            else -> sortByShortcutName.isChecked = true
+        }
+
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -224,7 +260,24 @@ class MainActivity : AppCompatActivity(), MainActivityView {
             return true
         }
 
+        if (id == R.id.sortByName){
+            mPresenter.setMacroSort(MacroConstants.SORT_BY_NAME)
+            return true
+        }
+
+        if (id == R.id.sortByUsageCount){
+            mPresenter.setMacroSort(MacroConstants.SORT_BY_USAGE_COUNT)
+            return true
+        }
+
+        if (id == R.id.sortByLastUsed){
+            mPresenter.setMacroSort(MacroConstants.SORT_BY_LAST_USED)
+            return true
+        }
+
         return super.onOptionsItemSelected(item)
     }
+
+
 
 }

@@ -27,6 +27,11 @@ object MacroConstants {
     val ON_A_PERIOD = 2
     val ON_A_SPACE_OR_PERIOD = 3
 
+    val SORT_BY_NAME = 1
+    val SORT_BY_USAGE_COUNT = 2
+    val SORT_BY_LAST_USED = 3
+
+
     //val IMMEDIETELY_PATTERN = "($1)(\\s|\\.|\\.\\s)"
     //val ON_A_SPACE_PATTERN = "($1)(\\s)"
     //val ON_A_PERIOD_PATTERN = "($1)(\\.)"
