@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -22,9 +23,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.ON_A_SPACE_OR_PERIOD;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.buildGenericTestMacro;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.createMacro;
+import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.getMacro;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.initDB;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.saveMacro;
+import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.setMacroUsageCount;
 import static com.wanderfar.expander.TestHelpers.TestUtils.atPosition;
+import static com.wanderfar.expander.TestHelpers.TestUtils.clearSharedPrefs;
 import static com.wanderfar.expander.TestHelpers.TestUtils.isGone;
 
 
@@ -96,36 +100,59 @@ public class MainActivityTest {
        //TODO Figure out way with espresso to test that menu item is checked
         /* //Clear shared Prefs
         clearSharedPrefs(InstrumentationRegistry.getTargetContext());
-
         //Launch the main activity
         Intent intent = new Intent();
         mActivityRule.launchActivity(intent);
-
         onView(withId(R.id.action_sort_by)).perform(click());
-
-
         onView(withText("Shortcut Name")).check(matches(isChecked()));*/
 
     }
 
     @Test
-    public void whenNoSortBySettingIsFoundMacrosShouldBeSortedAlphabeticallyByMacroName(){
+    public void macrosShouldSortBasedOnTheCurrentSortBySettingTheUserHasSelected(){
+
+        clearSharedPrefs(InstrumentationRegistry.getTargetContext());
+
         //Create A Macro Named B
         saveMacro(createMacro("B", "Macro Phrase", "Macro Description", false, ON_A_SPACE_OR_PERIOD));
 
         //Create A Macro Named A
         saveMacro(createMacro("A", "Macro Phrase", "Macro Description", false, ON_A_SPACE_OR_PERIOD));
 
+        //Create A Macro Named C
+        saveMacro(createMacro("C", "Macro Phrase", "Macro Description", false, ON_A_SPACE_OR_PERIOD));
+
+        //Set Usage Count Fields
+        setMacroUsageCount(getMacro("B"), 2);
+        setMacroUsageCount(getMacro("C"), 1);
+
         //Launch the main activity
         Intent intent = new Intent();
         mActivityRule.launchActivity(intent);
 
-        //Validate that A is first, in view and that B is second
+        //Validate that A is first, in view and that B is second as sort by Name is default
         onView(withId(R.id.noteListRecyclerView))
                 .check(matches(atPosition(0, hasDescendant(withText("A")))));
 
         onView(withId(R.id.noteListRecyclerView))
                 .check(matches(atPosition(1, hasDescendant(withText("B")))));
+
+        onView(withId(R.id.noteListRecyclerView))
+                .check(matches(atPosition(2, hasDescendant(withText("C")))));
+
+
+        //Next sort by Usage Count
+        onView(withId(R.id.action_sort_by)).perform(click());
+        onView(withText("Usage Count")).perform(click());
+
+        onView(withId(R.id.noteListRecyclerView))
+                .check(matches(atPosition(0, hasDescendant(withText("B")))));
+
+        onView(withId(R.id.noteListRecyclerView))
+                .check(matches(atPosition(1, hasDescendant(withText("C")))));
+
+        onView(withId(R.id.noteListRecyclerView))
+                .check(matches(atPosition(2, hasDescendant(withText("A")))));
 
     }
 
