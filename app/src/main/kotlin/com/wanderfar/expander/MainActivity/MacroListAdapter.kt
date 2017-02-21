@@ -119,6 +119,7 @@ class MacroListAdapter
         when (sortBy) {
             MacroConstants.SORT_BY_NAME  -> sortByMacroName()
             MacroConstants.SORT_BY_USAGE_COUNT -> sortByUsageCount()
+            MacroConstants.SORT_BY_LAST_USED -> sortByLastUsed()
             else -> sortByMacroName()
         }
 
@@ -131,6 +132,10 @@ class MacroListAdapter
 
     private fun sortByUsageCount(){
         this.mDataset!!.sortByDescending(Macro::usageCount)
+    }
+
+    private fun sortByLastUsed(){
+        this.mDataset!!.sortByDescending(Macro::lastUsed)
     }
 
 }

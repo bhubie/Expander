@@ -13,6 +13,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -26,6 +31,7 @@ import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.createMacro;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.getMacro;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.initDB;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.saveMacro;
+import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.setMacroLastUsed;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.setMacroUsageCount;
 import static com.wanderfar.expander.TestHelpers.TestUtils.atPosition;
 import static com.wanderfar.expander.TestHelpers.TestUtils.clearSharedPrefs;
@@ -126,6 +132,22 @@ public class MainActivityTest {
         setMacroUsageCount(getMacro("B"), 2);
         setMacroUsageCount(getMacro("C"), 1);
 
+        //Set Last Used Fields
+        try {
+            Date cDate = new SimpleDateFormat("MM/dd/yyyy").parse("02/01/2017");
+            setMacroLastUsed(getMacro("C"), cDate);
+
+            Date bDate = new SimpleDateFormat("MM/dd/yyyy").parse("01/01/2017");
+            setMacroLastUsed(getMacro("B"), bDate);
+
+            Date aDate = new SimpleDateFormat("MM/dd/yyyy").parse("12/01/2016");
+            setMacroLastUsed(getMacro("A"), aDate);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
         //Launch the main activity
         Intent intent = new Intent();
         mActivityRule.launchActivity(intent);
@@ -153,6 +175,20 @@ public class MainActivityTest {
 
         onView(withId(R.id.noteListRecyclerView))
                 .check(matches(atPosition(2, hasDescendant(withText("A")))));
+
+        //Next sort by last used
+        onView(withId(R.id.action_sort_by)).perform(click());
+        onView(withText("Last Used")).perform(click());
+
+        onView(withId(R.id.noteListRecyclerView))
+                .check(matches(atPosition(0, hasDescendant(withText("C")))));
+
+        onView(withId(R.id.noteListRecyclerView))
+                .check(matches(atPosition(1, hasDescendant(withText("B")))));
+
+        onView(withId(R.id.noteListRecyclerView))
+                .check(matches(atPosition(2, hasDescendant(withText("A")))));
+
 
     }
 

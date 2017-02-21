@@ -223,6 +223,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
         val sortByShortcutName = menu.findItem(R.id.sortByName)
         val sortByShortcutUsageCount = menu.findItem(R.id.sortByUsageCount)
+        val sortByLastUsed = menu.findItem(R.id.sortByLastUsed)
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         val sortBySetting = prefs.getInt("SortByMethod", MacroConstants.SORT_BY_NAME)
@@ -230,6 +231,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         when (sortBySetting) {
             MacroConstants.SORT_BY_NAME  -> sortByShortcutName.isChecked = true
             MacroConstants.SORT_BY_USAGE_COUNT -> sortByShortcutUsageCount.isChecked = true
+            MacroConstants.SORT_BY_LAST_USED -> sortByLastUsed.isChecked = true
             else -> sortByShortcutName.isChecked = true
         }
 
@@ -265,6 +267,11 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
         if (id == R.id.sortByUsageCount){
             mPresenter.setMacroSort(MacroConstants.SORT_BY_USAGE_COUNT)
+            return true
+        }
+
+        if (id == R.id.sortByLastUsed){
+            mPresenter.setMacroSort(MacroConstants.SORT_BY_LAST_USED)
             return true
         }
 
