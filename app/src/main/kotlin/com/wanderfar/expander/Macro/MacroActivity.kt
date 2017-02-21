@@ -82,7 +82,7 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
         super.onResume()
 
         //check if dynamic values is turned on,  if its off, make the button invisible
-        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean("isDynamicValuesEnabled", false)){
+        if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean("isDynamicValuesEnabled", true)){
             dynamic_value_button.visibility = View.GONE
         }
         mPresenter.onResume()

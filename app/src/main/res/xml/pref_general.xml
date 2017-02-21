@@ -10,7 +10,7 @@
         <SwitchPreference
             android:title="@string/settings_activity_enable_dynamic_value_permission_title"
             android:key="isDynamicValuesEnabled"
-            android:defaultValue="false">
+            android:defaultValue="true">
         </SwitchPreference>
     </PreferenceCategory>
     <PreferenceCategory
