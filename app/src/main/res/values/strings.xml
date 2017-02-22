@@ -30,6 +30,9 @@
     <string name="setting_activity_preference_category_general_title">General Settings</string>
     <string name="settings_activity_enable_app_permission_title">Enable Expander</string>
     <string name="settings_activity_enable_dynamic_value_permission_title">Enable Dynamic Values</string>
+    <string name="settings_activity_floating_ui_set_color_title">Floating UI Color</string>
+    <string name="settings_activity_floating_ui_set_color_summary">Tap to set the color of the Floating UI</string>
+
     <string name="key_application_list">ApplicationList</string>
 
     <string name="string_extra_macro_name">MACRONAME</string>

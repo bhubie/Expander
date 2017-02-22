@@ -50,6 +50,11 @@
             android:summary="@string/settings_summary"
             android:text="@string/settings_unit"
             android:title="@string/settings_title" />
+        <Preference
+            android:title="@string/settings_activity_floating_ui_set_color_title"
+            android:summary="@string/settings_activity_draw_over_other_apps_permission_disabled_summary"
+            android:key="floatingUIColor">
+        </Preference>
 
     </PreferenceCategory>
 
