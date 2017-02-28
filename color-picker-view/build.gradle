@@ -1,0 +1,24 @@
+apply plugin: 'com.android.library'
+
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "23.0.3"
+    resourcePrefix "colorpickerview__"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 24
+        versionCode 4
+        versionName "1.4.0"
+    }
+    buildTypes {
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+
+
