@@ -21,9 +21,13 @@ package com.wanderfar.expander.Settings;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.preference.DialogPreference;
 
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -43,9 +47,9 @@ public class SeekBarPreference extends DialogPreference implements SeekBar.OnSee
     private static final String androidns="http://schemas.android.com/apk/res/android";
 
     private SeekBar mSeekBar;
-    private TextView mSplashText,mValueText;
     private FloatingActionButton mFloatingActionButton;
     private Context mContext;
+    private int mColor;
 
     private final int FLOAT_CONVERSION = 100;
 
@@ -87,19 +91,17 @@ public class SeekBarPreference extends DialogPreference implements SeekBar.OnSee
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setPadding(6,6,6,6);
 
-        //mSplashText = new TextView(mContext);
+
 
         mFloatingActionButton = new FloatingActionButton(mContext);
         mFloatingActionButton.setImageResource(R.drawable.ic_undo_24dp);
         float alpha = (float) mValue / FLOAT_CONVERSION;
 
-        mFloatingActionButton.setAlpha(alpha);
-        //mFloatingActionButton.setForegroundGravity(Gravity.CENTER_HORIZONTAL);
-        //mSplashText.setPadding(30, 10, 30, 10);
-        //if (mDialogMessage != null)
-        //    mSplashText.setText(mDialogMessage);
-        //layout.addView(mSplashText);
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+        mColor = prefs.getInt("floatingUIColor", -24832);
+        mFloatingActionButton.setBackgroundTintList(ColorStateList.valueOf(mColor));
+        mFloatingActionButton.setAlpha(alpha);
 
 
         params = new LinearLayout.LayoutParams(
@@ -111,13 +113,6 @@ public class SeekBarPreference extends DialogPreference implements SeekBar.OnSee
 
         layout.addView(mFloatingActionButton, params);
 
-       /* mValueText = new TextView(mContext);
-        mValueText.setGravity(Gravity.CENTER_HORIZONTAL);
-        mValueText.setTextSize(32);
-        params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.FILL_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        layout.addView(mValueText, params);*/
 
         mSeekBar = new SeekBar(mContext);
         mSeekBar.setOnSeekBarChangeListener(this);

@@ -42,6 +42,12 @@
             android:summary="@string/settings_activity_draw_over_other_apps_permission_disabled_summary"
             android:key="@string/settings_activity_floating_UI_key">
         </Preference>
+        <com.github.danielnilsson9.colorpickerview.preference.ColorPreference
+            android:title="@string/settings_activity_floating_ui_set_color_title"
+            android:summary="@string/settings_activity_floating_ui_set_color_summary"
+            android:key="floatingUIColor"
+            android:defaultValue="-24832">
+        </com.github.danielnilsson9.colorpickerview.preference.ColorPreference>
         <com.wanderfar.expander.Settings.SeekBarPreference
             android:defaultValue="50"
             android:dialogMessage="@string/settings_dialog_message"
@@ -50,11 +56,7 @@
             android:summary="@string/settings_summary"
             android:text="@string/settings_unit"
             android:title="@string/settings_title" />
-        <com.wanderfar.expander.Settings.ColorPickerPreference.ColorPickerPreference
-            android:title="@string/settings_activity_floating_ui_set_color_title"
-            android:summary="@string/settings_activity_draw_over_other_apps_permission_disabled_summary"
-            android:key="floatingUIColor">
-        </com.wanderfar.expander.Settings.ColorPickerPreference.ColorPickerPreference>
+
 
     </PreferenceCategory>
 
