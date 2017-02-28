@@ -29,11 +29,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.graphics.PixelFormat
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.provider.Settings
+import android.support.design.widget.FloatingActionButton
 import android.util.Log
 import android.view.*
 import android.view.accessibility.AccessibilityEvent
@@ -85,12 +87,6 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         // Set the type of feedback your service will provide.
         info.feedbackType = AccessibilityServiceInfo.FEEDBACK_SPOKEN
 
-        // Default services are invoked only if no package-specific ones are present
-        // for the type of AccessibilityEvent generated.  This service *is*
-        // application-specific, so the flag isn't necessary.  If this was a
-        // general-purpose service, it would be worth considering setting the
-        // DEFAULT flag.
-
         info.flags = AccessibilityServiceInfo.DEFAULT
 
         info.notificationTimeout = 100
@@ -103,9 +99,7 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         println("Macro service was just connected!")
 
         serviceInfo = info
-
-
-
+        
     }
 
 
@@ -230,21 +224,24 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
 
             //Get the opacity level of the UI and set it
             val radius = PreferenceManager.getDefaultSharedPreferences(this).getInt("Opacity_Value", 75)
+            val color = PreferenceManager.getDefaultSharedPreferences(this).getInt("floatingUIColor", -24832)
             val opacityValue : Float = (radius.toFloat() / 100.toFloat() )
+
             floatingUI.alpha =  opacityValue
 
             //Add the view
             windowManager.addView(floatingUI, params)
 
-
-
             //Inflate the view layout
             val layoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-                    layoutInflater.inflate(com.wanderfar.expander.R.layout.floating_ui, floatingUI)
+            val view = layoutInflater.inflate(com.wanderfar.expander.R.layout.floating_ui, floatingUI)
+
+            val button = view.findViewById(R.id.fab) as FloatingActionButton
+            button.backgroundTintList = ColorStateList.valueOf(color)
 
             setUITouchListener(params)
 
-            //
+
             initServiceStop()
         }
 
