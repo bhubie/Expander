@@ -99,7 +99,7 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         println("Macro service was just connected!")
 
         serviceInfo = info
-        
+
     }
 
 

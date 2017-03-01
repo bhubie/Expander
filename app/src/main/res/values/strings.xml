@@ -52,6 +52,9 @@
     <string name="about_activity_open_source_paper_link">https://github.com/pilgr/Paper</string>
     <string name="about_activity_open_source_about_page_title">Android About Page by Medyo</string>
     <string name="about_activity_open_source_about_page_link">https://github.com/medyo/android-about-page</string>
+    <string name="about_activity_open_source_color_picker_title">color-picker-view</string>
+    <string name="about_activity_open_source_color_picker_link">https://github.com/bhubie/color-picker-view</string>
+
 
     <string name="macro_activity_dynamic_value_button_text">Add Dynamic (Always Changing) Value</string>
     <string name="macro_activity_expand_when_title">When to expand text:</string>
