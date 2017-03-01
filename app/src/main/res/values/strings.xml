@@ -30,6 +30,9 @@
     <string name="setting_activity_preference_category_general_title">General Settings</string>
     <string name="settings_activity_enable_app_permission_title">Enable Expander</string>
     <string name="settings_activity_enable_dynamic_value_permission_title">Enable Dynamic Values</string>
+    <string name="settings_activity_floating_ui_set_color_title">Floating UI Color</string>
+    <string name="settings_activity_floating_ui_set_color_summary">Tap to set the color of the Floating UI</string>
+
     <string name="key_application_list">ApplicationList</string>
 
     <string name="string_extra_macro_name">MACRONAME</string>
@@ -49,6 +52,9 @@
     <string name="about_activity_open_source_paper_link">https://github.com/pilgr/Paper</string>
     <string name="about_activity_open_source_about_page_title">Android About Page by Medyo</string>
     <string name="about_activity_open_source_about_page_link">https://github.com/medyo/android-about-page</string>
+    <string name="about_activity_open_source_color_picker_title">color-picker-view</string>
+    <string name="about_activity_open_source_color_picker_link">https://github.com/bhubie/color-picker-view</string>
+
 
     <string name="macro_activity_dynamic_value_button_text">Add Dynamic (Always Changing) Value</string>
     <string name="macro_activity_expand_when_title">When to expand text:</string>

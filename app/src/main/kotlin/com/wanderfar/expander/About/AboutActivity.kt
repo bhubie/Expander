@@ -41,8 +41,9 @@ class AboutActivity : AppCompatActivity() {
                 .addGroup(resources.getString(R.string.about_activity_version_group_label))
                 .addItem(createVersionElement())
                 .addGroup(resources.getString(R.string.about_activity_open_source_group_label))
-                .addItem(createLibraryPaperElement())
                 .addItem(createLibraryAboutPageElement())
+                .addItem(createLibraryColorPickerElement())
+                .addItem(createLibraryPaperElement())
                 .create()
 
         setContentView(aboutPage)
@@ -78,5 +79,16 @@ class AboutActivity : AppCompatActivity() {
         libraryElementAboutPage.icon = R.drawable.about_icon_github
 
         return libraryElementAboutPage
+    }
+
+    private fun createLibraryColorPickerElement() : Element {
+        val libraryElementColorPicker = Element()
+        libraryElementColorPicker.title = resources.getString(R.string.about_activity_open_source_color_picker_title)
+        val openAboutPageIntent = Intent(Intent.ACTION_VIEW)
+        openAboutPageIntent.data = Uri.parse(resources.getString(R.string.about_activity_open_source_color_picker_link))
+        libraryElementColorPicker.intent = openAboutPageIntent
+        libraryElementColorPicker.icon = R.drawable.about_icon_github
+
+        return libraryElementColorPicker
     }
 }
