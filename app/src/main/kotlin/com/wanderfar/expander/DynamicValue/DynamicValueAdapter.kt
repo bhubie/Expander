@@ -24,7 +24,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhrase
 import com.wanderfar.expander.R
 
 
@@ -51,22 +50,13 @@ class DynamicValueAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     // you provide access to all the views for a data item in a view holder
     inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         // each data item is just a string in this case
-        var title: TextView
+        var title: TextView = v.findViewById(R.id.dynamic_value_title) as TextView
 
-        init {
-            title = v.findViewById(R.id.dynamic_value_title) as TextView
-
-        }
     }
 
     inner class HeaderViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         // each data item is just a string in this case
-        var headerTitle: TextView
-
-        init {
-            headerTitle = v.findViewById(R.id.dynamic_value_header) as TextView
-
-        }
+        var headerTitle: TextView = v.findViewById(R.id.dynamic_value_header) as TextView
 
     }
 

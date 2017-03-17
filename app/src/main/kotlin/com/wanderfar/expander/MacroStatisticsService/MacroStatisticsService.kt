@@ -40,7 +40,7 @@ class MacroStatisticsService : IntentService("UpdateMacroStatsService") {
 
         //Get the macro
         val macro = MacroStore.getMacro(macroToLoad as String)
-        var currentCount = macro?.usageCount
+        val currentCount = macro?.usageCount
 
         //Update the usage counts
         if(increaseOrDecrease == "Increase"){

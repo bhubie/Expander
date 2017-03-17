@@ -153,7 +153,7 @@ class DynamicValueFragment : Fragment() {
         }))
 
 
-        return view!!
+        return view
     }
 }
 
@@ -182,7 +182,7 @@ class DynamicValueExampleFragment: Fragment(){
         adapter.setItems(DynamicPhraseGenerator.dynamicPhraseOptions.toMutableList())
         adapter.notifyDataSetChanged()
 
-        return view!!
+        return view
     }
 }
 

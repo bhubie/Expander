@@ -80,9 +80,6 @@ public class MacroAccessibilityServiceTest {
                     new Intent(InstrumentationRegistry.getTargetContext(), MacroAccessibilityService.class);
             mServiceRule.startService(serviceIntent);
 
-            IBinder binder = mServiceRule.bindService(serviceIntent);
-
-
         } catch (TimeoutException e) {
             e.printStackTrace();
         }

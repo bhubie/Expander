@@ -81,7 +81,7 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
 
             //See if we have a match
-            val result = matcher.find(text.toString().substring(0, getValidPosition(cursorPosition)), textSearchStart)
+            val result = matcher.find(text.substring(0, getValidPosition(cursorPosition)), textSearchStart)
 
 
             //if we have a match, and the match wasn't undone, modify the text

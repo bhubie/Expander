@@ -143,7 +143,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
 
         seekBarPref = (SeekBarPreference) this.findPreference("Opacity_Value");
-        int radius = PreferenceManager.getDefaultSharedPreferences(this).getInt("Opacity_Value", 75);
         seekBarPref.setSummary(R.string.setting_activity_floatingUI_opacity_level_summary_text);
 
         appListSwitch = (SwitchPreference) this.findPreference("Application_Filter_Type");

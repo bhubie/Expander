@@ -22,7 +22,7 @@ package com.wanderfar.expander.Models
 import java.util.*
 
 
-class Macro (){
+class Macro {
 
     //If we are adding an item to the macro, be sure to update the extension function in Macro store to check for equality
     var name : String = ""
