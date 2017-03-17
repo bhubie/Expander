@@ -16,18 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+package com.wanderfar.expander.AppSettings
 
-package com.wanderfar.expander.MacroAccessibilityService
-
-
-
-
-
-interface MacroAccessibilityServicePresenter {
-
-    fun onAccessibilityEvent(textToCheck : String, cursorPosition: Int)
-
-    fun undoSetText()
+import android.content.Context
+import android.preference.PreferenceManager
 
 
+class AppSettingsImpl (context: Context) : AppSettings{
+
+    var prefs = PreferenceManager.getDefaultSharedPreferences(context)
+
+    override fun isDynamicValuesEnabled(): Boolean {
+        return prefs.getBoolean("isDynamicValuesEnabled", false)
+    }
 }

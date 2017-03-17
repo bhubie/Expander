@@ -20,6 +20,7 @@
 
 package com.wanderfar.expander.MacroAccessibilityService
 
+import com.wanderfar.expander.AppSettings.AppSettings
 import com.wanderfar.expander.Application.Expander
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator
 import com.wanderfar.expander.Models.Macro
@@ -28,9 +29,10 @@ import com.wanderfar.expander.Models.MacroStore
 import java.util.*
 
 
-class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceView) : MacroAccessibilityServicePresenter {
+class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceView, appSettings: AppSettings) : MacroAccessibilityServicePresenter {
 
     var macroAccessibilityServiceView = view
+    var appSettings = appSettings
 
     var macrosToCheck : MutableList<Macro>? = null
     lateinit var text : String
@@ -39,10 +41,10 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
     var matchedMacroEndingPosition : Int = 0
     var isInitialized : Boolean = false
     var charactersInsertedFromDynamicPhrases : Int = 0
+    var replaceDynamicPhrases: Boolean = true
 
 
-    override fun onAccessibilityEvent(textToCheck : String, cursorPosition: Int,
-                                      replaceDynamicPhrases: Boolean) {
+    override fun onAccessibilityEvent(textToCheck : String, cursorPosition: Int) {
         if (macrosToCheck == null || MacroStore.hasStoreBeenUpdated()){
             macrosToCheck = MacroStore.getMacros()
             MacroStore.setMacroStoreUpdatedFlag(false)
@@ -53,6 +55,7 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         }
 
         isInitialized == true
+        replaceDynamicPhrases = appSettings.isDynamicValuesEnabled()
 
         //declare variable that will say if a match was found
         var aMatchWasFound : Boolean = false
@@ -63,9 +66,6 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         charactersInsertedFromDynamicPhrases = 0
 
         text = textToCheck
-
-        //Hide the floating UI if it is already out there.
-        //macroAccessibilityServiceView.hideFloatingUI()
 
         //for (macro: Macro in macrosToCheck) {
         macrosToCheck?.forEach { macro: Macro ->
@@ -123,9 +123,7 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
             macroAccessibilityServiceView.updateText(text, newCursorPosition)
             macroAccessibilityServiceView.startUpdateMacroStatisticsService(matchedMacro, "Increase")
         }
-        else {
-            //macroAccessibilityServiceView.hideFloatingUI()
-        }
+
     }
 
     private fun getValidPosition(cursorPosition: Int): Int {
@@ -213,6 +211,4 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         }
 
     }
-
-
 }

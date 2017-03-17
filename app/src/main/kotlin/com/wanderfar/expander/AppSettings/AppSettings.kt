@@ -16,18 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-package com.wanderfar.expander.MacroAccessibilityService
-
+package com.wanderfar.expander.AppSettings
 
 
+interface AppSettings {
 
-
-interface MacroAccessibilityServicePresenter {
-
-    fun onAccessibilityEvent(textToCheck : String, cursorPosition: Int)
-
-    fun undoSetText()
-
-
+    fun isDynamicValuesEnabled(): Boolean
 }

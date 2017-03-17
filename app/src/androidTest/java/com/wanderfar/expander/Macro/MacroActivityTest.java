@@ -27,6 +27,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.KeyEvent;
 
+import com.wanderfar.expander.AppSettings.AppSettings;
 import com.wanderfar.expander.MacroAccessibilityService.MacroAccessibilityServicePresenterImpl;
 import com.wanderfar.expander.MacroAccessibilityService.MacroAccessibilityServiceView;
 import com.wanderfar.expander.MainActivity.MainActivity;
@@ -480,9 +481,10 @@ public class MacroActivityTest {
         assertEquals(getMacroStoreUpdatedFlag(), true);
 
         MacroAccessibilityServiceView macroAccessibilityServiceView = mock(MacroAccessibilityServiceView.class);
-        MacroAccessibilityServicePresenterImpl macroAccessibilityServicePresenter = new MacroAccessibilityServicePresenterImpl(macroAccessibilityServiceView);
+        AppSettings appSettings = mock(AppSettings.class);
+        MacroAccessibilityServicePresenterImpl macroAccessibilityServicePresenter = new MacroAccessibilityServicePresenterImpl(macroAccessibilityServiceView, appSettings);
 
-        macroAccessibilityServicePresenter.onAccessibilityEvent("Text", 3, true);
+        macroAccessibilityServicePresenter.onAccessibilityEvent("Text", 3);
         assertEquals(getMacroStoreUpdatedFlag(), false);
 
     }

@@ -41,6 +41,7 @@ import android.view.*
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.FrameLayout
+import com.wanderfar.expander.AppSettings.AppSettingsImpl
 import com.wanderfar.expander.MacroStatisticsService.MacroStatisticsService
 import com.wanderfar.expander.Models.MacroStore
 import io.paperdb.Paper
@@ -65,7 +66,7 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
 
     //Create the presenter
     private val mPresenter : MacroAccessibilityServicePresenter by lazy {
-        MacroAccessibilityServicePresenterImpl(this)
+        MacroAccessibilityServicePresenterImpl(this, AppSettingsImpl(this))
     }
 
     override fun onCreate(){
@@ -135,8 +136,7 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         //If the text isn't empty and we have necessary permission, check the text
         if(text.isNullOrEmpty().not() && isExpanderEnabled){
             Paper.init(this)
-            mPresenter.onAccessibilityEvent(text, source.textSelectionStart,
-                    prefs.getBoolean("isDynamicValuesEnabled", false))
+            mPresenter.onAccessibilityEvent(text, source.textSelectionStart)
             hideFloatingUI()
         }
     }
