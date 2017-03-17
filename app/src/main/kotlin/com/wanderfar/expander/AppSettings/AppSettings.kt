@@ -24,4 +24,6 @@ interface AppSettings {
     fun isDynamicValuesEnabled(): Boolean
     fun isFloatingUIEnabled(): Boolean
     fun isSystemAlertPermissionGranted(): Boolean
+    fun getOpacityValue(): Int
+    fun getFloatingUIColor(): Int
 }

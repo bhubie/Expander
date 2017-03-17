@@ -42,4 +42,12 @@ class AppSettingsImpl (context: Context) : AppSettings{
         return result
     }
 
+    override fun getOpacityValue(): Int {
+        return prefs.getInt("Opacity_Value", 75)
+    }
+
+    override fun getFloatingUIColor(): Int {
+        return prefs.getInt("floatingUIColor", -24832)
+    }
+
 }

@@ -31,7 +31,7 @@ interface MacroAccessibilityServiceView : View {
 
     fun hideFloatingUI()
 
-    fun showFloatingUI()
+    fun showFloatingUI(opacityLevel: Int, color: Int)
 
     fun startUpdateMacroStatisticsService(matchedMacro: String,increaseOrDecrease : String)
 }

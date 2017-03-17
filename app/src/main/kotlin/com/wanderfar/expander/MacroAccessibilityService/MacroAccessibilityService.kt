@@ -179,7 +179,7 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         }
     }
 
-    override fun showFloatingUI() {
+    override fun showFloatingUI(opacityLevel: Int, uiColor: Int) {
 
         val params = WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
@@ -198,8 +198,8 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
             //windowManager.addView(floatingUI, params)
 
             //Get the opacity level of the UI and set it
-            val radius = PreferenceManager.getDefaultSharedPreferences(this).getInt("Opacity_Value", 75)
-            val color = PreferenceManager.getDefaultSharedPreferences(this).getInt("floatingUIColor", -24832)
+            val radius = opacityLevel
+            val color = uiColor
             val opacityValue : Float = (radius.toFloat() / 100.toFloat() )
 
             floatingUI.alpha =  opacityValue
@@ -215,7 +215,7 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
             button.backgroundTintList = ColorStateList.valueOf(color)
 
             setUITouchListener(params)
-            
+
             initServiceStop()
         }
     }
@@ -341,12 +341,5 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         }
 
     }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    fun isSystemAlertPermissionGranted(context: Context): Boolean {
-        val result = Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(context)
-        return result
-    }
-
 
 }

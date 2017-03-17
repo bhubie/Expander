@@ -132,11 +132,11 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
     private fun checkIfFloatingUICanBeShown(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if(appSettings.isSystemAlertPermissionGranted()) {
-                macroAccessibilityServiceView.showFloatingUI()
+                macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor())
             }
         } else {
             if(appSettings.isFloatingUIEnabled()){
-                macroAccessibilityServiceView.showFloatingUI()
+                macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor())
             }
         }
     }
