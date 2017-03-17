@@ -19,14 +19,27 @@
 package com.wanderfar.expander.AppSettings
 
 import android.content.Context
+import android.os.Build
 import android.preference.PreferenceManager
+import android.provider.Settings
 
 
 class AppSettingsImpl (context: Context) : AppSettings{
 
+    var context = context
     var prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
     override fun isDynamicValuesEnabled(): Boolean {
         return prefs.getBoolean("isDynamicValuesEnabled", false)
     }
+
+    override fun isFloatingUIEnabled(): Boolean {
+        return prefs.getBoolean("IsFloatingUIEnabled", true)
+    }
+
+    override fun isSystemAlertPermissionGranted(): Boolean {
+        val result = Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(context)
+        return result
+    }
+
 }

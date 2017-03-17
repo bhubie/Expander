@@ -20,6 +20,8 @@
 
 package com.wanderfar.expander.MacroAccessibilityService
 
+import android.os.Build
+import android.preference.PreferenceManager
 import com.wanderfar.expander.AppSettings.AppSettings
 import com.wanderfar.expander.Application.Expander
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator
@@ -121,9 +123,22 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
         if (aMatchWasFound){
             macroAccessibilityServiceView.updateText(text, newCursorPosition)
+            checkIfFloatingUICanBeShown()
             macroAccessibilityServiceView.startUpdateMacroStatisticsService(matchedMacro, "Increase")
         }
 
+    }
+
+    private fun checkIfFloatingUICanBeShown(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if(appSettings.isSystemAlertPermissionGranted()) {
+                macroAccessibilityServiceView.showFloatingUI()
+            }
+        } else {
+            if(appSettings.isFloatingUIEnabled()){
+                macroAccessibilityServiceView.showFloatingUI()
+            }
+        }
     }
 
     private fun getValidPosition(cursorPosition: Int): Int {

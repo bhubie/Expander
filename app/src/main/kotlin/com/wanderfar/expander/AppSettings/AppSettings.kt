@@ -22,4 +22,6 @@ package com.wanderfar.expander.AppSettings
 interface AppSettings {
 
     fun isDynamicValuesEnabled(): Boolean
+    fun isFloatingUIEnabled(): Boolean
+    fun isSystemAlertPermissionGranted(): Boolean
 }

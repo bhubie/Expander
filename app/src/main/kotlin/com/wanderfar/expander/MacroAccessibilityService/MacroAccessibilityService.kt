@@ -96,9 +96,6 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
 
 
         //info.settingsActivityName = "com.apps.wanderfar.expander.Settings.SettingsActivity"
-
-        println("Macro service was just connected!")
-
         serviceInfo = info
 
     }
@@ -114,7 +111,6 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
 
 
-        println("Text just changed, checking to see if we have a match")
 
         //get the text from the event
         //sub string it so it removes the brackets
@@ -163,19 +159,6 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         source.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments)
         source.performAction(AccessibilityNodeInfo.ACTION_SET_SELECTION, arguments)
 
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if(isSystemAlertPermissionGranted(this)) {
-                createFloatingUI()
-            }
-        } else {
-            if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("IsFloatingUIEnabled", true)){
-                createFloatingUI()
-            }
-        }
-
-
-
     }
 
     override fun startUpdateMacroStatisticsService(matchedMacro: String, increaseOrDecrease: String) {
@@ -196,15 +179,7 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         }
     }
 
-
-    fun initFloatingUIElements() {
-        floatingUI = FrameLayout(this)
-
-        windowManager =  getSystemService(Service.WINDOW_SERVICE) as WindowManager
-
-    }
-
-    fun createFloatingUI() {
+    override fun showFloatingUI() {
 
         val params = WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
@@ -240,13 +215,20 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
             button.backgroundTintList = ColorStateList.valueOf(color)
 
             setUITouchListener(params)
-
-
+            
             initServiceStop()
         }
+    }
 
+
+    fun initFloatingUIElements() {
+        floatingUI = FrameLayout(this)
+
+        windowManager =  getSystemService(Service.WINDOW_SERVICE) as WindowManager
 
     }
+
+
 
 
     //creates a task for the UI to be hidden after a certain number of seconds
