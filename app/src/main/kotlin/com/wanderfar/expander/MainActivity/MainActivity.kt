@@ -163,7 +163,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
             val snackbarView = snackbar.view
             val tv = snackbarView.findViewById(android.support.design.R.id.snackbar_text) as TextView
-            tv.maxLines = 3
+            tv.maxLines = 4
             snackbar.show()
 
         }
