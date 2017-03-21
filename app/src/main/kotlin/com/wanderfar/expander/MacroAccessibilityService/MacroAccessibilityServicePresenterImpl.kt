@@ -20,6 +20,8 @@
 
 package com.wanderfar.expander.MacroAccessibilityService
 
+import android.os.Build
+import com.wanderfar.expander.AppSettings.AppSettings
 import com.wanderfar.expander.Application.Expander
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator
 import com.wanderfar.expander.Models.Macro
@@ -28,9 +30,10 @@ import com.wanderfar.expander.Models.MacroStore
 import java.util.*
 
 
-class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceView) : MacroAccessibilityServicePresenter {
+class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceView, appSettings: AppSettings) : MacroAccessibilityServicePresenter {
 
     var macroAccessibilityServiceView = view
+    var appSettings = appSettings
 
     var macrosToCheck : MutableList<Macro>? = null
     lateinit var text : String
@@ -39,10 +42,10 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
     var matchedMacroEndingPosition : Int = 0
     var isInitialized : Boolean = false
     var charactersInsertedFromDynamicPhrases : Int = 0
+    var replaceDynamicPhrases: Boolean = true
 
 
-    override fun onAccessibilityEvent(textToCheck : String, cursorPosition: Int,
-                                      replaceDynamicPhrases: Boolean) {
+    override fun onAccessibilityEvent(textToCheck : String, cursorPosition: Int) {
         if (macrosToCheck == null || MacroStore.hasStoreBeenUpdated()){
             macrosToCheck = MacroStore.getMacros()
             MacroStore.setMacroStoreUpdatedFlag(false)
@@ -53,6 +56,7 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         }
 
         isInitialized == true
+        replaceDynamicPhrases = appSettings.isDynamicValuesEnabled()
 
         //declare variable that will say if a match was found
         var aMatchWasFound : Boolean = false
@@ -63,9 +67,6 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         charactersInsertedFromDynamicPhrases = 0
 
         text = textToCheck
-
-        //Hide the floating UI if it is already out there.
-        //macroAccessibilityServiceView.hideFloatingUI()
 
         //for (macro: Macro in macrosToCheck) {
         macrosToCheck?.forEach { macro: Macro ->
@@ -81,7 +82,7 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
 
             //See if we have a match
-            val result = matcher.find(text.toString().substring(0, getValidPosition(cursorPosition)), textSearchStart)
+            val result = matcher.find(text.substring(0, getValidPosition(cursorPosition)), textSearchStart)
 
 
             //if we have a match, and the match wasn't undone, modify the text
@@ -121,10 +122,21 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
         if (aMatchWasFound){
             macroAccessibilityServiceView.updateText(text, newCursorPosition)
+            checkIfFloatingUICanBeShown()
             macroAccessibilityServiceView.startUpdateMacroStatisticsService(matchedMacro, "Increase")
         }
-        else {
-            //macroAccessibilityServiceView.hideFloatingUI()
+
+    }
+
+    private fun checkIfFloatingUICanBeShown(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if(appSettings.isSystemAlertPermissionGranted()) {
+                macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor())
+            }
+        } else {
+            if(appSettings.isFloatingUIEnabled()){
+                macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor())
+            }
         }
     }
 
@@ -213,6 +225,4 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         }
 
     }
-
-
 }

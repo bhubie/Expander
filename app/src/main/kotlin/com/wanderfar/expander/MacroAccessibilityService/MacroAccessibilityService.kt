@@ -23,24 +23,22 @@ package com.wanderfar.expander.MacroAccessibilityService
 
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.AccessibilityServiceInfo
-import android.annotation.TargetApi
-import android.app.Service
+fimport android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.PixelFormat
-import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.provider.Settings
 import android.support.design.widget.FloatingActionButton
 import android.util.Log
 import android.view.*
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.FrameLayout
+import com.wanderfar.expander.AppSettings.AppSettingsImpl
 import com.wanderfar.expander.MacroStatisticsService.MacroStatisticsService
 import com.wanderfar.expander.Models.MacroStore
 import io.paperdb.Paper
@@ -65,7 +63,7 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
 
     //Create the presenter
     private val mPresenter : MacroAccessibilityServicePresenter by lazy {
-        MacroAccessibilityServicePresenterImpl(this)
+        MacroAccessibilityServicePresenterImpl(this, AppSettingsImpl(this))
     }
 
     override fun onCreate(){
@@ -95,9 +93,6 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
 
 
         //info.settingsActivityName = "com.apps.wanderfar.expander.Settings.SettingsActivity"
-
-        println("Macro service was just connected!")
-
         serviceInfo = info
 
     }
@@ -113,7 +108,6 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
 
 
-        println("Text just changed, checking to see if we have a match")
 
         //get the text from the event
         //sub string it so it removes the brackets
@@ -135,8 +129,7 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         //If the text isn't empty and we have necessary permission, check the text
         if(text.isNullOrEmpty().not() && isExpanderEnabled){
             Paper.init(this)
-            mPresenter.onAccessibilityEvent(text, source.textSelectionStart,
-                    prefs.getBoolean("isDynamicValuesEnabled", false))
+            mPresenter.onAccessibilityEvent(text, source.textSelectionStart)
             hideFloatingUI()
         }
     }
@@ -163,19 +156,6 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         source.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments)
         source.performAction(AccessibilityNodeInfo.ACTION_SET_SELECTION, arguments)
 
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if(isSystemAlertPermissionGranted(this)) {
-                createFloatingUI()
-            }
-        } else {
-            if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("IsFloatingUIEnabled", true)){
-                createFloatingUI()
-            }
-        }
-
-
-
     }
 
     override fun startUpdateMacroStatisticsService(matchedMacro: String, increaseOrDecrease: String) {
@@ -196,15 +176,7 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         }
     }
 
-
-    fun initFloatingUIElements() {
-        floatingUI = FrameLayout(this)
-
-        windowManager =  getSystemService(Service.WINDOW_SERVICE) as WindowManager
-
-    }
-
-    fun createFloatingUI() {
+    override fun showFloatingUI(opacityLevel: Int, uiColor: Int) {
 
         val params = WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
@@ -223,8 +195,8 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
             //windowManager.addView(floatingUI, params)
 
             //Get the opacity level of the UI and set it
-            val radius = PreferenceManager.getDefaultSharedPreferences(this).getInt("Opacity_Value", 75)
-            val color = PreferenceManager.getDefaultSharedPreferences(this).getInt("floatingUIColor", -24832)
+            val radius = opacityLevel
+            val color = uiColor
             val opacityValue : Float = (radius.toFloat() / 100.toFloat() )
 
             floatingUI.alpha =  opacityValue
@@ -241,12 +213,19 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
 
             setUITouchListener(params)
 
-
             initServiceStop()
         }
+    }
 
+
+    fun initFloatingUIElements() {
+        floatingUI = FrameLayout(this)
+
+        windowManager =  getSystemService(Service.WINDOW_SERVICE) as WindowManager
 
     }
+
+
 
 
     //creates a task for the UI to be hidden after a certain number of seconds
@@ -359,12 +338,5 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         }
 
     }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    fun isSystemAlertPermissionGranted(context: Context): Boolean {
-        val result = Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(context)
-        return result
-    }
-
 
 }

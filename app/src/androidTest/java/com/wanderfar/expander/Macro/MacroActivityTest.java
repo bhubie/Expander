@@ -27,6 +27,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.KeyEvent;
 
+import com.wanderfar.expander.AppSettings.AppSettings;
 import com.wanderfar.expander.MacroAccessibilityService.MacroAccessibilityServicePresenterImpl;
 import com.wanderfar.expander.MacroAccessibilityService.MacroAccessibilityServiceView;
 import com.wanderfar.expander.MainActivity.MainActivity;
@@ -139,7 +140,7 @@ public class MacroActivityTest {
 
         //Validate we are returned to main activity and that the just saved macro exists
         onView(withId(R.id.noteListRecyclerView))
-                .check(matches(atPosition(1, hasDescendant(withText("ANewTestMacro")))));
+                .check(matches(atPosition(0, hasDescendant(withText("ANewTestMacro")))));
 
     }
 
@@ -462,13 +463,14 @@ public class MacroActivityTest {
         mActivityTestRule.launchActivity(intent);
 
         //Input text into the phrase field
-        onView(withId(R.id.input_phrase)).perform(clearText(), typeText("Test Phrase !d"));
+        onView(withId(R.id.input_phrase)).perform(click()).perform(typeText("Test Phrase !d"));
+                //.perform(typeText("Test Phrase !d"));
 
         //Press the delete key in input phrase
         onView(withId(R.id.input_phrase)).perform(pressKey(KeyEvent.KEYCODE_DEL));
 
         //Validate the phrase now contains the dynamic value phrase for day of week
-        onView(withId(R.id.input_phrase)).check(matches(withText("Test Phrase ")));
+        onView(withId(R.id.input_phrase)).check(matches(withText("Test Phrase")));
     }
 
     @Test
@@ -479,9 +481,10 @@ public class MacroActivityTest {
         assertEquals(getMacroStoreUpdatedFlag(), true);
 
         MacroAccessibilityServiceView macroAccessibilityServiceView = mock(MacroAccessibilityServiceView.class);
-        MacroAccessibilityServicePresenterImpl macroAccessibilityServicePresenter = new MacroAccessibilityServicePresenterImpl(macroAccessibilityServiceView);
+        AppSettings appSettings = mock(AppSettings.class);
+        MacroAccessibilityServicePresenterImpl macroAccessibilityServicePresenter = new MacroAccessibilityServicePresenterImpl(macroAccessibilityServiceView, appSettings);
 
-        macroAccessibilityServicePresenter.onAccessibilityEvent("Text", 3, true);
+        macroAccessibilityServicePresenter.onAccessibilityEvent("Text", 3);
         assertEquals(getMacroStoreUpdatedFlag(), false);
 
     }

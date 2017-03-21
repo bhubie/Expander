@@ -87,7 +87,7 @@ class DynamicValueEditText : AppCompatEditText {
 
             override fun onTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
 
-                if(displayDrawableForDynamicValue == true){
+                if(displayDrawableForDynamicValue){
                     updateDynamicTextWithDrawable()
 
                 }

@@ -40,6 +40,7 @@
     <string name="accessibility_enabled">com.wanderfar.expander/.Services.MacroAccessibilityService</string>
     <string name="main_activity_accessibility_settings_snackbar_link_label">Open Settings</string>
     <string name="main_activity_no_macro_found_text">No Shortcuts found. Tap the + button to start creating them!</string>
+    <string name="maine_activity_accessibility_settings_snackbar_not_enabled_label">Please enable Accessibility Settings permission for %s. This is a required permission for the app to work.</string>
 
 
     <string name="about_activity_main_description">Expander is a free and open source text expansion application. For any issues, feature requests, or if you just want to chat please reach out using the below contact information!</string>

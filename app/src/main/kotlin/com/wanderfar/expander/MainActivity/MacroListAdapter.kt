@@ -36,7 +36,7 @@ class MacroListAdapter
 (context: Context) : RecyclerView.Adapter<MacroListAdapter.ViewHolder>() {
 
     private var mDataset: MutableList<Macro>? = null
-    var position: Int = 0
+
 
 
     // Provide a reference to the views for each data item
@@ -44,18 +44,10 @@ class MacroListAdapter
     // you provide access to all the views for a data item in a view holder
     inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         // each data item is just a string in this case
-        var macroName: TextView
-        var macroPhrase: TextView
-        var usageCount: TextView
-        var lastUsed: TextView
-
-        init {
-            macroName = v.findViewById(R.id.macroName) as TextView
-            macroPhrase = v.findViewById(R.id.macroPhrase) as DynamicValueTextView
-            usageCount = v.findViewById(R.id.usageCount) as TextView
-            lastUsed = v.findViewById(R.id.lastUsed) as TextView
-
-        }
+        var macroName: TextView = v.findViewById(R.id.macroName) as TextView
+        var macroPhrase: TextView = v.findViewById(R.id.macroPhrase) as DynamicValueTextView
+        var usageCount: TextView = v.findViewById(R.id.usageCount) as TextView
+        var lastUsed: TextView = v.findViewById(R.id.lastUsed) as TextView
 
 
     }

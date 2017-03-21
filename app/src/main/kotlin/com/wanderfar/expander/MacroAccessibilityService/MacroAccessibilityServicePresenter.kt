@@ -25,8 +25,7 @@ package com.wanderfar.expander.MacroAccessibilityService
 
 interface MacroAccessibilityServicePresenter {
 
-    fun onAccessibilityEvent(textToCheck : String, cursorPosition: Int,
-                             replaceDynamicPhrases: Boolean)
+    fun onAccessibilityEvent(textToCheck : String, cursorPosition: Int)
 
     fun undoSetText()
 

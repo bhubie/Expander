@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
             }
 
             val snackbar = Snackbar.make(findViewById(R.id.rootview) as View,
-                    "Please enable Accessibility Settings permission for " + resources.getString(R.string.app_name) + ". This is a required permission for the app to work.",
+                    String.format(resources.getString(R.string.maine_activity_accessibility_settings_snackbar_not_enabled_label), resources.getString(R.string.app_name)),
                     Snackbar.LENGTH_INDEFINITE)
                         .setAction(resources.getString(R.string.main_activity_accessibility_settings_snackbar_link_label)
                                 , accessibilitySnackbarClickListener)
@@ -163,7 +163,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
             val snackbarView = snackbar.view
             val tv = snackbarView.findViewById(android.support.design.R.id.snackbar_text) as TextView
-            tv.maxLines = 3
+            tv.maxLines = 4
             snackbar.show()
 
         }

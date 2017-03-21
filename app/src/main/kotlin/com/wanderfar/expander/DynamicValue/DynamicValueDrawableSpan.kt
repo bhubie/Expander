@@ -81,7 +81,7 @@ class DynamicValueDrawableSpan(verticalAlignment: Int) : DynamicDrawableSpan(ver
         val b = getCachedDrawable()
         canvas.save()
 
-        var transY = bottom - b.bounds.bottom
+        var transY = bottom - b!!.bounds.bottom
         if (mVerticalAlignment === ALIGN_BASELINE) {
             transY = top + (bottom - top) / 2 - (b.bounds.bottom - b.bounds.top) / 2 - mTop
         }
@@ -91,7 +91,7 @@ class DynamicValueDrawableSpan(verticalAlignment: Int) : DynamicDrawableSpan(ver
         canvas.restore()
     }
 
-    private fun getCachedDrawable(): Drawable {
+    private fun getCachedDrawable(): Drawable? {
         if (mDrawableRef == null || mDrawableRef!!.get() == null) {
             mDrawableRef = WeakReference<Drawable>(drawable)
         }

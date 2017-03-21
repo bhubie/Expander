@@ -23,15 +23,12 @@ import android.graphics.drawable.Drawable
 
 
 class TextDrawableCustom(private val text: String, textSize: Int, private var xPos : Float, private var yPos : Float) : Drawable() {
-    private val textPaint: Paint
-    private val backgroundPaint: Paint
+    private val textPaint: Paint = Paint()
+    private val backgroundPaint: Paint = Paint()
     private var textWidth: Float = 0.0f
     private var textSize: Float = 0.0f
 
     init {
-
-        this.textPaint = Paint()
-        this.backgroundPaint = Paint()
 
         //Text Paint
         textPaint.color = Color.parseColor("#2196F3")

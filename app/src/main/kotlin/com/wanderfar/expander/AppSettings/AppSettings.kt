@@ -16,27 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-package com.wanderfar.expander.Models
-
-import java.util.*
+package com.wanderfar.expander.AppSettings
 
 
-class Macro {
+interface AppSettings {
 
-    //If we are adding an item to the macro, be sure to update the extension function in Macro store to check for equality
-    var name : String = ""
-    var phrase : String = ""
-    var description : String? = null
-    var macroPattern : String = ""
-    var usageCount : Int = 0
-    var isCaseSensitive : Boolean = false
-    var expandWhenSetting : Int = MacroConstants.ON_A_SPACE_OR_PERIOD
-    var lastUsed : Date? = null
-
+    fun isDynamicValuesEnabled(): Boolean
+    fun isFloatingUIEnabled(): Boolean
+    fun isSystemAlertPermissionGranted(): Boolean
+    fun getOpacityValue(): Int
+    fun getFloatingUIColor(): Int
 }
-
-
-
-
-
