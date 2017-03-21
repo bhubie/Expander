@@ -23,18 +23,15 @@ package com.wanderfar.expander.MacroAccessibilityService
 
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.AccessibilityServiceInfo
-import android.annotation.TargetApi
-import android.app.Service
+fimport android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.PixelFormat
-import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.provider.Settings
 import android.support.design.widget.FloatingActionButton
 import android.util.Log
 import android.view.*

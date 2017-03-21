@@ -49,15 +49,14 @@ class MacroStatisticsService : IntentService("UpdateMacroStatsService") {
             macro?.usageCount = -1 + currentCount as Int
         }
 
-        macro?.lastUsed = Date()
+        macro.lastUsed = Date()
 
-        println("Macro Usage count: " + macro?.usageCount)
-        println("Macro Date: " + macro?.lastUsed)
+        println("Macro Usage count: " + macro.usageCount)
+        println("Macro Date: " + macro.lastUsed)
 
         //Save the macro
-        if (macro != null) {
-            MacroStore.saveMacro(macro)
-        }
+        MacroStore.saveMacro(macro)
+
     }
 }
 

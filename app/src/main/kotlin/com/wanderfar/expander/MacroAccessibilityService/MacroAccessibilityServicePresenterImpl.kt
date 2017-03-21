@@ -21,7 +21,6 @@
 package com.wanderfar.expander.MacroAccessibilityService
 
 import android.os.Build
-import android.preference.PreferenceManager
 import com.wanderfar.expander.AppSettings.AppSettings
 import com.wanderfar.expander.Application.Expander
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator
