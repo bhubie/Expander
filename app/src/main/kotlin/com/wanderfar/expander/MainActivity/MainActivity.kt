@@ -37,6 +37,8 @@ import android.view.accessibility.AccessibilityManager
 import android.widget.TextView
 import com.wanderfar.expander.Macro.MacroActivity
 import com.wanderfar.expander.About.AboutActivity
+import com.wanderfar.expander.AppSettings.AppSettings
+import com.wanderfar.expander.AppSettings.AppSettingsImpl
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.Models.MacroConstants
 import com.wanderfar.expander.R
@@ -48,19 +50,18 @@ import kotlinx.android.synthetic.main.activity_main2.*
 class MainActivity : AppCompatActivity(), MainActivityView {
 
 
+
     lateinit var mAdapter : MacroListAdapter
 
     //Create the presenter
     private val mPresenter : MainActivityPresenter<MainActivityView> by lazy {
-        MainActivityPresenterImpl(this)
+        MainActivityPresenterImpl(this, AppSettingsImpl(this))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
-
-        //Expander.graph.inject(this)
-
+        
         setSupportActionBar(toolbar)
 
         val fab = findViewById(R.id.fab) as FloatingActionButton?
@@ -68,8 +69,6 @@ class MainActivity : AppCompatActivity(), MainActivityView {
             val intent = Intent(this, MacroActivity::class.java)
             startActivity(intent)
         })
-
-        //checkIfAccessibilityPermissionIsEnabled()
 
         initRecyclerView()
 
@@ -81,8 +80,6 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
     override fun onResume(){
         super.onResume()
-
-        checkIfAccessibilityPermissionIsEnabled()
         mPresenter.onResume()
     }
 
@@ -139,57 +136,24 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         invalidateOptionsMenu()
     }
 
-    private fun checkIfAccessibilityPermissionIsEnabled() {
-
-        if (isAccessibilityEnabled("com.wanderfar.expander/.MacroAccessibilityService.MacroAccessibilityService")){
-            println("Permission Enabled!")
-            println("Package name is: " + applicationContext.packageName)
-        }
-        else {
-            println("Permission Not Enabled!")
-            println("Package name is: " + applicationContext.packageName)
-
-            val accessibilitySnackbarClickListener = View.OnClickListener {
-                intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
-                startActivityForResult(intent, 0)
-            }
-
-            val snackbar = Snackbar.make(findViewById(R.id.rootview) as View,
-                    String.format(resources.getString(R.string.maine_activity_accessibility_settings_snackbar_not_enabled_label), resources.getString(R.string.app_name)),
-                    Snackbar.LENGTH_INDEFINITE)
-                        .setAction(resources.getString(R.string.main_activity_accessibility_settings_snackbar_link_label)
-                                , accessibilitySnackbarClickListener)
-                        .setActionTextColor(resources.getColor(R.color.colorAccent))
-
-            val snackbarView = snackbar.view
-            val tv = snackbarView.findViewById(android.support.design.R.id.snackbar_text) as TextView
-            tv.maxLines = 4
-            snackbar.show()
-
+    override fun showAccessibilityServiceNotEnabledMessage() {
+        val accessibilitySnackbarClickListener = View.OnClickListener {
+            intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+            startActivityForResult(intent, 0)
         }
 
+        val snackbar = Snackbar.make(findViewById(R.id.rootview) as View,
+                String.format(resources.getString(R.string.maine_activity_accessibility_settings_snackbar_not_enabled_label), resources.getString(R.string.app_name)),
+                Snackbar.LENGTH_INDEFINITE)
+                .setAction(resources.getString(R.string.main_activity_accessibility_settings_snackbar_link_label)
+                        , accessibilitySnackbarClickListener)
+                .setActionTextColor(resources.getColor(R.color.colorAccent))
+
+        val snackbarView = snackbar.view
+        val tv = snackbarView.findViewById(android.support.design.R.id.snackbar_text) as TextView
+        tv.maxLines = 4
+        snackbar.show()
     }
-
-    private fun isAccessibilityEnabled(id: String) : Boolean {
-        val mAccessibilityManager =  this.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
-
-
-        val runningServices: List<AccessibilityServiceInfo>  = mAccessibilityManager
-                //.getEnabledAccessibilityServiceList(AccessibilityEvent.TYPES_ALL_MASK)
-                .getEnabledAccessibilityServiceList(AccessibilityEvent.TYPES_ALL_MASK)
-
-        for (service: AccessibilityServiceInfo in runningServices) {
-
-            println("Services are:" + service.packageNames)
-            println("Service ID's: " + service.id)
-            if (id == service.id) {
-                return true
-            }
-        }
-
-        return false
-    }
-
 
     private fun initRecyclerView() {
 

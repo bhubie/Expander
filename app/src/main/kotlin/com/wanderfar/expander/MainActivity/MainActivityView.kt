@@ -45,4 +45,6 @@ interface MainActivityView : View {
     fun sortMacroListAdapter(sortBy: Int)
 
     fun refreshMenu()
+
+    fun showAccessibilityServiceNotEnabledMessage()
 }

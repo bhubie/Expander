@@ -23,7 +23,7 @@ package com.wanderfar.expander.MacroAccessibilityService
 
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.AccessibilityServiceInfo
-fimport android.app.Service
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
@@ -40,7 +40,6 @@ import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.FrameLayout
 import com.wanderfar.expander.AppSettings.AppSettingsImpl
 import com.wanderfar.expander.MacroStatisticsService.MacroStatisticsService
-import com.wanderfar.expander.Models.MacroStore
 import io.paperdb.Paper
 import java.util.*
 import com.wanderfar.expander.R

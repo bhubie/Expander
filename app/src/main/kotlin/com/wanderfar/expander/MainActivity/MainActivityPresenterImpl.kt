@@ -20,12 +20,13 @@
 package com.wanderfar.expander.MainActivity
 
 
+import com.wanderfar.expander.AppSettings.AppSettings
 import com.wanderfar.expander.Models.MacroStore
 
 
 
 
-class MainActivityPresenterImpl(override var view: MainActivityView?) : MainActivityPresenter<MainActivityView> {
+class MainActivityPresenterImpl(override var view: MainActivityView?, var appSettings: AppSettings) : MainActivityPresenter<MainActivityView> {
 
     override fun onCreate() {
         //on Create Load existing Macros
@@ -47,7 +48,9 @@ class MainActivityPresenterImpl(override var view: MainActivityView?) : MainActi
     }
 
     override fun onResume() {
-
+        if (appSettings.isAccessibilityServiceEnabled().not()){
+            view?.showAccessibilityServiceNotEnabledMessage()
+        }
     }
 
     override fun setMacroSort(sortMethod: Int) {

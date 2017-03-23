@@ -26,4 +26,5 @@ interface AppSettings {
     fun isSystemAlertPermissionGranted(): Boolean
     fun getOpacityValue(): Int
     fun getFloatingUIColor(): Int
+    fun isAccessibilityServiceEnabled(): Boolean
 }
