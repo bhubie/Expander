@@ -18,16 +18,23 @@
 
 package com.wanderfar.expander.AppSettings
 
+import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Context
 import android.os.Build
 import android.preference.PreferenceManager
 import android.provider.Settings
+import android.view.accessibility.AccessibilityEvent
+import android.view.accessibility.AccessibilityManager
+import com.wanderfar.expander.Models.MacroConstants
 
 
 class AppSettingsImpl (context: Context) : AppSettings{
 
+
+
     var context = context
     var prefs = PreferenceManager.getDefaultSharedPreferences(context)
+    var accessibilityManager = context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
 
     override fun isDynamicValuesEnabled(): Boolean {
         return prefs.getBoolean("isDynamicValuesEnabled", false)
@@ -48,6 +55,27 @@ class AppSettingsImpl (context: Context) : AppSettings{
 
     override fun getFloatingUIColor(): Int {
         return prefs.getInt("floatingUIColor", -24832)
+    }
+
+    override fun isAccessibilityServiceEnabled(): Boolean {
+        val runningServices: List<AccessibilityServiceInfo>  = accessibilityManager
+                .getEnabledAccessibilityServiceList(AccessibilityEvent.TYPES_ALL_MASK)
+
+        return runningServices.any {
+            //println("Services are:" + service.packageNames)
+            //println("Service ID's: " + service.id)
+            "com.wanderfar.expander/.MacroAccessibilityService.MacroAccessibilityService" == it.id
+        }
+    }
+
+    override fun setMacroListSortByPreference(sortBy: Int) {
+        val editor = prefs.edit()
+        editor.putInt("SortByMethod", sortBy)
+        editor.apply()
+    }
+
+    override fun getMacroListSortByMethod(): Int {
+        return prefs.getInt("SortByMethod", MacroConstants.SORT_BY_NAME)
     }
 
 }

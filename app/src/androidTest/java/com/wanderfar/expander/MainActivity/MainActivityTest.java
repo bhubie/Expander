@@ -1,4 +1,4 @@
-package com.wanderfar.expander;
+package com.wanderfar.expander.MainActivity;
 
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
@@ -7,6 +7,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import com.wanderfar.expander.MainActivity.MainActivity;
+import com.wanderfar.expander.R;
 
 import org.junit.Before;
 import org.junit.Rule;

@@ -32,7 +32,7 @@ interface MainActivityView : View {
     fun hideProgress()
 
     //Set's the note to be displayed
-    fun setData(macros: MutableList<Macro>)
+    fun setData(macros: MutableList<Macro>, sortBy: Int?)
 
     //load's the note
     fun loadData(macros: MutableList<Macro>)
@@ -40,9 +40,9 @@ interface MainActivityView : View {
     //shows no macro message
     fun showNoMacroFoundMessage()
 
-    fun setMacroListSortPreference(sortPreference: Int)
-
     fun sortMacroListAdapter(sortBy: Int)
 
     fun refreshMenu()
+
+    fun showAccessibilityServiceNotEnabledMessage()
 }
