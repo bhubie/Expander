@@ -19,8 +19,6 @@
 
 package com.wanderfar.expander.MainActivity
 
-import android.accessibilityservice.AccessibilityServiceInfo
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -32,12 +30,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.accessibility.AccessibilityEvent
-import android.view.accessibility.AccessibilityManager
 import android.widget.TextView
 import com.wanderfar.expander.Macro.MacroActivity
 import com.wanderfar.expander.About.AboutActivity
-import com.wanderfar.expander.AppSettings.AppSettings
 import com.wanderfar.expander.AppSettings.AppSettingsImpl
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.Models.MacroConstants
