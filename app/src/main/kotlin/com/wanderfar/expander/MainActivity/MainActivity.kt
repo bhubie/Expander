@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
-        
+
         setSupportActionBar(toolbar)
 
         val fab = findViewById(R.id.fab) as FloatingActionButton?
@@ -120,14 +120,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     override fun showNoMacroFoundMessage() {
         noMacroFound.visibility = View.VISIBLE
     }
-
-    override fun setMacroListSortPreference(sortPreference: Int) {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val editor = prefs.edit()
-        editor.putInt("SortByMethod", sortPreference)
-        editor.apply()
-    }
-
+    
     override fun sortMacroListAdapter(sortBy: Int) {
         mAdapter.sortList(sortBy)
     }

@@ -40,8 +40,6 @@ interface MainActivityView : View {
     //shows no macro message
     fun showNoMacroFoundMessage()
 
-    fun setMacroListSortPreference(sortPreference: Int)
-
     fun sortMacroListAdapter(sortBy: Int)
 
     fun refreshMenu()

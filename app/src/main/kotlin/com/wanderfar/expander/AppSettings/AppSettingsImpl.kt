@@ -30,6 +30,7 @@ import android.view.accessibility.AccessibilityManager
 class AppSettingsImpl (context: Context) : AppSettings{
 
 
+
     var context = context
     var prefs = PreferenceManager.getDefaultSharedPreferences(context)
     var accessibilityManager = context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
@@ -64,6 +65,12 @@ class AppSettingsImpl (context: Context) : AppSettings{
             //println("Service ID's: " + service.id)
             "com.wanderfar.expander/.MacroAccessibilityService.MacroAccessibilityService" == it.id
         }
+    }
+
+    override fun setMacroListSortByPreference(sortBy: Int) {
+        val editor = prefs.edit()
+        editor.putInt("SortByMethod", sortBy)
+        editor.apply()
     }
 
 }

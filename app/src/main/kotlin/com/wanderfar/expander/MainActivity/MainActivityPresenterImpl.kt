@@ -54,7 +54,7 @@ class MainActivityPresenterImpl(override var view: MainActivityView?, var appSet
     }
 
     override fun setMacroSort(sortMethod: Int) {
-        view?.setMacroListSortPreference(sortMethod)
+        appSettings.setMacroListSortByPreference(sortMethod)
         view?.sortMacroListAdapter(sortMethod)
         view?.refreshMenu()
     }
