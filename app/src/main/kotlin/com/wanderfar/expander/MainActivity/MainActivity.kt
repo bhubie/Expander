@@ -106,9 +106,8 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         pullToRefresh.isRefreshing = false
     }
 
-    override fun setData(macros: MutableList<Macro>) {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        mAdapter.setData(macros, prefs.getInt("SortByMethod", MacroConstants.SORT_BY_NAME))
+    override fun setData(macros: MutableList<Macro>, sortBy: Int) {
+        mAdapter.setData(macros, sortBy)
         mAdapter.notifyDataSetChanged()
 
     }
@@ -120,7 +119,7 @@ class MainActivity : AppCompatActivity(), MainActivityView {
     override fun showNoMacroFoundMessage() {
         noMacroFound.visibility = View.VISIBLE
     }
-    
+
     override fun sortMacroListAdapter(sortBy: Int) {
         mAdapter.sortList(sortBy)
     }

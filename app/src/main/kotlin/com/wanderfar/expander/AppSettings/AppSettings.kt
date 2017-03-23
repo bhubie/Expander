@@ -27,6 +27,6 @@ interface AppSettings {
     fun getOpacityValue(): Int
     fun getFloatingUIColor(): Int
     fun isAccessibilityServiceEnabled(): Boolean
-
     fun setMacroListSortByPreference(sortBy: Int)
+    fun getMacroListSortByMethod(): Int
 }

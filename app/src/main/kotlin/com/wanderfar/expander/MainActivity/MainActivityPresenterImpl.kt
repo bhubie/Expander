@@ -38,7 +38,7 @@ class MainActivityPresenterImpl(override var view: MainActivityView?, var appSet
         //if macro list is not empty, load the macros to the view
         //Else display the no macro found message
         if (macroList.isNotEmpty()){
-            view?.setData(macroList)
+            view?.setData(macroList, appSettings.getMacroListSortByMethod())
         } else {
             view?.showNoMacroFoundMessage()
         }

@@ -25,6 +25,7 @@ import android.preference.PreferenceManager
 import android.provider.Settings
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
+import com.wanderfar.expander.Models.MacroConstants
 
 
 class AppSettingsImpl (context: Context) : AppSettings{
@@ -71,6 +72,10 @@ class AppSettingsImpl (context: Context) : AppSettings{
         val editor = prefs.edit()
         editor.putInt("SortByMethod", sortBy)
         editor.apply()
+    }
+
+    override fun getMacroListSortByMethod(): Int {
+        return prefs.getInt("SortByMethod", MacroConstants.SORT_BY_NAME)
     }
 
 }
