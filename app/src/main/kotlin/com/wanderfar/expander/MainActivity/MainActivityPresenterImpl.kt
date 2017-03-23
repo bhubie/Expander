@@ -26,7 +26,7 @@ import com.wanderfar.expander.Models.MacroStore
 
 
 
-class MainActivityPresenterImpl(override var view: MainActivityView?, var appSettings: AppSettings) : MainActivityPresenter<MainActivityView> {
+class MainActivityPresenterImpl(override var view: MainActivityView?, var appSettings: AppSettings?) : MainActivityPresenter<MainActivityView> {
 
     override fun onCreate() {
         //on Create Load existing Macros
@@ -38,7 +38,7 @@ class MainActivityPresenterImpl(override var view: MainActivityView?, var appSet
         //if macro list is not empty, load the macros to the view
         //Else display the no macro found message
         if (macroList.isNotEmpty()){
-            view?.setData(macroList, appSettings.getMacroListSortByMethod())
+            view?.setData(macroList, appSettings?.getMacroListSortByMethod())
         } else {
             view?.showNoMacroFoundMessage()
         }
@@ -48,13 +48,19 @@ class MainActivityPresenterImpl(override var view: MainActivityView?, var appSet
     }
 
     override fun onResume() {
-        if (appSettings.isAccessibilityServiceEnabled().not()){
+        if (appSettings?.isAccessibilityServiceEnabled()!!.not()){
             view?.showAccessibilityServiceNotEnabledMessage()
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        appSettings = null
+
+    }
+
     override fun setMacroSort(sortMethod: Int) {
-        appSettings.setMacroListSortByPreference(sortMethod)
+        appSettings?.setMacroListSortByPreference(sortMethod)
         view?.sortMacroListAdapter(sortMethod)
         view?.refreshMenu()
     }

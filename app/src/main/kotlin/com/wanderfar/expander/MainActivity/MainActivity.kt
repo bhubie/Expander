@@ -101,8 +101,12 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         pullToRefresh.isRefreshing = false
     }
 
-    override fun setData(macros: MutableList<Macro>, sortBy: Int) {
-        mAdapter.setData(macros, sortBy)
+    override fun setData(macros: MutableList<Macro>, sortBy: Int?) {
+        var sort = sortBy
+        if (sort == null){
+            sort = 0
+        }
+        mAdapter.setData(macros, sort)
         mAdapter.notifyDataSetChanged()
 
     }

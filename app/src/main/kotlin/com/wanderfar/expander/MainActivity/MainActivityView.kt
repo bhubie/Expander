@@ -32,7 +32,7 @@ interface MainActivityView : View {
     fun hideProgress()
 
     //Set's the note to be displayed
-    fun setData(macros: MutableList<Macro>, sortBy: Int)
+    fun setData(macros: MutableList<Macro>, sortBy: Int?)
 
     //load's the note
     fun loadData(macros: MutableList<Macro>)
