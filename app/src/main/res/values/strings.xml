@@ -94,6 +94,8 @@
     <string name="dynamic_value_friendly_name_date">Date</string>
     <string name="dynamic_value_friendly_name_clipboard">Device Clipboard</string>
     <string name="dynamic_value_friendly_name_phone">Phone Make &amp; Model</string>
+    <string name="settings_activity_redo_button_label">Display Redo Button</string>
+    <string name="settings_activity_redo_button_description">If checked, a redo button will be displayed after text expansion has been undone, allowing user to redo the text expansion.</string>
 
 
     <string-array name="empty_array" />
