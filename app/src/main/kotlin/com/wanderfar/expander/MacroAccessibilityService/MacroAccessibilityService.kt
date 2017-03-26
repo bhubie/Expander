@@ -54,12 +54,7 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
     lateinit var floatingUI: FrameLayout
     lateinit var gestureDetector : GestureDetector
     lateinit var source : AccessibilityNodeInfo
-
-    private val INTERVAL: Long = 3000
-
-    lateinit var stopTask : TimerTask
-    lateinit var timer : Timer
-
+    
     //Create the presenter
     private val mPresenter : MacroAccessibilityServicePresenter by lazy {
         MacroAccessibilityServicePresenterImpl(this, AppSettingsImpl(this))
@@ -212,33 +207,15 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
 
             setUITouchListener(params)
 
-            initServiceStop()
+            //initServiceStop()
         }
     }
-
 
     fun initFloatingUIElements() {
         floatingUI = FrameLayout(this)
 
         windowManager =  getSystemService(Service.WINDOW_SERVICE) as WindowManager
 
-    }
-
-
-
-
-    //creates a task for the UI to be hidden after a certain number of seconds
-    private fun initServiceStop() {
-        stopTask =  object : TimerTask() {
-            override fun run() {
-
-                hideFloatingUI()
-            }
-        }
-
-        timer = Timer()
-
-        timer.schedule(stopTask, INTERVAL)
     }
 
     private fun setUITouchListener(params : WindowManager.LayoutParams) {

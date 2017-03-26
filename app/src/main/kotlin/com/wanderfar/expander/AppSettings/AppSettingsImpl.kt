@@ -31,7 +31,6 @@ import com.wanderfar.expander.Models.MacroConstants
 class AppSettingsImpl (context: Context) : AppSettings{
 
 
-
     var context = context
     var prefs = PreferenceManager.getDefaultSharedPreferences(context)
     var accessibilityManager = context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
@@ -77,5 +76,10 @@ class AppSettingsImpl (context: Context) : AppSettings{
     override fun getMacroListSortByMethod(): Int {
         return prefs.getInt("SortByMethod", MacroConstants.SORT_BY_NAME)
     }
+
+    override fun isRedoButtonEnabled(): Boolean {
+        return prefs.getBoolean("ShowRedoButton", true)
+    }
+
 
 }

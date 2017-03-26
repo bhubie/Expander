@@ -32,6 +32,7 @@ import java.util.*
 
 class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceView, appSettings: AppSettings) : MacroAccessibilityServicePresenter {
 
+
     var macroAccessibilityServiceView = view
     var appSettings = appSettings
 
@@ -43,6 +44,11 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
     var isInitialized : Boolean = false
     var charactersInsertedFromDynamicPhrases : Int = 0
     var replaceDynamicPhrases: Boolean = true
+
+    private val INTERVAL: Long = 3000
+
+    lateinit var stopTask : TimerTask
+    lateinit var timer : Timer
 
 
     override fun onAccessibilityEvent(textToCheck : String, cursorPosition: Int) {
@@ -132,10 +138,12 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if(appSettings.isSystemAlertPermissionGranted()) {
                 macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor())
+                startFloatingUIDisplayTimer()
             }
         } else {
             if(appSettings.isFloatingUIEnabled()){
                 macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor())
+                startFloatingUIDisplayTimer()
             }
         }
     }
@@ -158,6 +166,21 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
         macroAccessibilityServiceView.startUpdateMacroStatisticsService(matchedMacro, "Decrease")
     }
+
+    override fun redoSetText() {
+
+    }
+
+    override fun startFloatingUIDisplayTimer() {
+        stopTask =  object : TimerTask() {
+            override fun run() {
+                macroAccessibilityServiceView.hideFloatingUI()
+            }
+        }
+        timer = Timer()
+        timer.schedule(stopTask, INTERVAL)
+    }
+
 
     private fun  setTextSearchStart(macroLength: Int, cursorPosition: Int): Int {
 
