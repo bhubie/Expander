@@ -54,7 +54,7 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
     lateinit var floatingUI: FrameLayout
     lateinit var gestureDetector : GestureDetector
     lateinit var source : AccessibilityNodeInfo
-    
+
     //Create the presenter
     private val mPresenter : MacroAccessibilityServicePresenter by lazy {
         MacroAccessibilityServicePresenterImpl(this, AppSettingsImpl(this))
@@ -165,12 +165,11 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
     override fun hideFloatingUI() {
 
         if (floatingUI != null && floatingUI.isAttachedToWindow) {
-            //timer.cancel()
             windowManager.removeView(floatingUI)
         }
     }
 
-    override fun showFloatingUI(opacityLevel: Int, uiColor: Int) {
+    override fun showFloatingUI(opacityLevel: Int, uiColor: Int, buttonType: String) {
 
         val params = WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
@@ -186,7 +185,6 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
 
 
         if (floatingUI.isAttachedToWindow.not()){
-            //windowManager.addView(floatingUI, params)
 
             //Get the opacity level of the UI and set it
             val radius = opacityLevel
@@ -205,9 +203,12 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
             val button = view.findViewById(R.id.fab) as FloatingActionButton
             button.backgroundTintList = ColorStateList.valueOf(color)
 
-            setUITouchListener(params)
+            if (buttonType.equals("Redo")){
+                button.setImageResource(R.drawable.ic_redo_white_24dp)
+            }
+           
+            setUITouchListener(params, buttonType)
 
-            //initServiceStop()
         }
     }
 
@@ -218,7 +219,7 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
 
     }
 
-    private fun setUITouchListener(params : WindowManager.LayoutParams) {
+    private fun setUITouchListener(params : WindowManager.LayoutParams, buttonType: String) {
 
         gestureDetector = GestureDetector(this, SingleTapConfirm())
 
@@ -231,8 +232,12 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
             override fun onTouch(v: View, event: MotionEvent): Boolean {
                 if(gestureDetector.onTouchEvent(event)){
                     //single click
-                    //Undo the text
-                    mPresenter.undoSetText()
+
+                    when(buttonType){
+                        "Undo" ->  mPresenter.undoSetText()
+                        "Redo" -> mPresenter.redoSetText()
+                    }
+
                     //hide the floating UI
                     hideFloatingUI()
                     return true
