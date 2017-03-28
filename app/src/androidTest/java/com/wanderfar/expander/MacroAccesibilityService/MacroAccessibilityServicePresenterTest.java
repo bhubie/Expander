@@ -637,4 +637,40 @@ public class MacroAccessibilityServicePresenterTest {
         verify(macroAccessibilityServiceView, times(1)).startUpdateMacroStatisticsService("TESTMACRO", "Decrease");
 
     }
+
+    @Test
+    public void shouldNotCallShowFloatingUIForRedoButtonWhenUserUndosTextAndRedoButtonIsSetToNotBeDisplayed(){
+
+        saveMacro(MacroTestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description", false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
+
+        when(appSettings.isRedoButtonEnabled()).thenReturn(false);
+        when(appSettings.isFloatingUIEnabled()).thenReturn(true);
+        when(appSettings.getFloatingUIColor()).thenReturn(1);
+        when(appSettings.getOpacityValue()).thenReturn(1);
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent(TESTMACRO_TEXT_BEFORE_WITH_PERIOD,
+                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD);
+
+        macroAccessibilityServicePresenter.undoSetText();
+        verify(macroAccessibilityServiceView, never()).showFloatingUI(appSettings.getFloatingUIColor(), appSettings.getOpacityValue() ,"Redo");
+
+    }
+
+    @Test
+    public void shouldCallShowFloatingUIForRedoButtonWhenUserUndosTextAndRedoButtonIsSetToBeDisplayed(){
+
+        saveMacro(MacroTestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description", false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
+
+        when(appSettings.isRedoButtonEnabled()).thenReturn(true);
+        when(appSettings.isFloatingUIEnabled()).thenReturn(true);
+        when(appSettings.getFloatingUIColor()).thenReturn(1);
+        when(appSettings.getOpacityValue()).thenReturn(1);
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent(TESTMACRO_TEXT_BEFORE_WITH_PERIOD,
+                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD);
+
+        macroAccessibilityServicePresenter.undoSetText();
+        verify(macroAccessibilityServiceView, times(1)).showFloatingUI(appSettings.getFloatingUIColor(), appSettings.getOpacityValue() ,"Redo");
+
+    }
 }
