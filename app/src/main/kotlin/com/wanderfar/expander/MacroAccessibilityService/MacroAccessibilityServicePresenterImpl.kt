@@ -128,17 +128,18 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
         if (aMatchWasFound){
             macroAccessibilityServiceView.updateText(text, newCursorPosition)
-            checkIfFloatingUICanBeShown()
+            checkIfUndoFloatingUICanBeShown()
             macroAccessibilityServiceView.startUpdateMacroStatisticsService(matchedMacro, "Increase")
         }
 
     }
 
-    private fun checkIfFloatingUICanBeShown(){
+    private fun checkIfUndoFloatingUICanBeShown(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if(appSettings.isSystemAlertPermissionGranted()) {
                 macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor(), "Undo")
                 startFloatingUIDisplayTimer()
+
             }
         } else {
             if(appSettings.isFloatingUIEnabled()){
@@ -165,20 +166,27 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
                 setNewCursorPosition(matchedMacroStartingPosition, matchedMacro.length + 1))
 
         macroAccessibilityServiceView.startUpdateMacroStatisticsService(matchedMacro, "Decrease")
+
+        macroAccessibilityServiceView.hideFloatingUI()
+
+        checkIfRedoButtonCanBeDisplayed()
+
     }
 
     override fun redoSetText() {
-
+        println("redoing text!")
     }
 
     override fun startFloatingUIDisplayTimer() {
-        stopTask =  object : TimerTask() {
+        stopTask = object : TimerTask() {
             override fun run() {
                 macroAccessibilityServiceView.hideFloatingUI()
             }
         }
         timer = Timer()
         timer.schedule(stopTask, INTERVAL)
+
+        println("Starting Timer!")
     }
 
 
@@ -246,6 +254,25 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
             return updatedText
         }
+
+    }
+
+    private fun checkIfRedoButtonCanBeDisplayed(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                appSettings.isSystemAlertPermissionGranted() &&
+                appSettings.isRedoButtonEnabled()){
+                macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor(), "Redo")
+                startFloatingUIDisplayTimer()
+
+            println("Made it to redo button check!!")
+
+        } else if (appSettings.isFloatingUIEnabled() &&
+                appSettings.isRedoButtonEnabled()){
+                macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor(), "Redo")
+                startFloatingUIDisplayTimer()
+
+        }
+
 
     }
 }

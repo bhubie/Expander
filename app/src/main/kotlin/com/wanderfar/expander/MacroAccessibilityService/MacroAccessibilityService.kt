@@ -33,6 +33,7 @@ import android.graphics.PixelFormat
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.*
 import android.view.accessibility.AccessibilityEvent
@@ -166,7 +167,10 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
 
         if (floatingUI != null && floatingUI.isAttachedToWindow) {
             windowManager.removeView(floatingUI)
+
+            println("hiding floating UI")
         }
+
     }
 
     override fun showFloatingUI(opacityLevel: Int, uiColor: Int, buttonType: String) {
@@ -184,32 +188,37 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         params.windowAnimations = R.style.MyAnimation_Window
 
 
-        if (floatingUI.isAttachedToWindow.not()){
+        //Get the opacity level of the UI and set it
+        val radius = opacityLevel
+        val color = uiColor
+        val opacityValue: Float = (radius.toFloat() / 100.toFloat())
 
-            //Get the opacity level of the UI and set it
-            val radius = opacityLevel
-            val color = uiColor
-            val opacityValue : Float = (radius.toFloat() / 100.toFloat() )
+        floatingUI.alpha = opacityValue
 
-            floatingUI.alpha =  opacityValue
+        //Add the view
+        windowManager.addView(floatingUI, params)
 
-            //Add the view
-            windowManager.addView(floatingUI, params)
+        //Inflate the view layout
+        val layoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = layoutInflater.inflate(com.wanderfar.expander.R.layout.floating_ui, floatingUI)
 
-            //Inflate the view layout
-            val layoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val view = layoutInflater.inflate(com.wanderfar.expander.R.layout.floating_ui, floatingUI)
-
-            val button = view.findViewById(R.id.fab) as FloatingActionButton
-            button.backgroundTintList = ColorStateList.valueOf(color)
-
-            if (buttonType.equals("Redo")){
-                button.setImageResource(R.drawable.ic_redo_white_24dp)
+        //val button = view.findViewById(R.id.fabUndo) as FloatingActionButton
+        //button.backgroundTintList = ColorStateList.valueOf(color)
+        when (buttonType) {
+            "Undo" -> {
+                view.findViewById(R.id.fabUndo).visibility = View.VISIBLE
+                view.findViewById(R.id.fabUndo).backgroundTintList = ColorStateList.valueOf(color)
+                view.findViewById(R.id.fabRedo).visibility = View.GONE
             }
-           
-            setUITouchListener(params, buttonType)
-
+            "Redo" -> {
+                view.findViewById(R.id.fabRedo).visibility = View.VISIBLE
+                view.findViewById(R.id.fabRedo).backgroundTintList = ColorStateList.valueOf(color)
+                view.findViewById(R.id.fabUndo).visibility = View.GONE
+            }
         }
+
+        setUITouchListener(params, buttonType)
+
     }
 
     fun initFloatingUIElements() {
@@ -223,6 +232,7 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
 
         gestureDetector = GestureDetector(this, SingleTapConfirm())
 
+        //floatingUI = FrameLayout(this)
         floatingUI.setOnTouchListener(object : View.OnTouchListener {
             private var initialX: Int = 0
             private var initialY: Int = 0
@@ -239,7 +249,7 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
                     }
 
                     //hide the floating UI
-                    hideFloatingUI()
+
                     return true
                 }
                 else {
