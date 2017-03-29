@@ -34,6 +34,9 @@
     <string name="settings_activity_floating_ui_set_color_summary">Tap to set the color of the Floating UI</string>
     <string name="settings_activity_redo_button_label">Display Redo Button</string>
     <string name="settings_activity_redo_button_description">If checked, a redo button will be displayed after text expansion has been undone, allowing user to redo the text expansion.</string>
+    <string name="settings_activity_undo_button_label">Display Undo Button</string>
+    <string name="settings_activity_undo_button_description">If checked, an undo button will be displayed after text has been expanding, allowing for it to be undone.</string>
+
 
     <string name="key_application_list">ApplicationList</string>
 

@@ -81,5 +81,9 @@ class AppSettingsImpl (context: Context) : AppSettings{
         return prefs.getBoolean("ShowRedoButton", true)
     }
 
+    override fun isUndoButtonEnabled(): Boolean {
+        return prefs.getBoolean("ShowUndoButton", true)
+    }
+
 
 }

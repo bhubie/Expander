@@ -43,6 +43,12 @@
             android:key="@string/settings_activity_floating_UI_key">
         </Preference>
         <CheckBoxPreference
+            android:title="@string/settings_activity_undo_button_label"
+            android:summary="@string/settings_activity_undo_button_description"
+            android:key="ShowUndoButton"
+            android:defaultValue="true">
+        </CheckBoxPreference>
+        <CheckBoxPreference
             android:title="@string/settings_activity_redo_button_label"
             android:summary="@string/settings_activity_redo_button_description"
             android:key="ShowRedoButton"
