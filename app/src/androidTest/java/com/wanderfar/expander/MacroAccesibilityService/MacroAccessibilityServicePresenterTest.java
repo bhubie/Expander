@@ -579,19 +579,10 @@ public class MacroAccessibilityServicePresenterTest {
                 String[] dynamicValues = DynamicPhraseGenerator.getDynamicPhrases();
 
                 for (String phrase: dynamicValues) {
-
-                    //macroAccessibilityServiceView = mock(MacroAccessibilityServiceView.class);
-                    //appSettings = mock(AppSettings.class);
-                    //when(appSettings.is)
                     macroAccessibilityServicePresenter = new MacroAccessibilityServicePresenterImpl(macroAccessibilityServiceView, appSettings);
-
-                    //String macroName = phrase.getName();
                     String macroName = DynamicValueDrawableGenerator.getFriendlyName(phrase);
 
-                    //String macroPhrase = "The output is: " + phrase.getPhrase();
                     String macroPhrase = "The output is: " + phrase;
-
-
                     String textBefore = macroName + ".";
 
                     String textAfterExpansion = "The output is: "
@@ -672,5 +663,23 @@ public class MacroAccessibilityServicePresenterTest {
         macroAccessibilityServicePresenter.undoSetText();
         verify(macroAccessibilityServiceView, times(1)).showFloatingUI(appSettings.getFloatingUIColor(), appSettings.getOpacityValue() ,"Redo");
 
+    }
+
+    @Test
+    public void textShouldContainExpandedPhraseAgainWhenUserHitsRedoButton(){
+        String textBefore = "This string contains a TESTMACRO.";
+        String textAfter = "This string contains a Test Macro Phrase.";
+        int cursorPositionBefore = textBefore.length();
+        int cursorPositionAfter = textAfter.length();
+
+        saveMacro(MacroTestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", true, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent(textBefore, cursorPositionBefore);
+        macroAccessibilityServicePresenter.undoSetText();
+        macroAccessibilityServicePresenter.redoSetText();
+
+        verify(macroAccessibilityServiceView, times(2)).updateText(textAfter,
+                cursorPositionAfter);
+        verify(macroAccessibilityServiceView, times(2)).startUpdateMacroStatisticsService("TESTMACRO", "Increase");
     }
 }

@@ -39,8 +39,10 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
     var macrosToCheck : MutableList<Macro>? = null
     lateinit var text : String
     var matchedMacro : String = null.toString()
+    var matchedMacroPhrase : String = null.toString()
     var matchedMacroStartingPosition : Int = 0
     var matchedMacroEndingPosition : Int = 0
+    var matchedMacroExpandedEndingPosition: Int = 0
     var isInitialized : Boolean = false
     var charactersInsertedFromDynamicPhrases : Int = 0
     var replaceDynamicPhrases: Boolean = true
@@ -120,8 +122,10 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
                 //Set the matched macro for undo purposes
                 matchedMacro = macro.name
+                matchedMacroPhrase = macro.phrase
                 matchedMacroStartingPosition = result.range.start
-                matchedMacroEndingPosition = result.range.start + macro.phrase.length
+                matchedMacroEndingPosition = result.range.endInclusive
+                matchedMacroExpandedEndingPosition = result.range.start + macro.phrase.length
 
             }
         }
@@ -159,7 +163,7 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
     override fun undoSetText() {
         text = text.replaceRange(matchedMacroStartingPosition,
-                matchedMacroEndingPosition + charactersInsertedFromDynamicPhrases,
+                matchedMacroExpandedEndingPosition + charactersInsertedFromDynamicPhrases,
                 matchedMacro)
 
         macroAccessibilityServiceView.updateText(text,
@@ -174,7 +178,23 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
     }
 
     override fun redoSetText() {
-        println("redoing text!")
+        if (replaceDynamicPhrases){
+            text = text.replaceRange(matchedMacroStartingPosition,
+                    matchedMacroEndingPosition,
+                    replaceDynamicPhrases(matchedMacroPhrase))
+        } else {
+            text = text.replaceRange(matchedMacroStartingPosition,
+                    matchedMacroEndingPosition,
+                    matchedMacroPhrase)
+        }
+
+        macroAccessibilityServiceView.updateText(text,
+                setNewCursorPosition(matchedMacroStartingPosition, matchedMacroPhrase.length + 1))
+
+        macroAccessibilityServiceView.startUpdateMacroStatisticsService(matchedMacro, "Increase")
+
+        macroAccessibilityServiceView.hideFloatingUI()
+
     }
 
     override fun startFloatingUIDisplayTimer() {
