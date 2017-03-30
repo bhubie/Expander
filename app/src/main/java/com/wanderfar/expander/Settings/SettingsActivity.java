@@ -29,6 +29,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -44,7 +45,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.github.danielnilsson9.colorpickerview.preference.ColorPreference;
 import com.wanderfar.expander.R;
+import com.wanderfar.expander.Settings.ColorPickerPreference.ColorPickerPreference;
 
 
 /**
@@ -70,6 +73,9 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     private AppListMultiSelectListPreference appListPref;
     private SwitchPreference appListSwitch;
     private static int OVERLAY_PERMISSION_REQ_CODE = 1234;
+    private CheckBoxPreference undoButtonCheckBoxPref;
+    private CheckBoxPreference redoButtonCheckBoxPref;
+    private ColorPreference floatingUIColor;
 
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override
@@ -100,24 +106,8 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         }
     };
 
-    /**
-     * Helper method to determine if the device has an extra-large screen. For
-     * example, 10" tablets are extra-large.
-     */
-    private static boolean isXLargeTablet(Context context) {
-        return (context.getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
-    }
 
-    /**
-     * Binds a preference's summary to its value. More specifically, when the
-     * preference's value is changed, its summary (line of text below the
-     * preference title) is updated to reflect the value. The summary is also
-     * immediately updated upon calling this method. The exact display format is
-     * dependent on the type of preference.
-     *
-     * @see #sBindPreferenceSummaryToValueListener
-     */
+
     private static void bindPreferenceSummaryToValue(Preference preference) {
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
@@ -136,31 +126,29 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         setupActionBar();
         addPreferencesFromResource(R.xml.pref_general);
 
-
-
         floatingUIPref = findPreference(getResources().getString(R.string.settings_activity_floating_UI_key));
-
-
-
         seekBarPref = (SeekBarPreference) this.findPreference("Opacity_Value");
         seekBarPref.setSummary(R.string.setting_activity_floatingUI_opacity_level_summary_text);
-
         appListSwitch = (SwitchPreference) this.findPreference("Application_Filter_Type");
         appListPref = (AppListMultiSelectListPreference) this.findPreference(getResources().getString(R.string.key_application_list));
+        undoButtonCheckBoxPref = (CheckBoxPreference) this.findPreference("ShowUndoButton");
+        redoButtonCheckBoxPref = (CheckBoxPreference) this.findPreference("ShowRedoButton");
+        floatingUIColor = (ColorPreference) this.findPreference("floatingUIColor");
 
         //Set the title and summary for the app list based on how the app list filter type
         setAppListTitleAndSummary();
 
-
         //if "Draw over other apps" permission is granted, set text to be disable permission
         setFloatingUITitleAndSummary();
-
         setFloatingUIClickListener();
-
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
 
+    }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setFloatingUITitleAndSummary();
     }
 
     private void setFloatingUITitleAndSummary() {
@@ -169,10 +157,13 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             if (checkIfDrawOverOtherAppsStoredPrefIsTrue()){
                 floatingUIPref.setTitle(getResources().getString(R.string.settings_activity_draw_over_other_apps_permission_enabled));
                 floatingUIPref.setSummary(R.string.settings_activity_draw_over_other_apps_permission_enabled_summary);
+                disableOrEnableFloatingUIChildPrefernces(true);
+
             } else
             {
                 floatingUIPref.setTitle(getResources().getString(R.string.settings_activity_draw_over_other_apps_permission_disabled));
                 floatingUIPref.setSummary(R.string.settings_activity_draw_over_other_apps_permission_disabled_summary);
+                disableOrEnableFloatingUIChildPrefernces(true);
             }
         }
         //If our build is marshmallow or greater, check that the permission is enabled
@@ -180,10 +171,12 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             if(isSystemAlertPermissionGranted(this)){
                 floatingUIPref.setTitle(getResources().getString(R.string.settings_activity_draw_over_other_apps_permission_enabled));
                 floatingUIPref.setSummary(R.string.settings_activity_draw_over_other_apps_permission_enabled_summary);
+                disableOrEnableFloatingUIChildPrefernces(true);
             }
             else {
                 floatingUIPref.setTitle(getResources().getString(R.string.settings_activity_draw_over_other_apps_permission_disabled));
                 floatingUIPref.setSummary(R.string.settings_activity_draw_over_other_apps_permission_disabled_summary);
+                disableOrEnableFloatingUIChildPrefernces(false);
             }
         }
 
@@ -250,17 +243,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     }
 
 
-
-    /**
-     * Set up the {@link android.app.ActionBar}, if the API is available.
-     */
     private void setupActionBar() {
-        /*ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            // Show the Up button in the action bar.
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }*/
-
         LinearLayout root = (LinearLayout)findViewById(android.R.id.list).getParent().getParent().getParent();
         Toolbar bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
 
@@ -284,19 +267,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         return super.onMenuItemSelected(featureId, item);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean onIsMultiPane() {
-        return isXLargeTablet(this);
-    }
-
-
-    /**
-     * This method stops fragment injection in malicious applications.
-     * Make sure to deny any unknown fragments here.
-     */
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName);
@@ -309,10 +279,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         }
     }
 
-    /**
-     * This fragment shows general preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment extends PreferenceFragment {
         @Override
@@ -346,6 +312,15 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             appListPref.setSummary("Tap to manage which apps are allowed.");
         }
     }
+
+    private void disableOrEnableFloatingUIChildPrefernces(boolean setting){
+        undoButtonCheckBoxPref.setEnabled(setting);
+        redoButtonCheckBoxPref.setEnabled(setting);
+        seekBarPref.setEnabled(setting);
+        floatingUIColor.setEnabled(setting);
+    }
+
+
 
 
 }

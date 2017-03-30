@@ -11,10 +11,10 @@
 
     <string name="settings_activity_toolbar_label">Settings</string>
     <string name="settings_activity_floating_UI_pref_category_title">Floating UI Settings</string>
-    <string name="settings_activity_draw_over_other_apps_permission_disabled">Enable Floating indicator</string>
-    <string name="settings_activity_draw_over_other_apps_permission_enabled">Disable Floating indicator</string>
+    <string name="settings_activity_draw_over_other_apps_permission_disabled">Enable Floating Indicator</string>
+    <string name="settings_activity_draw_over_other_apps_permission_enabled">Disable Floating Indicator</string>
     <string name="settings_activity_draw_over_other_apps_permission_enabled_old">Disable Permission to Draw floating UI on the screen</string>
-    <string name="settings_activity_draw_over_other_apps_permission_disabled_summary">Tap to turn on the permission to display a floating indication after text expansion</string>
+    <string name="settings_activity_draw_over_other_apps_permission_disabled_summary">Tap to turn on the permission to display a floating indicator after text expansion</string>
     <string name="settings_activity_draw_over_other_apps_permission_enabled_summary">Tap to turn off the permission to display a floating indicator after text expansion</string>
     <string name="settings_activity_floating_UI_key">floatingUISetting</string>
     <string name="settings_activity_FloatingUI_Opacity_Level_Summary">Tap to adjust the opacity level of the floating UI</string>
