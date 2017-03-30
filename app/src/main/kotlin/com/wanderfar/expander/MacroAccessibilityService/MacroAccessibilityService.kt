@@ -33,6 +33,7 @@ import android.graphics.PixelFormat
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.*
 import android.view.accessibility.AccessibilityEvent
@@ -54,11 +55,6 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
     lateinit var floatingUI: FrameLayout
     lateinit var gestureDetector : GestureDetector
     lateinit var source : AccessibilityNodeInfo
-
-    private val INTERVAL: Long = 3000
-
-    lateinit var stopTask : TimerTask
-    lateinit var timer : Timer
 
     //Create the presenter
     private val mPresenter : MacroAccessibilityServicePresenter by lazy {
@@ -170,12 +166,14 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
     override fun hideFloatingUI() {
 
         if (floatingUI != null && floatingUI.isAttachedToWindow) {
-            //timer.cancel()
             windowManager.removeView(floatingUI)
+
+            println("hiding floating UI")
         }
+
     }
 
-    override fun showFloatingUI(opacityLevel: Int, uiColor: Int) {
+    override fun showFloatingUI(opacityLevel: Int, uiColor: Int, buttonType: String) {
 
         val params = WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
@@ -190,32 +188,38 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
         params.windowAnimations = R.style.MyAnimation_Window
 
 
-        if (floatingUI.isAttachedToWindow.not()){
-            //windowManager.addView(floatingUI, params)
+        //Get the opacity level of the UI and set it
+        val radius = opacityLevel
+        val color = uiColor
+        val opacityValue: Float = (radius.toFloat() / 100.toFloat())
 
-            //Get the opacity level of the UI and set it
-            val radius = opacityLevel
-            val color = uiColor
-            val opacityValue : Float = (radius.toFloat() / 100.toFloat() )
+        floatingUI.alpha = opacityValue
 
-            floatingUI.alpha =  opacityValue
+        //Add the view
+        windowManager.addView(floatingUI, params)
 
-            //Add the view
-            windowManager.addView(floatingUI, params)
+        //Inflate the view layout
+        val layoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = layoutInflater.inflate(com.wanderfar.expander.R.layout.floating_ui, floatingUI)
 
-            //Inflate the view layout
-            val layoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val view = layoutInflater.inflate(com.wanderfar.expander.R.layout.floating_ui, floatingUI)
-
-            val button = view.findViewById(R.id.fab) as FloatingActionButton
-            button.backgroundTintList = ColorStateList.valueOf(color)
-
-            setUITouchListener(params)
-
-            initServiceStop()
+        //val button = view.findViewById(R.id.fabUndo) as FloatingActionButton
+        //button.backgroundTintList = ColorStateList.valueOf(color)
+        when (buttonType) {
+            "Undo" -> {
+                view.findViewById(R.id.fabUndo).visibility = View.VISIBLE
+                view.findViewById(R.id.fabUndo).backgroundTintList = ColorStateList.valueOf(color)
+                view.findViewById(R.id.fabRedo).visibility = View.GONE
+            }
+            "Redo" -> {
+                view.findViewById(R.id.fabRedo).visibility = View.VISIBLE
+                view.findViewById(R.id.fabRedo).backgroundTintList = ColorStateList.valueOf(color)
+                view.findViewById(R.id.fabUndo).visibility = View.GONE
+            }
         }
-    }
 
+        setUITouchListener(params, buttonType)
+
+    }
 
     fun initFloatingUIElements() {
         floatingUI = FrameLayout(this)
@@ -224,27 +228,11 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
 
     }
 
-
-
-
-    //creates a task for the UI to be hidden after a certain number of seconds
-    private fun initServiceStop() {
-        stopTask =  object : TimerTask() {
-            override fun run() {
-
-                hideFloatingUI()
-            }
-        }
-
-        timer = Timer()
-
-        timer.schedule(stopTask, INTERVAL)
-    }
-
-    private fun setUITouchListener(params : WindowManager.LayoutParams) {
+    private fun setUITouchListener(params : WindowManager.LayoutParams, buttonType: String) {
 
         gestureDetector = GestureDetector(this, SingleTapConfirm())
 
+        //floatingUI = FrameLayout(this)
         floatingUI.setOnTouchListener(object : View.OnTouchListener {
             private var initialX: Int = 0
             private var initialY: Int = 0
@@ -254,10 +242,14 @@ class MacroAccessibilityService : AccessibilityService(), MacroAccessibilityServ
             override fun onTouch(v: View, event: MotionEvent): Boolean {
                 if(gestureDetector.onTouchEvent(event)){
                     //single click
-                    //Undo the text
-                    mPresenter.undoSetText()
+
+                    when(buttonType){
+                        "Undo" ->  mPresenter.undoSetText()
+                        "Redo" -> mPresenter.redoSetText()
+                    }
+
                     //hide the floating UI
-                    hideFloatingUI()
+
                     return true
                 }
                 else {

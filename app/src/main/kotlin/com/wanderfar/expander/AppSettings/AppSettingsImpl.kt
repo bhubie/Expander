@@ -31,7 +31,6 @@ import com.wanderfar.expander.Models.MacroConstants
 class AppSettingsImpl (context: Context) : AppSettings{
 
 
-
     var context = context
     var prefs = PreferenceManager.getDefaultSharedPreferences(context)
     var accessibilityManager = context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
@@ -45,7 +44,12 @@ class AppSettingsImpl (context: Context) : AppSettings{
     }
 
     override fun isSystemAlertPermissionGranted(): Boolean {
-        val result = Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(context)
+        var result = false
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M ){
+            result = isFloatingUIEnabled()
+        } else {
+            result = Settings.canDrawOverlays(context)
+        }
         return result
     }
 
@@ -77,5 +81,14 @@ class AppSettingsImpl (context: Context) : AppSettings{
     override fun getMacroListSortByMethod(): Int {
         return prefs.getInt("SortByMethod", MacroConstants.SORT_BY_NAME)
     }
+
+    override fun isRedoButtonEnabled(): Boolean {
+        return prefs.getBoolean("ShowRedoButton", true)
+    }
+
+    override fun isUndoButtonEnabled(): Boolean {
+        return prefs.getBoolean("ShowUndoButton", true)
+    }
+
 
 }

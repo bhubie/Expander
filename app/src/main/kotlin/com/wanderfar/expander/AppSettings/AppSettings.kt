@@ -29,4 +29,6 @@ interface AppSettings {
     fun isAccessibilityServiceEnabled(): Boolean
     fun setMacroListSortByPreference(sortBy: Int)
     fun getMacroListSortByMethod(): Int
+    fun isRedoButtonEnabled(): Boolean
+    fun isUndoButtonEnabled(): Boolean
 }

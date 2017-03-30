@@ -32,17 +32,25 @@ import java.util.*
 
 class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceView, appSettings: AppSettings) : MacroAccessibilityServicePresenter {
 
+
     var macroAccessibilityServiceView = view
     var appSettings = appSettings
 
     var macrosToCheck : MutableList<Macro>? = null
     lateinit var text : String
     var matchedMacro : String = null.toString()
+    var matchedMacroPhrase : String = null.toString()
     var matchedMacroStartingPosition : Int = 0
     var matchedMacroEndingPosition : Int = 0
+    var matchedMacroExpandedEndingPosition: Int = 0
     var isInitialized : Boolean = false
     var charactersInsertedFromDynamicPhrases : Int = 0
     var replaceDynamicPhrases: Boolean = true
+
+    private val INTERVAL: Long = 3000
+
+    lateinit var stopTask : TimerTask
+    lateinit var timer : Timer
 
 
     override fun onAccessibilityEvent(textToCheck : String, cursorPosition: Int) {
@@ -114,29 +122,27 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
                 //Set the matched macro for undo purposes
                 matchedMacro = macro.name
+                matchedMacroPhrase = macro.phrase
                 matchedMacroStartingPosition = result.range.start
-                matchedMacroEndingPosition = result.range.start + macro.phrase.length
+                matchedMacroEndingPosition = result.range.endInclusive
+                matchedMacroExpandedEndingPosition = result.range.start + macro.phrase.length
 
             }
         }
 
         if (aMatchWasFound){
             macroAccessibilityServiceView.updateText(text, newCursorPosition)
-            checkIfFloatingUICanBeShown()
+            checkIfUndoFloatingUICanBeShown()
             macroAccessibilityServiceView.startUpdateMacroStatisticsService(matchedMacro, "Increase")
         }
 
     }
 
-    private fun checkIfFloatingUICanBeShown(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if(appSettings.isSystemAlertPermissionGranted()) {
-                macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor())
-            }
-        } else {
-            if(appSettings.isFloatingUIEnabled()){
-                macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor())
-            }
+    private fun checkIfUndoFloatingUICanBeShown(){
+        if(appSettings.isSystemAlertPermissionGranted() && appSettings.isUndoButtonEnabled()) {
+            macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor(), "Undo")
+            startFloatingUIDisplayTimer()
+
         }
     }
 
@@ -150,14 +156,50 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
     override fun undoSetText() {
         text = text.replaceRange(matchedMacroStartingPosition,
-                matchedMacroEndingPosition + charactersInsertedFromDynamicPhrases,
+                matchedMacroExpandedEndingPosition + charactersInsertedFromDynamicPhrases,
                 matchedMacro)
 
         macroAccessibilityServiceView.updateText(text,
                 setNewCursorPosition(matchedMacroStartingPosition, matchedMacro.length + 1))
 
         macroAccessibilityServiceView.startUpdateMacroStatisticsService(matchedMacro, "Decrease")
+
+        macroAccessibilityServiceView.hideFloatingUI()
+
+        checkIfRedoButtonCanBeDisplayed()
+
     }
+
+    override fun redoSetText() {
+        if (replaceDynamicPhrases){
+            text = text.replaceRange(matchedMacroStartingPosition,
+                    matchedMacroEndingPosition,
+                    replaceDynamicPhrases(matchedMacroPhrase))
+        } else {
+            text = text.replaceRange(matchedMacroStartingPosition,
+                    matchedMacroEndingPosition,
+                    matchedMacroPhrase)
+        }
+
+        macroAccessibilityServiceView.updateText(text,
+                setNewCursorPosition(matchedMacroStartingPosition, matchedMacroPhrase.length + 1))
+
+        macroAccessibilityServiceView.startUpdateMacroStatisticsService(matchedMacro, "Increase")
+
+        macroAccessibilityServiceView.hideFloatingUI()
+
+    }
+
+    override fun startFloatingUIDisplayTimer() {
+        stopTask = object : TimerTask() {
+            override fun run() {
+                macroAccessibilityServiceView.hideFloatingUI()
+            }
+        }
+        timer = Timer()
+        timer.schedule(stopTask, INTERVAL)
+    }
+
 
     private fun  setTextSearchStart(macroLength: Int, cursorPosition: Int): Int {
 
@@ -172,12 +214,9 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
     private fun setRegexOptions(isCaseSensitive: Boolean) : Set<RegexOption> {
         val options = mutableSetOf<RegexOption>()
 
-
         if (isCaseSensitive.not()){
             options.add(RegexOption.IGNORE_CASE)
         }
-
-
         return options
     }
 
@@ -191,7 +230,6 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
             : Boolean {
         //Check if the current match we are on matches the previous match and that the starting positions match as well
         //If they do, that means the user "un-did" the match so we shouldn't re-do it
-
         return currentMatch == previousMatch && currentMatchStart == previousMatchStart
     }
 
@@ -224,5 +262,14 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
             return updatedText
         }
 
+    }
+
+    private fun checkIfRedoButtonCanBeDisplayed(){
+        if (appSettings.isSystemAlertPermissionGranted() &&
+                appSettings.isUndoButtonEnabled() &&
+                appSettings.isRedoButtonEnabled()){
+                macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor(), "Redo")
+                startFloatingUIDisplayTimer()
+        }
     }
 }

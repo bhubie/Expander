@@ -29,5 +29,10 @@ interface MacroAccessibilityServicePresenter {
 
     fun undoSetText()
 
+    fun redoSetText()
+
+    fun startFloatingUIDisplayTimer()
+
+
 
 }
