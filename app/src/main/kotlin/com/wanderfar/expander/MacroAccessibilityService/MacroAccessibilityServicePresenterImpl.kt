@@ -139,17 +139,10 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
     }
 
     private fun checkIfUndoFloatingUICanBeShown(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if(appSettings.isSystemAlertPermissionGranted()) {
-                macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor(), "Undo")
-                startFloatingUIDisplayTimer()
+        if(appSettings.isSystemAlertPermissionGranted() && appSettings.isUndoButtonEnabled()) {
+            macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor(), "Undo")
+            startFloatingUIDisplayTimer()
 
-            }
-        } else {
-            if(appSettings.isFloatingUIEnabled()){
-                macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor(), "Undo")
-                startFloatingUIDisplayTimer()
-            }
         }
     }
 
@@ -205,8 +198,6 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         }
         timer = Timer()
         timer.schedule(stopTask, INTERVAL)
-
-        println("Starting Timer!")
     }
 
 
@@ -223,12 +214,9 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
     private fun setRegexOptions(isCaseSensitive: Boolean) : Set<RegexOption> {
         val options = mutableSetOf<RegexOption>()
 
-
         if (isCaseSensitive.not()){
             options.add(RegexOption.IGNORE_CASE)
         }
-
-
         return options
     }
 
@@ -242,7 +230,6 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
             : Boolean {
         //Check if the current match we are on matches the previous match and that the starting positions match as well
         //If they do, that means the user "un-did" the match so we shouldn't re-do it
-
         return currentMatch == previousMatch && currentMatchStart == previousMatchStart
     }
 
@@ -278,21 +265,11 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
     }
 
     private fun checkIfRedoButtonCanBeDisplayed(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                appSettings.isSystemAlertPermissionGranted() &&
+        if (appSettings.isSystemAlertPermissionGranted() &&
+                appSettings.isUndoButtonEnabled() &&
                 appSettings.isRedoButtonEnabled()){
                 macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor(), "Redo")
                 startFloatingUIDisplayTimer()
-
-            println("Made it to redo button check!!")
-
-        } else if (appSettings.isFloatingUIEnabled() &&
-                appSettings.isRedoButtonEnabled()){
-                macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor(), "Redo")
-                startFloatingUIDisplayTimer()
-
         }
-
-
     }
 }

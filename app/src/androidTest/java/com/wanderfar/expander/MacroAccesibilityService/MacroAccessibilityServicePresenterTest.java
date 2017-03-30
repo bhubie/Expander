@@ -653,6 +653,8 @@ public class MacroAccessibilityServicePresenterTest {
         saveMacro(MacroTestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description", false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
 
         when(appSettings.isRedoButtonEnabled()).thenReturn(true);
+        when(appSettings.isSystemAlertPermissionGranted()).thenReturn(true);
+        when(appSettings.isUndoButtonEnabled()).thenReturn(true);
         when(appSettings.isFloatingUIEnabled()).thenReturn(true);
         when(appSettings.getFloatingUIColor()).thenReturn(1);
         when(appSettings.getOpacityValue()).thenReturn(1);
@@ -681,5 +683,42 @@ public class MacroAccessibilityServicePresenterTest {
         verify(macroAccessibilityServiceView, times(2)).updateText(textAfter,
                 cursorPositionAfter);
         verify(macroAccessibilityServiceView, times(2)).startUpdateMacroStatisticsService("TESTMACRO", "Increase");
+    }
+
+    @Test
+    public void shouldNotCallShowFloatingUIForUndoButtonWhenUserUndosTextAndUndoButtonIsSetToNotBeDisplayed(){
+
+        saveMacro(MacroTestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description", false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
+
+        when(appSettings.isRedoButtonEnabled()).thenReturn(true);
+        when(appSettings.isSystemAlertPermissionGranted()).thenReturn(true);
+        when(appSettings.isFloatingUIEnabled()).thenReturn(true);
+        when(appSettings.isUndoButtonEnabled()).thenReturn(false);
+        when(appSettings.getFloatingUIColor()).thenReturn(1);
+        when(appSettings.getOpacityValue()).thenReturn(1);
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent(TESTMACRO_TEXT_BEFORE_WITH_PERIOD,
+                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD);
+
+        verify(macroAccessibilityServiceView, never()).showFloatingUI(appSettings.getFloatingUIColor(), appSettings.getOpacityValue(), "Undo");
+
+    }
+
+    @Test
+    public void shouldCallShowFloatingUIForUndoButtonWhenMacroIsExpandedAndShowRedoButtonIsEnabled(){
+
+        saveMacro(MacroTestHelpers.createMacro("TestMacro","Test Macro Phrase", "TestMacro Description", false, MacroTestHelpers.ON_A_SPACE_OR_PERIOD));
+        when(appSettings.isSystemAlertPermissionGranted()).thenReturn(true);
+        when(appSettings.isUndoButtonEnabled()).thenReturn(true);
+        when(appSettings.isFloatingUIEnabled()).thenReturn(true);
+        when(appSettings.getFloatingUIColor()).thenReturn(1);
+        when(appSettings.getOpacityValue()).thenReturn(1);
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent(TESTMACRO_TEXT_BEFORE_WITH_PERIOD,
+                TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD);
+
+        macroAccessibilityServicePresenter.undoSetText();
+        verify(macroAccessibilityServiceView, times(1)).showFloatingUI(appSettings.getFloatingUIColor(), appSettings.getOpacityValue() ,"Undo");
+
     }
 }

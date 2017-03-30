@@ -44,7 +44,12 @@ class AppSettingsImpl (context: Context) : AppSettings{
     }
 
     override fun isSystemAlertPermissionGranted(): Boolean {
-        val result = Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(context)
+        var result = false
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M ){
+            result = isFloatingUIEnabled()
+        } else {
+            result = Settings.canDrawOverlays(context)
+        }
         return result
     }
 
