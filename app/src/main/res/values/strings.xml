@@ -75,6 +75,8 @@
     <string name="macro_activity_macro_name_label">Shortcut Name</string>
     <string name="macro_activity_phrase_label">Shortcut Phrase</string>
     <string name="macro_activity_macro_description_label">Shortcut Description (Optional)</string>
+    <string name="macro_activity_expand_within_words_label">Expand Within Words</string>
+    <string name="macro_activity_expand_within_words_description">If on, the shortcut will expand when matched inside a word</string>
 
     <string name="menu_settings_title">Settings</string>
     <string name="menu_macro_delete_shortcut">Delete Shortcut</string>
