@@ -37,11 +37,11 @@ interface MacroActivityPresenter<T : View> : BaseActivityPresenter<T> {
 
     //Saves the  macro based on input
     fun saveMacro(originalName: String,name: String, phrase: String, description: String, expandWhenSetting: Int,
-                  isCaseSensitive: Boolean, isNewMacro : Boolean)
+                  isCaseSensitive: Boolean, isNewMacro : Boolean, expandWithinWords: Boolean)
 
     //Deletes the Macro
     fun deleteMacro(name: String)
 
     fun checkIfMacroIsChanged(originalName: String, newName: String, phrase: String, description: String, expandWhenSetting: Int,
-                              isCaseSensitive: Boolean, isNewMacro : Boolean)
+                              isCaseSensitive: Boolean, isNewMacro : Boolean, expandWithinWords: Boolean)
 }

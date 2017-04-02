@@ -154,6 +154,8 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
         originalName = macro.name
         input_phrase.setText(macro.phrase)
         expandWhenSummary.text = items[macro.expandWhenSetting].toString()
+        expandWithinWordsSwitch.isChecked = macro.expandWithinWords
+        case_sensitive_switch.isChecked = macro.isCaseSensitive
 
         if (macro.description.isNullOrEmpty().not()){
             input_description.setText(macro.description)
@@ -217,7 +219,7 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
         if (isNewMacro.not()){
             mPresenter.checkIfMacroIsChanged(originalName, input_name.text.toString(), input_phrase.text.toString(),
                     input_description.text.toString(),
-                    expandWhenValue, case_sensitive_switch.isChecked, isNewMacro)
+                    expandWhenValue, case_sensitive_switch.isChecked, isNewMacro, expandWithinWordsSwitch.isChecked)
         } else {
             goBack()
         }
@@ -232,7 +234,7 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
 
         mPresenter.saveMacro(originalName, input_name.text.toString(), input_phrase.text.toString(),
                 input_description.text.toString(),
-                expandWhenValue , case_sensitive_switch.isChecked, isNewMacro)
+                expandWhenValue , case_sensitive_switch.isChecked, isNewMacro, expandWithinWordsSwitch.isChecked)
 
     }
 

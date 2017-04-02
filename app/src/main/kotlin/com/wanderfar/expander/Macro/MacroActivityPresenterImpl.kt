@@ -56,7 +56,7 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
 
     override fun saveMacro(originalName: String, name: String, phrase: String, description: String,
                            expandWhenSetting: Int, isCaseSensitive: Boolean,
-                           isNewMacro: Boolean){
+                           isNewMacro: Boolean, expandWithinWords: Boolean){
 
 
         val mMacro = Macro()
@@ -67,6 +67,7 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
             this.isCaseSensitive = isCaseSensitive
             this.expandWhenSetting = expandWhenSetting
             this.macroPattern = setMacroRegexPattern(expandWhenSetting, name)
+            this.expandWithinWords = expandWithinWords
         }
 
         //Validate we have a name and phrase before saving
@@ -100,7 +101,7 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
     }
 
     override fun checkIfMacroIsChanged(originalName: String, newName: String, phrase: String, description: String, expandWhenSetting: Int,
-                                       isCaseSensitive: Boolean, isNewMacro : Boolean) {
+                                       isCaseSensitive: Boolean, isNewMacro : Boolean, expandWithinWords: Boolean) {
 
         val mMacro = Macro()
 
@@ -112,6 +113,7 @@ class MacroActivityPresenterImpl(override var view: MacroActivityView?) : MacroA
             this.isCaseSensitive = isCaseSensitive
             this.expandWhenSetting = expandWhenSetting
             this.macroPattern = setMacroRegexPattern(expandWhenSetting, newName)
+            this.expandWithinWords = expandWithinWords
 
         }
 
