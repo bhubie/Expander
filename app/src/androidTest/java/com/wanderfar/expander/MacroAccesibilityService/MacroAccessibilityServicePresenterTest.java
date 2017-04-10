@@ -716,4 +716,14 @@ public class MacroAccessibilityServicePresenterTest {
         verify(macroAccessibilityServiceView, times(1)).showFloatingUI(appSettings.getFloatingUIColor(), appSettings.getOpacityValue() ,"Undo");
 
     }
+
+    @Test
+    public void shouldNotCallUpdateTextWhenMatchedShortCutIsInsideAWordAndItIsNotSetToExpandWithinWords(){
+
+    }
+
+    @Test
+    public void shouldCallUpdateTextWhenMatchedShortCutIsInsideAWordAndItIsSetToExpandWithinWords(){
+
+    }
 }
