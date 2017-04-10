@@ -41,7 +41,6 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
 
     lateinit var dynamicValueDialogFragment : DynamicValueDialogFragment
 
-
     var originalName: String = ""
     var expandWhenValue : Int = MacroConstants.ON_A_SPACE_OR_PERIOD
     var mMacroToOpen: String? = null
@@ -51,7 +50,6 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
     private val mPresenter : MacroActivityPresenter<MacroActivityView> by lazy {
         MacroActivityPresenterImpl(this)
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +74,6 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
 
         mPresenter.onCreate((mMacroToOpen.toString()))
     }
-
 
     override fun onResume(){
         super.onResume()
@@ -103,17 +100,14 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         //code here
-
         return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_macro, menu)
-
         return true
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
@@ -154,6 +148,7 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
         originalName = macro.name
         input_phrase.setText(macro.phrase)
         expandWhenSummary.text = items[macro.expandWhenSetting].toString()
+        expandWhenValue = macro.expandWhenSetting
         expandWithinWordsSwitch.isChecked = macro.expandWithinWords
         case_sensitive_switch.isChecked = macro.isCaseSensitive
 
@@ -231,7 +226,6 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
     }
 
     override fun saveMacro() {
-
         mPresenter.saveMacro(originalName, input_name.text.toString(), input_phrase.text.toString(),
                 input_description.text.toString(),
                 expandWhenValue , case_sensitive_switch.isChecked, isNewMacro, expandWithinWordsSwitch.isChecked)
@@ -256,7 +250,6 @@ class MacroActivity : AppCompatActivity(), MacroActivityView, DynamicValueDialog
             alert.show()
         })
     }
-
 
     private fun initAddDynamicValueButton() {
         dynamic_value_button.setOnClickListener {

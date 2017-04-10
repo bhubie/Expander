@@ -17,7 +17,6 @@ import com.wanderfar.expander.MacroAccessibilityService.MacroAccessibilityServic
 import com.wanderfar.expander.MacroAccessibilityService.MacroAccessibilityServiceView;
 import com.wanderfar.expander.TestHelpers.MacroTestHelpers;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,14 +30,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.getMacro;
-import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.getMacroStoreUpdatedFlag;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.initDB;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.saveMacro;
 import static com.wanderfar.expander.TestHelpers.TestUtils.getPhoneMakeModel;
-import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockingDetails;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -49,7 +44,6 @@ import static org.mockito.Mockito.when;
 @PrepareForTest({Expander.class})
 public class MacroAccessibilityServicePresenterTest {
 
-    private List<Macro> macroList = new ArrayList<>();
     private MacroAccessibilityServiceView macroAccessibilityServiceView;
     private MacroAccessibilityServicePresenterImpl macroAccessibilityServicePresenter;
     private AppSettings appSettings;
@@ -64,7 +58,7 @@ public class MacroAccessibilityServicePresenterTest {
     private final int TESTMACRO_CURSOR_POSITION_BEFORE_WITH_PERIOD = TESTMACRO_TEXT_BEFORE_WITH_PERIOD.length();
     private final int TESTMACRO_CURSOR_POSITION_AFTER_WITH_PERIOD = TESTMACRO_TEXT_AFTER_EXPANSION_WITH_PERIOD.length();
 
-    private final String TESTMACRO_TEXT_BEFORE_EXPAND_IMMEDIATELY = "This string contains testmacro";
+    private final String TESTMACRO_TEXT_BEFORE_EXPAND_IMMEDIATELY = "This string contains TestMacro";
     private final String TESTMACRO_TEXT_AFTER_EXPANSION_EXPAND_IMMEDIATELY = "This string contains Test Macro Phrase";
     private final int TESTMACRO_CURSOR_POSITION_BEFORE_EXPAND_IMMEDIATELY = TESTMACRO_TEXT_BEFORE_EXPAND_IMMEDIATELY.length();
     private final int TESTMACRO_CURSOR_POSITION_AFTER_EXPAND_IMMEDIATELY = TESTMACRO_TEXT_AFTER_EXPANSION_EXPAND_IMMEDIATELY.length();
@@ -223,7 +217,8 @@ public class MacroAccessibilityServicePresenterTest {
     @Test
     public void shouldCallUpdateTextWhenPassedInTextContainsAMatchedMacroThatIsSetToExpandImmedietelyWhenMatched(){
 
-        saveMacro(MacroTestHelpers.createMacro("TESTMACRO","Test Macro Phrase", "TestMacro Description", false, MacroTestHelpers.IMMEDIATELY));
+        saveMacro(MacroTestHelpers.createMacro("TestMacro","Test Macro Phrase",
+                "TestMacro Description", false, MacroTestHelpers.IMMEDIATELY));
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(
                 TESTMACRO_TEXT_BEFORE_EXPAND_IMMEDIATELY,

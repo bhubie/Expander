@@ -20,7 +20,6 @@
 
 package com.wanderfar.expander.MacroAccessibilityService
 
-import android.os.Build
 import com.wanderfar.expander.AppSettings.AppSettings
 import com.wanderfar.expander.Application.Expander
 import com.wanderfar.expander.DynamicPhraseGenerator.DynamicPhraseGenerator
@@ -69,7 +68,6 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
         //declare variable that will say if a match was found
         var aMatchWasFound : Boolean = false
 
-
         //declare variables that will store the start of the match and the new cursor position
         var newCursorPosition : Int = 0
         charactersInsertedFromDynamicPhrases = 0
@@ -81,6 +79,7 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
             //get the length of the macro we are checking as we don't want to scan the whole text
             val macrolength = macro.name.length + 1
+            //val macrolength = macro.name.length
 
             //set the start index of the string to search
             val textSearchStart = setTextSearchStart(macrolength, cursorPosition)
@@ -88,14 +87,13 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
             //Create the regex matcher
             val matcher = Regex(macro.macroPattern, setRegexOptions(macro.isCaseSensitive))
 
-
             //See if we have a match
             val result = matcher.find(text.substring(0, getValidPosition(cursorPosition)), textSearchStart)
 
-
             //if we have a match, and the match wasn't undone, modify the text
             if (result != null && hasCurrentMatchBeenUnDone(macro.name,
-                    result.range.start, matchedMacro, matchedMacroStartingPosition).not()){
+                    result.range.start, matchedMacro, matchedMacroStartingPosition).not() &&
+                    canMacroExpandIfInsideWord(macro.expandWithinWords, isMatchInsideWord(getPreviousChar(textSearchStart, macro.expandWhenSetting)))){
 
 
                 //If Macro is set to expand immediately, set the end replacing range to be end range + 1
@@ -138,19 +136,27 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
 
     }
 
-    private fun checkIfUndoFloatingUICanBeShown(){
-        if(appSettings.isSystemAlertPermissionGranted() && appSettings.isUndoButtonEnabled()) {
-            macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor(), "Undo")
-            startFloatingUIDisplayTimer()
+    private fun getPreviousChar(position: Int, expandWhenSetting: Int): Char?{
+        var calculatedPosition = position
+        if (expandWhenSetting == MacroConstants.IMMEDIATELY){
+            calculatedPosition = position + 1
+        }
 
+        if (calculatedPosition - 1 <= 0){
+            return null
+        } else {
+            return text[calculatedPosition - 1]
         }
     }
-
-    private fun getValidPosition(cursorPosition: Int): Int {
-        if (cursorPosition < 0){
-            return 0
+    private fun isMatchInsideWord(previousCharacter: Char?): Boolean{
+        if (previousCharacter == null){
+            return false
+        } else if (previousCharacter.isWhitespace()) {
+            return false
+        } else if (previousCharacter.isLetterOrDigit()){
+            return true
         } else {
-            return cursorPosition
+            return true
         }
     }
 
@@ -270,6 +276,28 @@ class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceVi
                 appSettings.isRedoButtonEnabled()){
                 macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor(), "Redo")
                 startFloatingUIDisplayTimer()
+        }
+    }
+
+    private fun canMacroExpandIfInsideWord(expandWithinWords: Boolean, isMatchInsideWord: Boolean): Boolean {
+        if (expandWithinWords && isMatchInsideWord){
+            return true
+        } else return !(expandWithinWords.not() && isMatchInsideWord)
+    }
+
+    private fun checkIfUndoFloatingUICanBeShown(){
+        if(appSettings.isSystemAlertPermissionGranted() && appSettings.isUndoButtonEnabled()) {
+            macroAccessibilityServiceView.showFloatingUI(appSettings.getOpacityValue(), appSettings.getFloatingUIColor(), "Undo")
+            startFloatingUIDisplayTimer()
+
+        }
+    }
+
+    private fun getValidPosition(cursorPosition: Int): Int {
+        if (cursorPosition < 0){
+            return 0
+        } else {
+            return cursorPosition
         }
     }
 }
