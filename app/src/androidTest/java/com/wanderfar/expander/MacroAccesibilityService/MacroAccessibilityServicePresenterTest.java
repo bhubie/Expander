@@ -15,6 +15,7 @@ import com.wanderfar.expander.DynamicValue.DynamicValueDrawableGenerator;
 import com.wanderfar.expander.Models.Macro;
 import com.wanderfar.expander.MacroAccessibilityService.MacroAccessibilityServicePresenterImpl;
 import com.wanderfar.expander.MacroAccessibilityService.MacroAccessibilityServiceView;
+import com.wanderfar.expander.TestHelpers.MacroBuilder;
 import com.wanderfar.expander.TestHelpers.MacroTestHelpers;
 
 import org.junit.Before;
@@ -719,11 +720,36 @@ public class MacroAccessibilityServicePresenterTest {
 
     @Test
     public void shouldNotCallUpdateTextWhenMatchedShortCutIsInsideAWordAndItIsNotSetToExpandWithinWords(){
+        MacroBuilder builder = new MacroBuilder();
+        Macro builtMacro = builder.setMacroName("TestMacro").setMacroPhrase("Test Macro Phrase")
+                .setExpandWhenSetting(MacroTestHelpers.IMMEDIATELY).setExpandWithinWords(false).build();
 
+        saveMacro(builtMacro);
+
+        String textBefore = "This string contains worTestMacrods.";
+        String textAfter = "This string contains worTestMacrods.";
+        int cursorPositionBefore = textBefore.length() - 3;
+        int cursorPositionAfter = textAfter.length() - 3;
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent(textBefore, cursorPositionBefore);
+
+        verify(macroAccessibilityServiceView, never()).updateText(textAfter, cursorPositionAfter);
     }
 
     @Test
     public void shouldCallUpdateTextWhenMatchedShortCutIsInsideAWordAndItIsSetToExpandWithinWords(){
+        MacroBuilder builder = new MacroBuilder();
+        Macro builtMacro = builder.setMacroName("TestMacro").setMacroPhrase("Test Macro Phrase")
+                .setExpandWhenSetting(MacroTestHelpers.IMMEDIATELY).setExpandWithinWords(false).build();
 
+        saveMacro(builtMacro);
+
+        String textBefore = "This string contains worTestMacrods.";
+        String textAfter = "This string contains worTest Macro Phraseds.";
+        int cursorPositionBefore = textBefore.length() - 3;
+        int cursorPositionAfter = textAfter.length();
+
+        macroAccessibilityServicePresenter.onAccessibilityEvent(textBefore, cursorPositionBefore);
+        verify(macroAccessibilityServiceView, times(1)).updateText(textAfter, cursorPositionAfter);
     }
 }
