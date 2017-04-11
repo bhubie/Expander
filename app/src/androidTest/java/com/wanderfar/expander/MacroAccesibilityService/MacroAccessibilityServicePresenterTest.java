@@ -26,9 +26,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.initDB;
@@ -740,14 +738,14 @@ public class MacroAccessibilityServicePresenterTest {
     public void shouldCallUpdateTextWhenMatchedShortCutIsInsideAWordAndItIsSetToExpandWithinWords(){
         MacroBuilder builder = new MacroBuilder();
         Macro builtMacro = builder.setMacroName("TestMacro").setMacroPhrase("Test Macro Phrase")
-                .setExpandWhenSetting(MacroTestHelpers.IMMEDIATELY).setExpandWithinWords(false).build();
+                .setExpandWhenSetting(MacroTestHelpers.IMMEDIATELY).setExpandWithinWords(true).build();
 
         saveMacro(builtMacro);
 
         String textBefore = "This string contains worTestMacrods.";
         String textAfter = "This string contains worTest Macro Phraseds.";
         int cursorPositionBefore = textBefore.length() - 3;
-        int cursorPositionAfter = textAfter.length();
+        int cursorPositionAfter = textAfter.length() - 3;
 
         macroAccessibilityServicePresenter.onAccessibilityEvent(textBefore, cursorPositionBefore);
         verify(macroAccessibilityServiceView, times(1)).updateText(textAfter, cursorPositionAfter);

@@ -29,11 +29,10 @@ import com.wanderfar.expander.Models.MacroStore
 import java.util.*
 
 
-class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceView, appSettings: AppSettings) : MacroAccessibilityServicePresenter {
+class MacroAccessibilityServicePresenterImpl (view : MacroAccessibilityServiceView, var appSettings: AppSettings) : MacroAccessibilityServicePresenter {
 
 
     var macroAccessibilityServiceView = view
-    var appSettings = appSettings
 
     var macrosToCheck : MutableList<Macro>? = null
     lateinit var text : String
