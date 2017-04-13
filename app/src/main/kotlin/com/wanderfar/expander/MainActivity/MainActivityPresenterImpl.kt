@@ -29,22 +29,20 @@ import com.wanderfar.expander.Models.MacroStore
 class MainActivityPresenterImpl(override var view: MainActivityView?, var appSettings: AppSettings?) : MainActivityPresenter<MainActivityView> {
 
     override fun onCreate() {
-        //on Create Load existing Macros
         //TODO Load on background thread
-        view?.showProgress()
-
-        val macroList = MacroStore.getMacros()
-
-        //if macro list is not empty, load the macros to the view
-        //Else display the no macro found message
-        if (macroList.isNotEmpty()){
-            view?.setData(macroList, appSettings?.getMacroListSortByMethod())
+        if (appSettings!!.isApplicationFirstStart()){
+            appSettings?.setApplicationFirstStart(false)
+            view?.launchApplicationIntroductionActivity()
         } else {
-            view?.showNoMacroFoundMessage()
+            view?.showProgress()
+            val macroList = MacroStore.getMacros()
+            if (macroList.isNotEmpty()){
+                view?.setData(macroList, appSettings?.getMacroListSortByMethod())
+            } else {
+                view?.showNoMacroFoundMessage()
+            }
+            view?.hideProgress()
         }
-
-        view?.hideProgress()
-
     }
 
     override fun onResume() {
@@ -64,6 +62,4 @@ class MainActivityPresenterImpl(override var view: MainActivityView?, var appSet
         view?.sortMacroListAdapter(sortMethod)
         view?.refreshMenu()
     }
-
-
 }
