@@ -33,6 +33,7 @@ class Macro {
     var isCaseSensitive : Boolean = false
     var expandWhenSetting : Int = MacroConstants.ON_A_SPACE_OR_PERIOD
     var lastUsed : Date? = null
+    var expandWithinWords : Boolean = false
 
 }
 

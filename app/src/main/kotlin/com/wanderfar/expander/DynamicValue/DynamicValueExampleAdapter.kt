@@ -51,11 +51,7 @@ class DynamicValueExampleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
     inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         // each data item is just a string in this case
         var name: TextView = v.findViewById(R.id.dynamic_value_name) as TextView
-        var example: TextView
-
-        init {
-            example = v.findViewById(R.id.dynamic_value_example) as TextView
-        }
+        var example: TextView = v.findViewById(R.id.dynamic_value_example) as TextView
 
     }
 

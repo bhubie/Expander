@@ -84,6 +84,7 @@ object MacroStore {
         return this.name == macroToCheck.name && this.phrase == macroToCheck.phrase
                 && this.description.equals(macroToCheck.description) && this.isCaseSensitive == macroToCheck.isCaseSensitive
                 && this.expandWhenSetting == macroToCheck.expandWhenSetting && this.macroPattern == macroToCheck.macroPattern
+                && this.expandWithinWords == macroToCheck.expandWithinWords
     }
 
 

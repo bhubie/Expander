@@ -26,7 +26,6 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.preference.DialogPreference;
 
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
@@ -35,7 +34,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.TextView;
 
 import com.wanderfar.expander.R;
 

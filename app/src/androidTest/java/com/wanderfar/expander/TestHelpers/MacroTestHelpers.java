@@ -54,7 +54,7 @@ public class MacroTestHelpers {
         return macro;
     }
 
-    private static String setMacroRegexPattern(int whenToExpand, String name){
+    public static String setMacroRegexPattern(int whenToExpand, String name){
 
         String newName = name.replace("(", "\\(").replace(")", "\\)");
 

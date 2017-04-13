@@ -32,8 +32,6 @@ import android.content.res.ColorStateList
 import android.graphics.PixelFormat
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.*
 import android.view.accessibility.AccessibilityEvent
@@ -42,7 +40,6 @@ import android.widget.FrameLayout
 import com.wanderfar.expander.AppSettings.AppSettingsImpl
 import com.wanderfar.expander.MacroStatisticsService.MacroStatisticsService
 import io.paperdb.Paper
-import java.util.*
 import com.wanderfar.expander.R
 
 

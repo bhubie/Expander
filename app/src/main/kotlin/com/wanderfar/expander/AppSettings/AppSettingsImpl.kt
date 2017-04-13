@@ -28,10 +28,9 @@ import android.view.accessibility.AccessibilityManager
 import com.wanderfar.expander.Models.MacroConstants
 
 
-class AppSettingsImpl (context: Context) : AppSettings{
+class AppSettingsImpl (var context: Context) : AppSettings{
 
 
-    var context = context
     var prefs = PreferenceManager.getDefaultSharedPreferences(context)
     var accessibilityManager = context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
 
