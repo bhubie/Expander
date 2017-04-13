@@ -43,6 +43,7 @@
                 android:value="com.wanderfar.expander.MainActivity.MainActivity" />
         </activity>
         <activity android:name="com.wanderfar.expander.About.AboutActivity" />
+        <activity android:name="com.wanderfar.expander.Application.ApplicationIntroduction" />
 
         <service
             android:name="com.wanderfar.expander.MacroAccessibilityService.MacroAccessibilityService"
