@@ -34,6 +34,7 @@ import android.widget.TextView
 import com.wanderfar.expander.Macro.MacroActivity
 import com.wanderfar.expander.About.AboutActivity
 import com.wanderfar.expander.AppSettings.AppSettingsImpl
+import com.wanderfar.expander.Application.ApplicationIntroduction
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.Models.MacroConstants
 import com.wanderfar.expander.R
@@ -43,8 +44,6 @@ import kotlinx.android.synthetic.main.activity_main2.*
 
 
 class MainActivity : AppCompatActivity(), MainActivityView {
-
-
 
     lateinit var mAdapter : MacroListAdapter
 
@@ -144,6 +143,11 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         val tv = snackbarView.findViewById(android.support.design.R.id.snackbar_text) as TextView
         tv.maxLines = 4
         snackbar.show()
+    }
+
+    override fun launchApplicationIntroductionActivity() {
+        val intent = Intent(applicationContext, ApplicationIntroduction::class.java)
+        startActivity(intent)
     }
 
     private fun initRecyclerView() {
