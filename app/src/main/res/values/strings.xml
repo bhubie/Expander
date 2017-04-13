@@ -60,6 +60,8 @@
     <string name="about_activity_open_source_about_page_link">https://github.com/medyo/android-about-page</string>
     <string name="about_activity_open_source_color_picker_title">color-picker-view</string>
     <string name="about_activity_open_source_color_picker_link">https://github.com/bhubie/color-picker-view</string>
+    <string name="about_activity_open_source_app_intro_title">AppIntro by apl-devs</string>
+    <string name="about_activity_open_source_app_intro_link">https://github.com/apl-devs/AppIntro</string>
 
 
     <string name="macro_activity_dynamic_value_button_text">Add Dynamic (Always Changing) Value</string>
