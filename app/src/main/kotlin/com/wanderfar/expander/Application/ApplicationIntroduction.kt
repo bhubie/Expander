@@ -18,16 +18,31 @@
 
 package com.wanderfar.expander.Application
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 
 import com.github.paolorotolo.appintro.AppIntro
+import com.github.paolorotolo.appintro.AppIntroFragment
+import com.wanderfar.expander.R
 
 
 class ApplicationIntroduction : AppIntro() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val colorString = resources.getString(R.color.colorPrimary)
+
+        //Slide one
+        addSlide(AppIntroFragment.newInstance(getString(R.string.app_intro_activity_slide_one_label),
+                getString(R.string.app_intro_activity_slide_one_description),
+                R.drawable.ic_expander_web_res512, Color.parseColor(colorString)))
+
+        //misc settings
+        showSkipButton(true)
+        isProgressButtonEnabled = true
+        showStatusBar(false)
     }
 
     override fun onSkipPressed(currentFragment: Fragment?) {
