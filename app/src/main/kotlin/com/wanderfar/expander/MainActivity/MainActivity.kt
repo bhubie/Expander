@@ -234,6 +234,12 @@ class MainActivity : AppCompatActivity(), MainActivityView {
             return true
         }
 
+        if (id == R.id.action_app_intro){
+            val appIntroIntent = Intent(this, ApplicationIntroduction::class.java)
+            startActivity(appIntroIntent)
+            return true
+        }
+
         return super.onOptionsItemSelected(item)
     }
 

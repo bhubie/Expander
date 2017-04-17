@@ -29,4 +29,8 @@
         android:orderInCategory="102"
         android:title="@string/menu_about_title"
         app:showAsAction="never" />
+    <item android:id="@+id/action_app_intro"
+        android:orderInCategory="103"
+        android:title="@string/menu_app_intro"
+        app:showAsAction="never" />
 </menu>
