@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.wanderfar.expander.Application
+package com.wanderfar.expander.Application.ApplicationIntroduction
 
 import android.graphics.Color
 import android.os.Bundle
@@ -34,15 +34,21 @@ class ApplicationIntroduction : AppIntro() {
 
         val colorString = resources.getString(R.color.colorPrimary)
 
+        //misc settings
+        showSkipButton(true)
+        isProgressButtonEnabled = true
+        showStatusBar(false)
+
         //Slide one
         addSlide(AppIntroFragment.newInstance(getString(R.string.app_intro_activity_slide_one_label),
                 getString(R.string.app_intro_activity_slide_one_description),
                 R.drawable.ic_expander_web_res512, Color.parseColor(colorString)))
 
-        //misc settings
-        showSkipButton(true)
-        isProgressButtonEnabled = true
-        showStatusBar(false)
+        //AccessibilitySetting Slide
+        addSlide(FragmentSlide.newInstance(R.layout.activity_introduction_accessibility_slide)
+               )
+
+
     }
 
     override fun onSkipPressed(currentFragment: Fragment?) {

@@ -34,7 +34,7 @@ import android.widget.TextView
 import com.wanderfar.expander.Macro.MacroActivity
 import com.wanderfar.expander.About.AboutActivity
 import com.wanderfar.expander.AppSettings.AppSettingsImpl
-import com.wanderfar.expander.Application.ApplicationIntroduction
+import com.wanderfar.expander.Application.ApplicationIntroduction.ApplicationIntroduction
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.Models.MacroConstants
 import com.wanderfar.expander.R
