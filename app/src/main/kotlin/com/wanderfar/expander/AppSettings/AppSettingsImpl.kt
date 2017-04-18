@@ -30,7 +30,6 @@ import com.wanderfar.expander.Models.MacroConstants
 
 class AppSettingsImpl (var context: Context) : AppSettings{
 
-
     var prefs = PreferenceManager.getDefaultSharedPreferences(context)
     var accessibilityManager = context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
 
@@ -65,8 +64,6 @@ class AppSettingsImpl (var context: Context) : AppSettings{
                 .getEnabledAccessibilityServiceList(AccessibilityEvent.TYPES_ALL_MASK)
 
         return runningServices.any {
-            //println("Services are:" + service.packageNames)
-            //println("Service ID's: " + service.id)
             "com.wanderfar.expander/.MacroAccessibilityService.MacroAccessibilityService" == it.id
         }
     }
@@ -89,5 +86,13 @@ class AppSettingsImpl (var context: Context) : AppSettings{
         return prefs.getBoolean("ShowUndoButton", true)
     }
 
+    override fun isApplicationFirstStart(): Boolean {
+        return prefs.getBoolean("FirstStart", true)
+    }
 
+    override fun setApplicationFirstStart(firstStart: Boolean) {
+        val editor = prefs.edit()
+        editor.putBoolean("FirstStart", firstStart)
+        editor.apply()
+    }
 }

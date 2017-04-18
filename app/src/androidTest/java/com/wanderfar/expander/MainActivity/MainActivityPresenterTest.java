@@ -29,7 +29,6 @@ public class MainActivityPresenterTest {
     @Test
     public void shouldCallShowAccessibilityServiceNotEnabledMessageWhenAccessibilityServiceIsTurnedOff(){
         when(mAppSettings.isAccessibilityServiceEnabled()).thenReturn(false);
-
         mMainActivityPresenter.onResume();
         verify(mMainActivityView, times(1)).showAccessibilityServiceNotEnabledMessage();
     }
@@ -39,6 +38,22 @@ public class MainActivityPresenterTest {
         when(mAppSettings.isAccessibilityServiceEnabled()).thenReturn(true);
         mMainActivityPresenter.onResume();
         verify(mMainActivityView, never()).showAccessibilityServiceNotEnabledMessage();
+    }
+
+    @Test
+    public void shouldCallShowApplicationIntroductionIfFirstTimeApplicationIsBeingLaunched(){
+        when(mAppSettings.isApplicationFirstStart()).thenReturn(true);
+        mMainActivityPresenter.onCreate();
+        verify(mMainActivityView, times(1)).launchApplicationIntroductionActivity();
+        verify(mAppSettings, times(1)).setApplicationFirstStart(false);
+    }
+
+    @Test
+    public void shouldNotCallShowApplicationIntroductionIfItIsNotTheFirstTimeApplicationHasBeenLaunched(){
+        when(mAppSettings.isApplicationFirstStart()).thenReturn(false);
+        mMainActivityPresenter.onCreate();
+        verify(mMainActivityView, never()).launchApplicationIntroductionActivity();
+        verify(mAppSettings, never()).setApplicationFirstStart(false);
     }
 
 }

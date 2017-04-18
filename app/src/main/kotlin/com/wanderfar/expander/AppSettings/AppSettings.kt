@@ -31,4 +31,6 @@ interface AppSettings {
     fun getMacroListSortByMethod(): Int
     fun isRedoButtonEnabled(): Boolean
     fun isUndoButtonEnabled(): Boolean
+    fun isApplicationFirstStart(): Boolean
+    fun setApplicationFirstStart(firstStart: Boolean)
 }

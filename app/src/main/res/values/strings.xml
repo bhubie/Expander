@@ -60,7 +60,15 @@
     <string name="about_activity_open_source_about_page_link">https://github.com/medyo/android-about-page</string>
     <string name="about_activity_open_source_color_picker_title">color-picker-view</string>
     <string name="about_activity_open_source_color_picker_link">https://github.com/bhubie/color-picker-view</string>
+    <string name="about_activity_open_source_app_intro_title">AppIntro by apl-devs</string>
+    <string name="about_activity_open_source_app_intro_link">https://github.com/apl-devs/AppIntro</string>
 
+    <string name="app_intro_activity_slide_one_description">Expander is a free and open source text expansion application. Setup text shortucts that will expand into full phrases when typed.</string>
+    <string name="app_intro_activity_slide_one_label">Welcome to Expander!</string>
+    <string name="app_intro_activity_accessibility_slide_description">In order for Expander to work, you will need to turn on the accessibility permission for it. Tap to turn it on/off.</string>
+    <string name="app_intro_activity_accessibility_slide_label">Accessibility Permission</string>
+    <string name="app_intro_activity_contact_slide_label">Questions/Issues?</string>
+    <string name="app_intro_activity_contact_slide_description">For any questions, issues, or feature requests, please reach out via email or file an issue on Github</string>
 
     <string name="macro_activity_dynamic_value_button_text">Add Dynamic (Always Changing) Value</string>
     <string name="macro_activity_expand_when_title">When to expand text:</string>
@@ -86,6 +94,7 @@
     <string name="menu_sort_by_name_label">Shortcut Name</string>
     <string name="menu_sort_by_usage_count_label">Usage Count</string>
     <string name="menu_sort_by_last_used_label">Last Used</string>
+    <string name="menu_app_intro">Replay App Intro</string>
 
     <string name="fragment_dynamic_value_cancel_button_title">Cancel</string>
 

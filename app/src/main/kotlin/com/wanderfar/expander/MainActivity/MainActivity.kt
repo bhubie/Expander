@@ -34,6 +34,7 @@ import android.widget.TextView
 import com.wanderfar.expander.Macro.MacroActivity
 import com.wanderfar.expander.About.AboutActivity
 import com.wanderfar.expander.AppSettings.AppSettingsImpl
+import com.wanderfar.expander.Application.ApplicationIntroduction.ApplicationIntroduction
 import com.wanderfar.expander.Models.Macro
 import com.wanderfar.expander.Models.MacroConstants
 import com.wanderfar.expander.R
@@ -43,8 +44,6 @@ import kotlinx.android.synthetic.main.activity_main2.*
 
 
 class MainActivity : AppCompatActivity(), MainActivityView {
-
-
 
     lateinit var mAdapter : MacroListAdapter
 
@@ -146,6 +145,11 @@ class MainActivity : AppCompatActivity(), MainActivityView {
         snackbar.show()
     }
 
+    override fun launchApplicationIntroductionActivity() {
+        val intent = Intent(applicationContext, ApplicationIntroduction::class.java)
+        startActivity(intent)
+    }
+
     private fun initRecyclerView() {
 
         mAdapter = MacroListAdapter(this)
@@ -227,6 +231,12 @@ class MainActivity : AppCompatActivity(), MainActivityView {
 
         if (id == R.id.sortByLastUsed){
             mPresenter.setMacroSort(MacroConstants.SORT_BY_LAST_USED)
+            return true
+        }
+
+        if (id == R.id.action_app_intro){
+            val appIntroIntent = Intent(this, ApplicationIntroduction::class.java)
+            startActivity(appIntroIntent)
             return true
         }
 

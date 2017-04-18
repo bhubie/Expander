@@ -45,4 +45,6 @@ interface MainActivityView : View {
     fun refreshMenu()
 
     fun showAccessibilityServiceNotEnabledMessage()
+
+    fun launchApplicationIntroductionActivity()
 }
