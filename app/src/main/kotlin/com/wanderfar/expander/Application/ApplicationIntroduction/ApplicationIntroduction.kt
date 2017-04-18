@@ -18,12 +18,14 @@
 
 package com.wanderfar.expander.Application.ApplicationIntroduction
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 
 import com.github.paolorotolo.appintro.AppIntro
 import com.github.paolorotolo.appintro.AppIntroFragment
+import com.wanderfar.expander.MainActivity.MainActivity
 import com.wanderfar.expander.R
 
 
@@ -53,10 +55,17 @@ class ApplicationIntroduction : AppIntro() {
 
     override fun onSkipPressed(currentFragment: Fragment?) {
         super.onSkipPressed(currentFragment)
+        launchMainActivity()
     }
 
     override fun onDonePressed(currentFragment: Fragment?) {
         super.onDonePressed(currentFragment)
+        launchMainActivity()
+    }
+
+    private fun launchMainActivity(){
+        val intent = Intent(applicationContext, MainActivity::class.java)
+        startActivity(intent)
     }
 
 }
