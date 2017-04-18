@@ -65,7 +65,10 @@
 
     <string name="app_intro_activity_slide_one_description">Expander is a free and open source text expansion application. Setup text shortucts that will expand into full phrases when typed.</string>
     <string name="app_intro_activity_slide_one_label">Welcome to Expander!</string>
-
+    <string name="app_intro_activity_accessibility_slide_description">In order for Expander to work, you will need to turn on the accessibility permission for it. Tap to turn it on/off.</string>
+    <string name="app_intro_activity_accessibility_slide_label">Accessibility Permission</string>
+    <string name="app_intro_activity_contact_slide_label">Questions/Issues?</string>
+    <string name="app_intro_activity_contact_slide_description">For any questions, issues, or feature requests, please reach out via email or file an issue on Github</string>
 
     <string name="macro_activity_dynamic_value_button_text">Add Dynamic (Always Changing) Value</string>
     <string name="macro_activity_expand_when_title">When to expand text:</string>

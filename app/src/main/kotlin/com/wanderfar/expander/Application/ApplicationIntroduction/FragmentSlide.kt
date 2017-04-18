@@ -20,6 +20,7 @@ package com.wanderfar.expander.Application.ApplicationIntroduction
 
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.support.annotation.Nullable
@@ -27,7 +28,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.wanderfar.expander.R
 
 
@@ -64,11 +64,19 @@ class FragmentSlide : Fragment() {
 
         val view = inflater?.inflate(layoutResId, container, false)
         if (layoutResId == R.layout.activity_introduction_accessibility_slide){
-            println("Setting click listener!")
             val root = view?.findViewById(R.id.main)
             root?.setOnClickListener {
                 val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
                 startActivityForResult(intent, 0)
+            }
+        }
+
+        if (layoutResId == R.layout.activity_introduction_contact_slide){
+            val root = view?.findViewById(R.id.main)
+            root?.setOnClickListener {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse("https://github.com/bhubie/Expander")
+                startActivity(intent)
             }
         }
 

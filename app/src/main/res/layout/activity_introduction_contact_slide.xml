@@ -23,7 +23,7 @@
         android:textColor="@android:color/white"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:text="@string/app_intro_activity_accessibility_slide_label"/>
+        android:text="@string/app_intro_activity_contact_slide_label"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -40,7 +40,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             tools:ignore="ContentDescription"
-            app:srcCompat="@drawable/ic_settings_white_96dp"/>
+            app:srcCompat="@drawable/ic_github_circle_white_98dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -60,7 +60,7 @@
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="16sp"
-            android:text="@string/app_intro_activity_accessibility_slide_description"/>
+            android:text="@string/app_intro_activity_contact_slide_description"/>
 
     </LinearLayout>
 

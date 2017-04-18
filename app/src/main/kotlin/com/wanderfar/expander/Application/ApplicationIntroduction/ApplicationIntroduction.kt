@@ -41,15 +41,17 @@ class ApplicationIntroduction : AppIntro() {
         isProgressButtonEnabled = true
         showStatusBar(false)
 
-        //Slide one
+        //Intro Slide
         addSlide(AppIntroFragment.newInstance(getString(R.string.app_intro_activity_slide_one_label),
                 getString(R.string.app_intro_activity_slide_one_description),
                 R.drawable.ic_expander_web_res512, Color.parseColor(colorString)))
 
         //AccessibilitySetting Slide
-        addSlide(FragmentSlide.newInstance(R.layout.activity_introduction_accessibility_slide)
-               )
+        addSlide(FragmentSlide.newInstance(R.layout.activity_introduction_accessibility_slide))
 
+        //Contact Us Slide
+        addSlide(FragmentSlide.newInstance(R.layout.activity_introduction_contact_slide)
+        )
 
     }
 
