@@ -2,18 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wanderfar.expander">
 
-    <!-- <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />-->
+    <!-- <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" /> -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
-        android:name="com.wanderfar.expander.Application.Expander"
+        android:name=".Application.Expander"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.wanderfar.expander.MainActivity.MainActivity"
+            android:name=".MainActivity.MainActivity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -22,54 +22,53 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.wanderfar.expander.Macro.MacroActivity"
+            android:name=".Macro.MacroActivity"
             android:label="@string/title_activity_macro"
-            android:parentActivityName="com.wanderfar.expander.MainActivity.MainActivity"
+            android:parentActivityName=".MainActivity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateVisible|adjustResize"
-            >
+            android:windowSoftInputMode="stateVisible|adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wanderfar.expander.MainActivity.MainActivity" />
         </activity>
         <activity
-            android:name="com.wanderfar.expander.Settings.SettingsActivity"
+            android:name=".Settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="com.wanderfar.expander.MainActivity.MainActivity">
+            android:parentActivityName=".MainActivity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wanderfar.expander.MainActivity.MainActivity" />
         </activity>
-        <activity android:name="com.wanderfar.expander.About.AboutActivity" />
-        <activity android:name="com.wanderfar.expander.Application.ApplicationIntroduction.ApplicationIntroduction" />
+        <activity android:name=".SyncSettingsActivity.SyncSettingsActivity"></activity>
+        <activity android:name=".About.AboutActivity" />
+        <activity android:name=".Application.ApplicationIntroduction.ApplicationIntroduction" />
 
         <service
-            android:name="com.wanderfar.expander.MacroAccessibilityService.MacroAccessibilityService"
+            android:name=".MacroAccessibilityService.MacroAccessibilityService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <meta-data
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service_config" />
+
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
         </service>
-
         <service
             android:name=".QuickTileServices.OnOffQuickTileService"
             android:icon="@drawable/ic_quick_tile"
             android:label="Disable Expander"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
-                <action
-                    android:name="android.service.quicksettings.action.QS_TILE" />
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
-
         <service
-            android:name="com.wanderfar.expander.MacroStatisticsService.MacroStatisticsService"
+            android:name=".MacroStatisticsService.MacroStatisticsService"
             android:exported="false" />
+
+
     </application>
 
 </manifest>
