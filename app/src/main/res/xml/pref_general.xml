@@ -12,6 +12,10 @@
             android:key="isDynamicValuesEnabled"
             android:defaultValue="true">
         </SwitchPreference>
+        <Preference
+            android:title="@string/settings_activity_sync_settings_title"
+            android:summary="@string/settings_activity_sync_settings_summary"
+            android:key="syncSettings"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/settings_activity_preference_category_title_application_exclusion_inclusions">

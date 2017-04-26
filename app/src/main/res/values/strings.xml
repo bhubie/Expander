@@ -36,7 +36,8 @@
     <string name="settings_activity_redo_button_description">If checked, a redo button will be displayed after text expansion has been undone, allowing user to redo the text expansion.</string>
     <string name="settings_activity_undo_button_label">Display Undo Button</string>
     <string name="settings_activity_undo_button_description">If checked, an undo button will be displayed after text has been expanding, allowing for it to be undone.</string>
-
+    <string name="settings_activity_sync_settings_title">Sync Settings</string>
+    <string name="settings_activity_sync_settings_summary">Tap to setup/manage shortcut sync settings</string>
 
     <string name="key_application_list">ApplicationList</string>
 
@@ -110,7 +111,6 @@
     <string name="dynamic_value_friendly_name_date">Date</string>
     <string name="dynamic_value_friendly_name_clipboard">Device Clipboard</string>
     <string name="dynamic_value_friendly_name_phone">Phone Make &amp; Model</string>
-
 
     <string-array name="empty_array" />
 
