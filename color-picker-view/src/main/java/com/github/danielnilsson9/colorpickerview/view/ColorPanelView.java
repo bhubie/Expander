@@ -32,7 +32,7 @@ import android.view.View;
 /**
  * This class draws a panel which which will be filled with a color which can be set.
  * It can be used to show the currently selected color which you will get from
- * the {@link ColorPickerView}.
+ * the {@link //ColorPickerView}.
  * @author Daniel Nilsson
  *
  */
@@ -97,7 +97,7 @@ public class ColorPanelView extends View{
 	private void init(Context context, AttributeSet attrs){
 		
 		TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.colorpickerview__ColorPickerView);
-		mBorderColor = a.getColor(R.styleable.colorpickerview__ColorPickerView_borderColor, 0xFF6E6E6E);
+		mBorderColor = a.getColor(R.styleable.colorpickerview__ColorPickerView_colorpickerview__borderColor, 0xFF6E6E6E);
 		a.recycle();
 		
 		applyThemeColors(context);
