@@ -16,27 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-package com.wanderfar.expander.Macro
+package com.wanderfar.expander.SyncSettingsActivity
 
 import com.wanderfar.expander.Base.BaseActivityPresenter
 import com.wanderfar.expander.Base.View
 
 
-interface MacroActivityPresenter<T : View> : BaseActivityPresenter<T> {
-
-
-
-    fun onCreate(macroToLoad: String)
-
-
-    //Saves the  macro based on input
-    fun saveMacro(originalName: String,name: String, phrase: String, description: String, expandWhenSetting: Int,
-                  isCaseSensitive: Boolean, isNewMacro : Boolean, expandWithinWords: Boolean)
-
-    //Deletes the Macro
-    fun deleteMacro(name: String)
-
-    fun checkIfMacroIsChanged(originalName: String, newName: String, phrase: String, description: String, expandWhenSetting: Int,
-                              isCaseSensitive: Boolean, isNewMacro : Boolean, expandWithinWords: Boolean)
+interface SyncSettingsActivityPresenter<T : View> : BaseActivityPresenter<T> {
 }
