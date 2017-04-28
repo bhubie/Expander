@@ -23,10 +23,45 @@ import android.os.Bundle
 
 import com.wanderfar.expander.R
 
-class SyncSettingsActivity : AppCompatActivity() {
+class SyncSettingsActivity : AppCompatActivity(), SyncSettingsActivityView {
 
+
+    //Create the presenter
+    private val mPresenter: SyncSettingsActivityPresenter<SyncSettingsActivityView> by lazy {
+        SyncSettingsActivityPresenterImpl(this)
+    }
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sync_settings)
+
+        mPresenter.onCreate()
+    }
+
+    override fun onResume(){
+        super.onResume()
+        mPresenter.onResume()
+    }
+
+    override fun onPause(){
+        super.onPause()
+    }
+
+    override fun onStop(){
+        super.onStop()
+    }
+
+    override fun onDestroy(){
+        mPresenter.onDestroy()
+        super.onDestroy()
+    }
+
+
+    override fun disableSyncSettingFields() {
+
+    }
+
+    override fun enableSyncSettingFields() {
+
     }
 }
