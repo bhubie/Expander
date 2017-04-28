@@ -33,4 +33,6 @@ interface AppSettings {
     fun isUndoButtonEnabled(): Boolean
     fun isApplicationFirstStart(): Boolean
     fun setApplicationFirstStart(firstStart: Boolean)
+    fun isSyncEnabled(): Boolean
+    fun setSyncEnabled(isSyncEnabled: Boolean)
 }

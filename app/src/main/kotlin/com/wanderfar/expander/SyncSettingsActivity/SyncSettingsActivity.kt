@@ -30,7 +30,7 @@ class SyncSettingsActivity : AppCompatActivity(), SyncSettingsActivityView {
     private val mPresenter: SyncSettingsActivityPresenter<SyncSettingsActivityView> by lazy {
         SyncSettingsActivityPresenterImpl(this)
     }
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sync_settings)
