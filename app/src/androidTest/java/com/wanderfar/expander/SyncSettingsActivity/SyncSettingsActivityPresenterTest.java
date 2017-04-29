@@ -36,7 +36,7 @@ public class SyncSettingsActivityPresenterTest {
     }
 
     @Test
-    public void enanbleSyncSettingsFieldsShouldBeCalledIfSyncIsEnabled(){
+    public void enableSyncSettingsFieldsShouldBeCalledIfSyncIsEnabled(){
         when(appSettings.isSyncEnabled()).thenReturn(true);
 
         syncSettingsActivityPresenter.onResume();
@@ -46,7 +46,7 @@ public class SyncSettingsActivityPresenterTest {
     }
 
     @Test
-    public void enanbleSyncSettingsFieldsShoulNotBeCalledIfSyncIsDisabled(){
+    public void enableSyncSettingsFieldsShoulNotBeCalledIfSyncIsDisabled(){
         when(appSettings.isSyncEnabled()).thenReturn(false);
 
         syncSettingsActivityPresenter.onResume();
