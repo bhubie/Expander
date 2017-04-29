@@ -18,8 +18,10 @@
 
 package com.wanderfar.expander.SyncSettingsActivity
 
+import com.wanderfar.expander.AppSettings.AppSettings
 
-class SyncSettingsActivityPresenterImpl(override var view: SyncSettingsActivityView?) : SyncSettingsActivityPresenter<SyncSettingsActivityView>{
+
+class SyncSettingsActivityPresenterImpl(override var view: SyncSettingsActivityView?, var appSettings: AppSettings?) : SyncSettingsActivityPresenter<SyncSettingsActivityView>{
 
 
     override fun onCreate() {
@@ -27,6 +29,10 @@ class SyncSettingsActivityPresenterImpl(override var view: SyncSettingsActivityV
     }
 
     override fun onResume() {
-
+        if (appSettings!!.isSyncEnabled()){
+            view?.enableSyncSettingFields()
+        } else {
+            view?.disableSyncSettingFields()
+        }
     }
 }

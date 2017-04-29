@@ -20,6 +20,7 @@ package com.wanderfar.expander.SyncSettingsActivity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.wanderfar.expander.AppSettings.AppSettingsImpl
 
 import com.wanderfar.expander.R
 
@@ -28,7 +29,7 @@ class SyncSettingsActivity : AppCompatActivity(), SyncSettingsActivityView {
 
     //Create the presenter
     private val mPresenter: SyncSettingsActivityPresenter<SyncSettingsActivityView> by lazy {
-        SyncSettingsActivityPresenterImpl(this)
+        SyncSettingsActivityPresenterImpl(this, AppSettingsImpl(this))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +59,6 @@ class SyncSettingsActivity : AppCompatActivity(), SyncSettingsActivityView {
 
 
     override fun disableSyncSettingFields() {
-
     }
 
     override fun enableSyncSettingFields() {
