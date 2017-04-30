@@ -20,9 +20,11 @@ package com.wanderfar.expander.SyncSettingsActivity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.appcompat.R.styleable.CompoundButton
 import com.wanderfar.expander.AppSettings.AppSettingsImpl
 
 import com.wanderfar.expander.R
+import kotlinx.android.synthetic.main.activity_sync_settings.*
 
 class SyncSettingsActivity : AppCompatActivity(), SyncSettingsActivityView {
 
@@ -37,6 +39,8 @@ class SyncSettingsActivity : AppCompatActivity(), SyncSettingsActivityView {
         setContentView(R.layout.activity_sync_settings)
 
         mPresenter.onCreate()
+        initSyncOnOffSwitchListener()
+
     }
 
     override fun onResume(){
@@ -62,6 +66,17 @@ class SyncSettingsActivity : AppCompatActivity(), SyncSettingsActivityView {
     }
 
     override fun enableSyncSettingFields() {
+
+    }
+
+    private fun initSyncOnOffSwitchListener(){
+        isSyncEnabled.setOnCheckedChangeListener { compoundButton, isChecked ->
+            if (isChecked){
+                mPresenter.turnOffSync()
+            } else {
+                mPresenter.turnOnSync()
+            }
+        }
 
     }
 }

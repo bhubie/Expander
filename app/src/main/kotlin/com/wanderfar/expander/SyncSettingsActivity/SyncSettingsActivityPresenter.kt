@@ -23,4 +23,7 @@ import com.wanderfar.expander.Base.View
 
 
 interface SyncSettingsActivityPresenter<T : View> : BaseActivityPresenter<T> {
+
+    fun turnOnSync()
+    fun turnOffSync()
 }

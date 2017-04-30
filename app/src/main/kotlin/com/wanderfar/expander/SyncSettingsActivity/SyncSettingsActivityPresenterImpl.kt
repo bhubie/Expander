@@ -23,7 +23,6 @@ import com.wanderfar.expander.AppSettings.AppSettings
 
 class SyncSettingsActivityPresenterImpl(override var view: SyncSettingsActivityView?, var appSettings: AppSettings?) : SyncSettingsActivityPresenter<SyncSettingsActivityView>{
 
-
     override fun onCreate() {
 
     }
@@ -34,5 +33,17 @@ class SyncSettingsActivityPresenterImpl(override var view: SyncSettingsActivityV
         } else {
             view?.disableSyncSettingFields()
         }
+    }
+
+    override fun turnOffSync() {
+        appSettings!!.setSyncEnabled(false)
+        view?.disableSyncSettingFields()
+        println("Turning On Sync")
+    }
+
+    override fun turnOnSync() {
+        appSettings!!.setSyncEnabled(true)
+        view?.enableSyncSettingFields()
+        println("Turning Off Sync")
     }
 }
