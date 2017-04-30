@@ -46,6 +46,7 @@ import android.widget.LinearLayout;
 
 import com.github.danielnilsson9.colorpickerview.preference.ColorPreference;
 import com.wanderfar.expander.R;
+import com.wanderfar.expander.SyncSettingsActivity.SyncSettingsActivity;
 
 
 /**
@@ -74,6 +75,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     private CheckBoxPreference undoButtonCheckBoxPref;
     private CheckBoxPreference redoButtonCheckBoxPref;
     private ColorPreference floatingUIColor;
+    private Preference syncSettingsPref;
 
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override
@@ -132,6 +134,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         undoButtonCheckBoxPref = (CheckBoxPreference) this.findPreference("ShowUndoButton");
         redoButtonCheckBoxPref = (CheckBoxPreference) this.findPreference("ShowRedoButton");
         floatingUIColor = (ColorPreference) this.findPreference("floatingUIColor");
+        syncSettingsPref = this.findPreference("syncSettings");
 
         //Set the title and summary for the app list based on how the app list filter type
         setAppListTitleAndSummary();
@@ -141,6 +144,19 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         setFloatingUIClickListener();
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
 
+        //set click listener for syncSettingsPref
+        setSyncSettingsPrefClickListener();
+    }
+
+    private void setSyncSettingsPrefClickListener() {
+        syncSettingsPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                //open browser or intent here
+                Intent intent = new Intent(preference.getContext(), SyncSettingsActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
     }
 
     @Override

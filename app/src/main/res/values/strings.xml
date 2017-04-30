@@ -87,6 +87,8 @@
     <string name="macro_activity_expand_within_words_label">Expand Within Words</string>
     <string name="macro_activity_expand_within_words_description">If on, the shortcut will expand when matched inside a word</string>
 
+    <string name="sync_setting_activity_sync_enabled_title">Shortcut Sync</string>
+
     <string name="menu_settings_title">Settings</string>
     <string name="menu_macro_delete_shortcut">Delete Shortcut</string>
     <string name="menu_macro_save_shortcut_title">Save Shortcut</string>
