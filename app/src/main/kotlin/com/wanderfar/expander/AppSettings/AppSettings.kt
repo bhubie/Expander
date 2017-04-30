@@ -35,4 +35,6 @@ interface AppSettings {
     fun setApplicationFirstStart(firstStart: Boolean)
     fun isSyncEnabled(): Boolean
     fun setSyncEnabled(isSyncEnabled: Boolean)
+    fun getSyncProvider(): Int
+    fun setSyncProvider(provider: Int)
 }

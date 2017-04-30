@@ -106,4 +106,15 @@ class AppSettingsImpl (var context: Context) : AppSettings{
     override fun isSyncEnabled(): Boolean {
         return prefs.getBoolean("IsSyncEnabled", false)
     }
+
+    override fun getSyncProvider(): Int {
+        return prefs.getInt("SyncProvider", 9999)
+    }
+
+    override fun setSyncProvider(provider: Int) {
+        val editor = prefs.edit()
+        editor.putInt("SyncProvider", provider)
+        editor.apply()
+    }
+
 }
