@@ -11,6 +11,8 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import static com.wanderfar.expander.TestHelpers.MacroTestHelpers.initDB;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -53,5 +55,22 @@ public class SyncSettingsActivityPresenterTest {
 
         verify(syncSettingsActivityView, times(1)).disableSyncSettingFields();
         verify(syncSettingsActivityView, never()).enableSyncSettingFields();
+    }
+
+    @Test
+    public void syncShouldBeTurnedOffWhenTurnOffSyncIsCalled(){
+        syncSettingsActivityPresenter.turnOffSync();
+
+        verify(appSettings, times(1)).setSyncEnabled(false);
+        verify(syncSettingsActivityView, times(1)).disableSyncSettingFields();
+    }
+
+    @Test
+    public void syncShouldBeTurnedOnWhenTurnOnSyncIsCalled(){
+        syncSettingsActivityPresenter.turnOnSync();
+
+        verify(appSettings, times(1)).setSyncEnabled(true);
+        verify(syncSettingsActivityView, times(1)).enableSyncSettingFields();
+
     }
 }
