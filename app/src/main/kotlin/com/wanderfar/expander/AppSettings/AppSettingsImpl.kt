@@ -100,6 +100,7 @@ class AppSettingsImpl (var context: Context) : AppSettings{
         val editor = prefs.edit()
         editor.putBoolean("IsSyncEnabled", isSyncEnabled)
         editor.apply()
+        println("setting sync: " + isSyncEnabled)
     }
 
     override fun isSyncEnabled(): Boolean {

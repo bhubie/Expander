@@ -20,14 +20,11 @@ package com.wanderfar.expander.SyncSettingsActivity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.appcompat.R.styleable.CompoundButton
 import com.wanderfar.expander.AppSettings.AppSettingsImpl
-
 import com.wanderfar.expander.R
 import kotlinx.android.synthetic.main.activity_sync_settings.*
 
 class SyncSettingsActivity : AppCompatActivity(), SyncSettingsActivityView {
-
 
     //Create the presenter
     private val mPresenter: SyncSettingsActivityPresenter<SyncSettingsActivityView> by lazy {
@@ -69,12 +66,16 @@ class SyncSettingsActivity : AppCompatActivity(), SyncSettingsActivityView {
 
     }
 
+    override fun setSyncSettingsSwitch(boolean: Boolean) {
+        isSyncEnabled.isChecked = boolean
+    }
+
     private fun initSyncOnOffSwitchListener(){
         isSyncEnabled.setOnCheckedChangeListener { compoundButton, isChecked ->
             if (isChecked){
-                mPresenter.turnOffSync()
-            } else {
                 mPresenter.turnOnSync()
+            } else {
+                mPresenter.turnOffSync()
             }
         }
 

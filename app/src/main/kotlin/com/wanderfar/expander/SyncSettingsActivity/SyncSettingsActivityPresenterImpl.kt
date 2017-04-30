@@ -29,21 +29,23 @@ class SyncSettingsActivityPresenterImpl(override var view: SyncSettingsActivityV
 
     override fun onResume() {
         if (appSettings!!.isSyncEnabled()){
+            view?.setSyncSettingsSwitch(true)
             view?.enableSyncSettingFields()
         } else {
             view?.disableSyncSettingFields()
+            view?.setSyncSettingsSwitch(false)
         }
     }
 
     override fun turnOffSync() {
         appSettings!!.setSyncEnabled(false)
         view?.disableSyncSettingFields()
-        println("Turning On Sync")
+        println("Turning Off Sync")
     }
 
     override fun turnOnSync() {
         appSettings!!.setSyncEnabled(true)
         view?.enableSyncSettingFields()
-        println("Turning Off Sync")
+        println("Turning On Sync")
     }
 }

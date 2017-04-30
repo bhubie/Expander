@@ -43,16 +43,18 @@ public class SyncSettingsActivityPresenterTest {
 
         syncSettingsActivityPresenter.onResume();
 
+        verify(syncSettingsActivityView, times(1)).setSyncSettingsSwitch(true);
         verify(syncSettingsActivityView, times(1)).enableSyncSettingFields();
         verify(syncSettingsActivityView, never()).disableSyncSettingFields();
     }
 
     @Test
-    public void enableSyncSettingsFieldsShoulNotBeCalledIfSyncIsDisabled(){
+    public void enableSyncSettingsFieldsShouldNotBeCalledIfSyncIsDisabled(){
         when(appSettings.isSyncEnabled()).thenReturn(false);
 
         syncSettingsActivityPresenter.onResume();
 
+        verify(syncSettingsActivityView, times(1)).setSyncSettingsSwitch(false);
         verify(syncSettingsActivityView, times(1)).disableSyncSettingFields();
         verify(syncSettingsActivityView, never()).enableSyncSettingFields();
     }

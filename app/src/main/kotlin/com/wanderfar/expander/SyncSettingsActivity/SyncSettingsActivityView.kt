@@ -25,4 +25,5 @@ interface SyncSettingsActivityView: View {
 
     fun disableSyncSettingFields()
     fun enableSyncSettingFields()
+    fun setSyncSettingsSwitch(boolean: Boolean)
 }
