@@ -78,7 +78,7 @@ class SyncSettingsActivity : AppCompatActivity(), SyncSettingsActivityView {
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder.setTitle(getString(R.string.sync_settings_activity_sync_provider_dialog_title))
                 .setItems(syncProviders, { dialogInterface, i ->
-
+                    mPresenter.setupSyncFor(i)
                 })
                 .create()
                 .show()

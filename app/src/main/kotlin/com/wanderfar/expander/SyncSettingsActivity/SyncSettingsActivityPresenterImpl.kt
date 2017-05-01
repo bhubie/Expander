@@ -51,4 +51,9 @@ class SyncSettingsActivityPresenterImpl(override var view: SyncSettingsActivityV
             view?.showSyncProviderDialog()
         }
     }
+
+    override fun setupSyncFor(syncProvider: Int) {
+        println("Setting up sync for: " + syncProvider)
+    }
+
 }
