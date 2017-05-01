@@ -46,6 +46,9 @@ class SyncSettingsActivityPresenterImpl(override var view: SyncSettingsActivityV
     override fun turnOnSync() {
         appSettings!!.setSyncEnabled(true)
         view?.enableSyncSettingFields()
-        println("Turning On Sync")
+
+        if (appSettings!!.getSyncProvider().equals(9999)){
+            view?.showSyncProviderDialog()
+        }
     }
 }

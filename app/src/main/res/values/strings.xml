@@ -88,6 +88,8 @@
     <string name="macro_activity_expand_within_words_description">If on, the shortcut will expand when matched inside a word</string>
 
     <string name="sync_setting_activity_sync_enabled_title">Shortcut Sync</string>
+    <string name="sync_settings_activity_sync_provider_dialog_title">Select A Service to Sync with</string>
+
 
     <string name="menu_settings_title">Settings</string>
     <string name="menu_macro_delete_shortcut">Delete Shortcut</string>
@@ -134,5 +136,9 @@
         <item>On a Space</item>
         <item>On a Period</item>
         <item>On a Space or Period</item>
+    </string-array>
+
+    <string-array name="sync_providers">
+        <item>Google Drive</item>
     </string-array>
 </resources>

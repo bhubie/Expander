@@ -75,4 +75,20 @@ public class SyncSettingsActivityPresenterTest {
         verify(syncSettingsActivityView, times(1)).enableSyncSettingFields();
 
     }
+
+    @Test
+    public void showSyncProviderDialogShouldBeCalledWhenTurnOnSyncIsCalledAndNoSyncProviderIsSetup(){
+        when(appSettings.getSyncProvider()).thenReturn(9999);
+        syncSettingsActivityPresenter.turnOnSync();
+        verify(syncSettingsActivityView, times(1)).showSyncProviderDialog();
+
+    }
+
+    @Test
+    public void showSyncProviderDialogShouldNotBeCalledWhenTurnOnSyncIsCalledAndASyncProviderIsSetup(){
+        when(appSettings.getSyncProvider()).thenReturn(0);
+        syncSettingsActivityPresenter.turnOnSync();
+        verify(syncSettingsActivityView, never()).showSyncProviderDialog();
+
+    }
 }

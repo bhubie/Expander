@@ -18,6 +18,8 @@
 
 package com.wanderfar.expander.SyncSettingsActivity
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.wanderfar.expander.AppSettings.AppSettingsImpl
@@ -25,6 +27,7 @@ import com.wanderfar.expander.R
 import kotlinx.android.synthetic.main.activity_sync_settings.*
 
 class SyncSettingsActivity : AppCompatActivity(), SyncSettingsActivityView {
+
 
     //Create the presenter
     private val mPresenter: SyncSettingsActivityPresenter<SyncSettingsActivityView> by lazy {
@@ -68,6 +71,17 @@ class SyncSettingsActivity : AppCompatActivity(), SyncSettingsActivityView {
 
     override fun setSyncSettingsSwitch(boolean: Boolean) {
         isSyncEnabled.isChecked = boolean
+    }
+
+    override fun showSyncProviderDialog() {
+        val syncProviders = resources.getStringArray(R.array.sync_providers)
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setTitle(getString(R.string.sync_settings_activity_sync_provider_dialog_title))
+                .setItems(syncProviders, { dialogInterface, i ->
+
+                })
+                .create()
+                .show()
     }
 
     private fun initSyncOnOffSwitchListener(){
