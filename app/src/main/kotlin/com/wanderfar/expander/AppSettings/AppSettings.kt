@@ -37,4 +37,6 @@ interface AppSettings {
     fun setSyncEnabled(isSyncEnabled: Boolean)
     fun getSyncProvider(): Int
     fun setSyncProvider(provider: Int)
+    fun getDropboxAccessToken(): String
+    fun setDropboxAccessToken(accessToken: String)
 }

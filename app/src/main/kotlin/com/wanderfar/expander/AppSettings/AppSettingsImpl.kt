@@ -30,6 +30,7 @@ import com.wanderfar.expander.Models.MacroConstants
 
 class AppSettingsImpl (var context: Context) : AppSettings{
 
+
     var prefs = PreferenceManager.getDefaultSharedPreferences(context)
     var accessibilityManager = context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
 
@@ -114,6 +115,16 @@ class AppSettingsImpl (var context: Context) : AppSettings{
     override fun setSyncProvider(provider: Int) {
         val editor = prefs.edit()
         editor.putInt("SyncProvider", provider)
+        editor.apply()
+    }
+
+    override fun getDropboxAccessToken(): String {
+      return prefs.getString("dropbox-access-token", null)
+    }
+
+    override fun setDropboxAccessToken(accessToken: String) {
+        val editor = prefs.edit()
+        editor.putString("dropbox-access-token", accessToken)
         editor.apply()
     }
 
