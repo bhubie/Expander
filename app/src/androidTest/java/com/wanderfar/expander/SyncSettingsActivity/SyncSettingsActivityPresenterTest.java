@@ -99,8 +99,16 @@ public class SyncSettingsActivityPresenterTest {
     }
 
     @Test
-    public void showDropboxAuthorizationRequestShouldBeCalledWhenDropboxIsSelected(){
+    public void showDropboxAuthorizationRequestShouldBeCalledWhenDropboxIsSelectedAndNoAccessTokenIsFound(){
+        when(appSettings.getDropboxAccessToken()).thenReturn(null);
         syncSettingsActivityPresenter.setupSyncFor(1);
         verify(syncSettingsActivityView, times(1)).showDropboxAuthorizationRequest();
+    }
+
+    @Test
+    public void showDropboxAuthorizationRequestShouldNotBeCalledWhenDropboxIsSelectedAndAnAccessTokenIsFound(){
+        when(appSettings.getDropboxAccessToken()).thenReturn("AccessToken");
+        syncSettingsActivityPresenter.setupSyncFor(1);
+        verify(syncSettingsActivityView, never()).showDropboxAuthorizationRequest();
     }
 }
