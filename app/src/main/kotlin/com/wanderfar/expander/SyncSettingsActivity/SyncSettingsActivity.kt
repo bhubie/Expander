@@ -24,13 +24,10 @@ import android.os.Bundle
 import com.wanderfar.expander.AppSettings.AppSettingsImpl
 import com.wanderfar.expander.R
 import kotlinx.android.synthetic.main.activity_sync_settings.*
-import com.google.android.gms.drive.Drive
-import com.google.android.gms.common.api.GoogleApiClient
 
 
 
 class SyncSettingsActivity : AppCompatActivity(), SyncSettingsActivityView {
-
 
     //Create the presenter
     private val mPresenter: SyncSettingsActivityPresenter<SyncSettingsActivityView> by lazy {
@@ -89,6 +86,10 @@ class SyncSettingsActivity : AppCompatActivity(), SyncSettingsActivityView {
 
     override fun showGoogleDriveAuthorizationRequest() {
 
+    }
+
+    override fun showDropboxAuthorizationRequest() {
+       
     }
 
     private fun initSyncOnOffSwitchListener(){

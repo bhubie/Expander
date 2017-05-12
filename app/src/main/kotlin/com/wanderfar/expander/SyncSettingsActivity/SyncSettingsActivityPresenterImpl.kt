@@ -56,7 +56,7 @@ class SyncSettingsActivityPresenterImpl(override var view: SyncSettingsActivityV
         println("Setting up sync for: " + syncProvider)
         when (syncProvider) {
             0 -> view?.showGoogleDriveAuthorizationRequest() //Google Drive
-
+            1 -> view?.showDropboxAuthorizationRequest() //Dropbox
         }
     }
 

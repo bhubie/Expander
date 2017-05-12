@@ -140,5 +140,6 @@
 
     <string-array name="sync_providers">
         <item>Google Drive</item>
+        <item>Dropbox</item>
     </string-array>
 </resources>

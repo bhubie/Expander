@@ -91,4 +91,16 @@ public class SyncSettingsActivityPresenterTest {
         verify(syncSettingsActivityView, never()).showSyncProviderDialog();
 
     }
+
+    @Test
+    public void showGoogleDriveAuthorizationRequestShouldBeCalledWhenGoogleDriveIsSelected(){
+        syncSettingsActivityPresenter.setupSyncFor(0);
+        verify(syncSettingsActivityView, times(1)).showGoogleDriveAuthorizationRequest();
+    }
+
+    @Test
+    public void showDropboxAuthorizationRequestShouldBeCalledWhenDropboxIsSelected(){
+        syncSettingsActivityPresenter.setupSyncFor(1);
+        verify(syncSettingsActivityView, times(1)).showDropboxAuthorizationRequest();
+    }
 }
