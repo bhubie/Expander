@@ -27,4 +27,5 @@ interface SyncSettingsActivityView: View {
     fun enableSyncSettingFields()
     fun setSyncSettingsSwitch(boolean: Boolean)
     fun showSyncProviderDialog()
+    fun showGoogleDriveAuthorizationRequest()
 }

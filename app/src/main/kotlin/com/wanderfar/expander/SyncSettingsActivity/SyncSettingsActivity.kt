@@ -19,12 +19,15 @@
 package com.wanderfar.expander.SyncSettingsActivity
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.wanderfar.expander.AppSettings.AppSettingsImpl
 import com.wanderfar.expander.R
 import kotlinx.android.synthetic.main.activity_sync_settings.*
+import com.google.android.gms.drive.Drive
+import com.google.android.gms.common.api.GoogleApiClient
+
+
 
 class SyncSettingsActivity : AppCompatActivity(), SyncSettingsActivityView {
 
@@ -82,6 +85,10 @@ class SyncSettingsActivity : AppCompatActivity(), SyncSettingsActivityView {
                 })
                 .create()
                 .show()
+    }
+
+    override fun showGoogleDriveAuthorizationRequest() {
+
     }
 
     private fun initSyncOnOffSwitchListener(){
