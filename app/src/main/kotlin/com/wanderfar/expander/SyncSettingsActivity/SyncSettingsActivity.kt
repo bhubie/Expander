@@ -21,6 +21,8 @@ package com.wanderfar.expander.SyncSettingsActivity
 import android.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import com.dropbox.core.android.Auth
 import com.wanderfar.expander.AppSettings.AppSettingsImpl
 import com.wanderfar.expander.R
 import kotlinx.android.synthetic.main.activity_sync_settings.*
@@ -28,6 +30,7 @@ import kotlinx.android.synthetic.main.activity_sync_settings.*
 
 
 class SyncSettingsActivity : AppCompatActivity(), SyncSettingsActivityView {
+
 
     //Create the presenter
     private val mPresenter: SyncSettingsActivityPresenter<SyncSettingsActivityView> by lazy {
@@ -89,7 +92,17 @@ class SyncSettingsActivity : AppCompatActivity(), SyncSettingsActivityView {
     }
 
     override fun showDropboxAuthorizationRequest() {
-       
+       val accessToken = Auth.getOAuth2Token()
+
+        if (accessToken.isNullOrEmpty().not()){
+
+        }
+    }
+
+    override fun showSyncingToast(syncProvider: Int) {
+        val syncProviders = resources.getStringArray(R.array.sync_providers)
+        Toast.makeText(this, String.format(resources.getString(R.string.sync_settings_activity_starting_sync_label), syncProviders[syncProvider]),
+                Toast.LENGTH_LONG).show()
     }
 
     private fun initSyncOnOffSwitchListener(){

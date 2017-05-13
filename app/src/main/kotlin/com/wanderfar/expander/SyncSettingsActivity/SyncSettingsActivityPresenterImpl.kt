@@ -66,4 +66,10 @@ class SyncSettingsActivityPresenterImpl(override var view: SyncSettingsActivityV
         }
     }
 
+    override fun storeDropboxAccessToken(tokenToStore: String) {
+        appSettings?.setDropboxAccessToken(tokenToStore)
+
+    }
+
+
 }

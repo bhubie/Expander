@@ -89,6 +89,7 @@
 
     <string name="sync_setting_activity_sync_enabled_title">Shortcut Sync</string>
     <string name="sync_settings_activity_sync_provider_dialog_title">Select A Service to Sync with</string>
+    <string name="sync_settings_activity_starting_sync_label">Starting sync to %s</string>
 
 
     <string name="menu_settings_title">Settings</string>

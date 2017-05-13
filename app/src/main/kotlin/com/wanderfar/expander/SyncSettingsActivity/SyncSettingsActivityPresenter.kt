@@ -27,4 +27,5 @@ interface SyncSettingsActivityPresenter<T : View> : BaseActivityPresenter<T> {
     fun turnOnSync()
     fun turnOffSync()
     fun setupSyncFor(syncProvider: Int)
+    fun storeDropboxAccessToken(tokenToStore: String)
 }

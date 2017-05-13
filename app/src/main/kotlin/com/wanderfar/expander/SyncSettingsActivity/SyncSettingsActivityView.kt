@@ -29,4 +29,5 @@ interface SyncSettingsActivityView: View {
     fun showSyncProviderDialog()
     fun showGoogleDriveAuthorizationRequest()
     fun showDropboxAuthorizationRequest()
+    fun showSyncingToast(syncProvider: Int)
 }
