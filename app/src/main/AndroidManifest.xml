@@ -43,6 +43,18 @@
         <activity android:name=".SyncSettingsActivity.SyncSettingsActivity"></activity>
         <activity android:name=".About.AboutActivity" />
         <activity android:name=".Application.ApplicationIntroduction.ApplicationIntroduction" />
+        <activity
+            android:name="com.dropbox.core.android.AuthActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <!-- Change this to be db- followed by your app key -->
+                <data android:scheme="@string/dropbox_api_key"/>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".MacroAccessibilityService.MacroAccessibilityService"

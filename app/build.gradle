@@ -17,11 +17,25 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        def DebugDropboxAPIKEY = properties.getProperty('debugDropboxAPIKEY') ?: "NoDebugKeyFound"
+        def ReleaseDropboxAPIKEY = properties.getProperty('releaseDropboxAPIKEY') ?: "NoReleaseKeyFound"
+
+
+        debug {
+            resValue "string", "dropbox_api_key", DebugDropboxAPIKEY
+        }
         release {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "dropbox_api_key", ReleaseDropboxAPIKEY
         }
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE' // will not include LICENSE file
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
